@@ -5,7 +5,6 @@ using System.Linq;
 using CRandom = System.Random;
 using URandom = UnityEngine.Random;
 using System;
-#region Procedural Generation
 public class Generator : MonoBehaviour
 {
     [SerializeField] private GameObject baseRoom;
@@ -80,17 +79,23 @@ public class Generator : MonoBehaviour
         Room b = GetAppropriateRandom(rooms, a.roomType);
         Dictionary<Exit, Exit> exitPairs = new Dictionary<Exit, Exit>();
         List<Exit> existing = a.exits, prospective = b.exits;
+
         for (int i = 0; i < existing.Count; i++){
             Exit matched = prospective.FirstOrDefault(x => x.Matches(existing[i].GetOrientation()));
             //Debug.Log("Prospective exit: " + matched.ToString());
             if(matched != null)
                 exitPairs.Add(existing[i], matched);
         }
+
+        //If a matching pair of exits was found
         if (exitPairs.Count > 0){
             Exit connectToPicked = GetRandom(exitPairs.Keys.ToList());
-            //Debug.Log("Picked: " + connectToPicked.GetOrientation() + " \n Match: " + exitPairs[connectToPicked].GetOrientation());
             Vector3 newPos = DeterminePosition(a, b, connectToPicked, exitPairs[connectToPicked]);
-            connecting = CreateRoomObject(b, newPos);
+
+            //Check for collision
+            if(!CheckCollision(newPos, b.roomSprite.rect))
+                connecting = CreateRoomObject(b, newPos);
+
             if (connecting){
                 
                 //Remove exit on object that is to be placed
@@ -105,6 +110,26 @@ public class Generator : MonoBehaviour
         {
             Debug.Log("Matching pairs not found on iteration.");
         }
+    }
+    //bounding box collision check since all sprites contain rect transform component
+    private bool CheckCollision(Vector3 centerPos, Rect next)
+    {
+        Rect fNext = new Rect(centerPos.x, centerPos.y, next.width * .01f, next.height * .01f);
+        foreach (GameObject g in placedRooms)
+        {
+            Rect toMod = g.GetComponent<RoomDisplay>().room.roomSprite.rect;
+            Rect fAgainst = new Rect(toMod.x, toMod.y, toMod.width * .01f, toMod.height * .01f);
+            if (fAgainst.x < fNext.x + fNext.width &&
+               fAgainst.x + fAgainst.width > fNext.x &&
+               fAgainst.y < fNext.y + fNext.height &&
+               fAgainst.y + fAgainst.height > fNext.y)
+            {
+                Debug.Log("Collision!");
+                return true;
+            }
+        }
+        return false;
+
     }
     private Vector3 DeterminePosition(Room current, Room next, Exit currExit, Exit nextExit)
     {
@@ -141,6 +166,4 @@ public class Generator : MonoBehaviour
             foreach(Exit e in g.GetComponent<RoomDisplay>().room.exits)
                 Gizmos.DrawSphere(e.location, 0.1f);
     }
-
 }
-#endregion
