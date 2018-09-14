@@ -158,10 +158,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a97299d74c9d0746a268adc67052291, type: 2}
   - {fileID: 11400000, guid: 376c7fcf9b0fd4043b5d53c3a0e934ef, type: 2}
   - {fileID: 11400000, guid: aa333009c6eb3b349b72beac222eeeaf, type: 2}
+  - {fileID: 11400000, guid: eb2c605d440db564a8a6ca606a54c1bf, type: 2}
+  - {fileID: 11400000, guid: bb66d336c27b79d42a8a0021c7ffc827, type: 2}
   startingRooms:
   - {fileID: 11400000, guid: aa333009c6eb3b349b72beac222eeeaf, type: 2}
+  - {fileID: 11400000, guid: eb2c605d440db564a8a6ca606a54c1bf, type: 2}
+  - {fileID: 11400000, guid: bb66d336c27b79d42a8a0021c7ffc827, type: 2}
   enemies: []
-  iterations: 5
+  numRooms: 40
+  hasExits: []
   placedRooms: []
   seed: 0
 --- !u!1 &1967447156

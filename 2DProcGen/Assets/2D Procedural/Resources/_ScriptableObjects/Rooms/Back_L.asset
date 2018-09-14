@@ -9,20 +9,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: L
+  m_Name: Back_L
   m_EditorClassIdentifier: 
   roomType: 2
   compatibleTypes: 00000000010000000400000003000000
   exits:
-  - location: {x: -0.8, y: 1.6, z: 0}
-    xMod: -0.8
-    yMod: 0
+  - location: {x: 0.8, y: 1.6, z: 0}
+    xMod: 0.8
+    yMod: 1.6
     orientation: 0
-  - location: {x: 1.6, y: -0.64, z: 0}
-    xMod: 0
+  - location: {x: -1.6, y: -0.64, z: 0}
+    xMod: 0.8
     yMod: -0.64
-    orientation: 3
-  roomSprite: {fileID: 21300000, guid: 3b73bce6b0ce0aa489c7d060185537ba, type: 3}
+    orientation: 2
+  roomSprite: {fileID: 21300000, guid: 3515c61d656ab534db4676a59ef46ce6, type: 3}
   pattern:
     eSpawns: []
     oSpawns: []

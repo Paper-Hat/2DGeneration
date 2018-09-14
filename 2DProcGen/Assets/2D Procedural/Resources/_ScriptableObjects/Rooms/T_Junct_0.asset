@@ -9,20 +9,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: L
+  m_Name: T_Junct_0
   m_EditorClassIdentifier: 
-  roomType: 2
-  compatibleTypes: 00000000010000000400000003000000
+  roomType: 4
+  compatibleTypes: 00000000010000000400000002000000
   exits:
-  - location: {x: -0.8, y: 1.6, z: 0}
-    xMod: -0.8
+  - location: {x: 0, y: 1.6, z: 0}
+    xMod: 0
     yMod: 0
     orientation: 0
-  - location: {x: 1.6, y: -0.64, z: 0}
+  - location: {x: 0, y: -1.6, z: 0}
     xMod: 0
-    yMod: -0.64
+    yMod: 0
+    orientation: 1
+  - location: {x: -1.6, y: 0, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 2
+  - location: {x: 1.6, y: 0, z: 0}
+    xMod: 0
+    yMod: 0
     orientation: 3
-  roomSprite: {fileID: 21300000, guid: 3b73bce6b0ce0aa489c7d060185537ba, type: 3}
+  roomSprite: {fileID: 21300000, guid: 110e079caf4a86d45b4ba6becb622b57, type: 3}
   pattern:
     eSpawns: []
     oSpawns: []

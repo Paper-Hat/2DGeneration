@@ -9,6 +9,7 @@ public class Room : ScriptableObject
     [SerializeField] public List<Exit> exits;
     [SerializeField] public Sprite roomSprite;
     [SerializeField] public PatternBuilder.Pattern pattern;
+    [SerializeField] public Dictionary<int, Vector2[]> collPoints;
     public Room(PatternBuilder.Pattern.RoomType rT, List<PatternBuilder.Pattern.RoomType> cT, List<Exit> e, Sprite rS)
     {
         roomType = rT;

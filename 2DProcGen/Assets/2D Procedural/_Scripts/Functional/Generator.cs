@@ -1,16 +1,16 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using CRandom = System.Random;
 using URandom = UnityEngine.Random;
-using System;
 public class Generator : MonoBehaviour
 {
     [SerializeField] private GameObject baseRoom;
     [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
     [SerializeField] public List<GameObject> enemies = new List<GameObject>();
-    [SerializeField] private int iterations;
+    [SerializeField] private int numRooms;
+    [SerializeField] private List<GameObject> hasExits;
     [SerializeField] private List<GameObject> placedRooms;
     [SerializeField] private int seed;
     private GameObject connecting;
@@ -40,21 +40,21 @@ public class Generator : MonoBehaviour
     #endregion
     public void Start()//CreateStartingRoom()
     {
+#if UNITY_EDITOR
+        UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+#endif
         GenerateUnitySeed();
         Debug.Log(seed);
         Room startRoom = Instantiate(GetRandom(startingRooms));
         CreateRoomObject(startRoom, new Vector3(0f, 0f, 0f));
-        for(int i = 0; i<iterations;i++)
+        while (placedRooms.Count < numRooms && hasExits.Count > 0)
             PlaceRoomObject();
+        if (hasExits.Count == 0)
+            Debug.Log("Ran out of exits to place rooms.");
     }
     //TODO: fix this to return a gameobject, set it to private variable and remove connecting exit on exit matches
     private GameObject CreateRoomObject(Room toDisplay, Vector3 position)
     {
-        foreach (GameObject g in placedRooms)
-        {
-            if (g.transform.position == position)
-                return null;
-        }
         baseRoom = (GameObject)Instantiate(baseRoom, position, Quaternion.identity);
         //Debug.Log("Object Position:" + baseRoom.transform.position + "\n Object LocalPosition: "+ baseRoom.transform.localPosition);
         baseRoom.transform.parent = transform;
@@ -63,18 +63,19 @@ public class Generator : MonoBehaviour
         display.runtimeSprite = renderer;
         display.room = toDisplay;
         display.Init();
+        hasExits.Add(baseRoom);
         placedRooms.Add(baseRoom);
         return baseRoom;
 
     }
     private void PlaceRoomObject()
     {
-        GameObject connectToObj = GetRandom(placedRooms);
-        MatchExits(connectToObj);
+        GameObject current = GetRandom(hasExits);
+        MatchExits(current);
     }
-    private void MatchExits(GameObject connectingTo)
+    private void MatchExits(GameObject current)
     {
-        RoomDisplay r = connectingTo.GetComponent<RoomDisplay>();
+        RoomDisplay r = current.GetComponent<RoomDisplay>();
         Room a = r.room;
         Room b = GetAppropriateRandom(rooms, a.roomType);
         Dictionary<Exit, Exit> exitPairs = new Dictionary<Exit, Exit>();
@@ -92,38 +93,44 @@ public class Generator : MonoBehaviour
             Exit connectToPicked = GetRandom(exitPairs.Keys.ToList());
             Vector3 newPos = DeterminePosition(a, b, connectToPicked, exitPairs[connectToPicked]);
 
+            //Debug.Log(b.roomSprite.rect.ToString());
             //Check for collision
             if(!CheckCollision(newPos, b.roomSprite.rect))
                 connecting = CreateRoomObject(b, newPos);
 
-            if (connecting){
-                
+            if (connecting){   
                 //Remove exit on object that is to be placed
                 List<Exit> connectedToExits = connecting.GetComponent<RoomDisplay>().roomExits;
                 Exit newRemove = connectedToExits.FirstOrDefault(x => x.location == connectToPicked.location);
                 //Remove exit on previous object
                 r.roomExits.Remove(r.roomExits.FirstOrDefault(x => x.location == connectToPicked.location));
                 connectedToExits.Remove(newRemove);
+                if (r.roomExits.Count == 0)
+                    hasExits.Remove(r.gameObject);
+                if (connectedToExits.Count == 0)
+                    hasExits.Remove(connecting);
             }
         }
         else
         {
-            Debug.Log("Matching pairs not found on iteration.");
+            //Debug.Log("Matching pairs not found on iteration.");
         }
     }
     //bounding box collision check since all sprites contain rect transform component
     private bool CheckCollision(Vector3 centerPos, Rect next)
     {
-        Rect fNext = new Rect(centerPos.x, centerPos.y, next.width * .01f, next.height * .01f);
-        foreach (GameObject g in placedRooms)
+        Rect fNext = new Rect(0f, 0f, (float)Math.Round(next.width * .01f, 3, MidpointRounding.AwayFromZero), (float)Math.Round(next.height * .01f, 3, MidpointRounding.AwayFromZero))
         {
+            center = centerPos
+        };
+        foreach (GameObject g in placedRooms){
             Rect toMod = g.GetComponent<RoomDisplay>().room.roomSprite.rect;
-            Rect fAgainst = new Rect(toMod.x, toMod.y, toMod.width * .01f, toMod.height * .01f);
-            if (fAgainst.x < fNext.x + fNext.width &&
-               fAgainst.x + fAgainst.width > fNext.x &&
-               fAgainst.y < fNext.y + fNext.height &&
-               fAgainst.y + fAgainst.height > fNext.y)
+            Rect fAgainst = new Rect(0f, 0f, (float)Math.Round(toMod.width * .01f, 3, MidpointRounding.AwayFromZero),
+                                            (float)Math.Round(toMod.height * .01f, 3, MidpointRounding.AwayFromZero))
             {
+                center = g.transform.position
+            };
+            if (RectOverlaps(fNext, fAgainst)){
                 Debug.Log("Collision!");
                 return true;
             }
@@ -139,7 +146,7 @@ public class Generator : MonoBehaviour
         if (currExit.GetOrientation() == Exit.Orientation.Down)
         {
             newPosY -= cBounds.extents.y;
-            newPosX += nextExit.xMod;
+            newPosX -= nextExit.xMod;
         }
         else if (currExit.GetOrientation() == Exit.Orientation.Up)
         {
@@ -154,11 +161,28 @@ public class Generator : MonoBehaviour
         else if (currExit.GetOrientation() == Exit.Orientation.Left)
         {
             newPosX -= cBounds.extents.x;
-            newPosY += nextExit.yMod;
+            newPosY -= nextExit.yMod;
         }
         return new Vector3(newPosX, newPosY);
     }
 
+    //Custom Rect Bounds checker - Rectangles do NOT overlap if they share walls
+    private bool RectOverlaps(Rect a, Rect b)
+    {
+        if (Math.Round(a.x, 3, MidpointRounding.AwayFromZero) < Math.Round(b.x + b.width, 3, MidpointRounding.AwayFromZero) &&
+               Math.Round(a.x + a.width, 3, MidpointRounding.AwayFromZero) > Math.Round(b.x, 3, MidpointRounding.AwayFromZero) &&
+               Math.Round(a.y, 3, MidpointRounding.AwayFromZero) < Math.Round(b.y + b.height, 3, MidpointRounding.AwayFromZero) &&
+               Math.Round(a.y + a.height, 3, MidpointRounding.AwayFromZero) > Math.Round(b.y, 3, MidpointRounding.AwayFromZero))
+            return true;
+        else
+            return false;
+        #region Debugging bounds check
+        /*Debug.Log((Math.Round(a.x, 3, MidpointRounding.AwayFromZero) + " < " + Math.Round(b.x + b.width, 3, MidpointRounding.AwayFromZero) + " \n " +
+    Math.Round(a.x + a.width, 3, MidpointRounding.AwayFromZero) + " > " + Math.Round(b.x, 3, MidpointRounding.AwayFromZero) + "\n" +
+    Math.Round(a.y, 3, MidpointRounding.AwayFromZero) + " < " + Math.Round(b.y + b.height, 3, MidpointRounding.AwayFromZero) + "\n" +
+    Math.Round(a.y + a.height, 3, MidpointRounding.AwayFromZero) + " > " + Math.Round(b.y, 3, MidpointRounding.AwayFromZero)));*/
+        #endregion
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -166,4 +190,5 @@ public class Generator : MonoBehaviour
             foreach(Exit e in g.GetComponent<RoomDisplay>().room.exits)
                 Gizmos.DrawSphere(e.location, 0.1f);
     }
+
 }

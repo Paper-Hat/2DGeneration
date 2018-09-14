@@ -35,7 +35,7 @@ public class RoomDisplay : MonoBehaviour {
             if (e.GetOrientation() == Exit.Orientation.Up)
             {
                 newY += modSprite.bounds.extents.y;
-                newX -= e.xMod;
+                newX += e.xMod;
             }
             else if (e.GetOrientation() == Exit.Orientation.Down)
             {
@@ -50,7 +50,7 @@ public class RoomDisplay : MonoBehaviour {
             else if (e.GetOrientation() == Exit.Orientation.Right)
             {
                 newX += modSprite.bounds.extents.x;
-                newY -= e.yMod;
+                newY += e.yMod;
             }
             //Debug.Log("xMod: " + e.xMod + "\n yMod: " + e.yMod);
             e.location = new Vector3(newX, newY);

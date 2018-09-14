@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
   m_Name: Hway
   m_EditorClassIdentifier: 
-  roomType: 0
-  compatibleTypes: 000000000100000002000000
+  roomType: 1
+  compatibleTypes: 00000000020000000300000004000000
   exits:
   - location: {x: 0, y: 1.6, z: 0}
     xMod: 0

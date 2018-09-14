@@ -31,7 +31,7 @@ public class PatternBuilder : MonoBehaviour
     [System.Serializable]
     public struct Pattern
     {
-        public enum RoomType { Square, Rectangle, L_Shape };
+        public enum RoomType { Square, Rectangle, L_Shape, Dead_End, T_Junct };
         public List<Vector3> eSpawns, oSpawns;
         public RoomType patternType;
         public override bool Equals(object other)

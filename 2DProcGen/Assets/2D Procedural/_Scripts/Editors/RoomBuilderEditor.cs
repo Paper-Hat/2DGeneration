@@ -43,11 +43,42 @@ public class RoomBuilderEditor : Editor {
                 EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
         }
         GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
         GUILayout.Label("Clear Exits:");
         if (GUILayout.Button("Clear")){
             if(builder.exits.Count > 0)
                 builder.exits.Clear();
         }
+        GUILayout.EndHorizontal();
+        GUILayout.Label("-------------------------------------------------");
+
+        GUILayout.Label("Add Collider Point: ");
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Add"))
+            builder.AddColliderPoint();
+        GUILayout.EndHorizontal();
+        GUILayout.Label("Complete room's collider:");
+        if (GUILayout.Button("Complete"))
+        {
+            failCheck = builder.CompleteCollider();
+            if (failCheck)
+                EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
+        }
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("Clear Points"))
+        {
+            failCheck = builder.ClearPoints();
+            if (failCheck)
+                EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
+        }
+        if(GUILayout.Button("Clear Dict"))
+        {
+            failCheck = builder.ClearDict();
+            if (failCheck)
+                EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.Label("-------------------------------------------------");
         GUILayout.Label("Create room asset using settings: ");
         GUILayout.BeginHorizontal();
         GUILayout.Label("Room Name: ");
@@ -64,9 +95,14 @@ public class RoomBuilderEditor : Editor {
             }
         }
         GUILayout.EndHorizontal();
+
         GUILayout.Label("Debugging:");
-        if (GUILayout.Button("Debug"))
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Debug List"))
             builder.DebugList();
+        if (GUILayout.Button("Debug Dict"))
+            builder.DebugDict();
+        GUILayout.EndHorizontal();
     }
     public static void CreateScriptableRoomAsset(ScriptableObject so, string name)
     {
