@@ -31,7 +31,7 @@ public class RoomBuilder : MonoBehaviour
     public Vector2 addColliderPoint = new Vector2();
     private int colliderCount = 0;
     [SerializeField] private List<Vector2> currColPoints = new List<Vector2>();
-    private List<V2List> edgeColliders = new List<V2List>();
+    [SerializeField] private List<V2List> edgeColliders = new List<V2List>();
     [Range(0f, 1f)] [SerializeField] private float addX = .5f;
     [Range(0f, 1f)] [SerializeField] private float addY = .5f;
 

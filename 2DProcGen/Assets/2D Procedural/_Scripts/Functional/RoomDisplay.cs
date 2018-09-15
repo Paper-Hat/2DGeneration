@@ -69,8 +69,7 @@ public class RoomDisplay : MonoBehaviour {
     }
     private void BuildColliders()
     {
-        foreach(V2List vArr in cpts)
-        {
+        foreach(V2List vArr in cpts){
             EdgeCollider2D coll = ((GameObject)Instantiate(roomColGO, gameObject.transform)).GetComponent<EdgeCollider2D>();
             coll.points = vArr.vlist;
             edgeColliders.Add(coll);
