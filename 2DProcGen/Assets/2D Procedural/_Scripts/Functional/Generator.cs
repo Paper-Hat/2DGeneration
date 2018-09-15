@@ -117,6 +117,7 @@ public class Generator : MonoBehaviour
         }
     }
     //bounding box collision check since all sprites contain rect transform component
+
     private bool CheckCollision(Vector3 centerPos, Rect next)
     {
         Rect fNext = new Rect(0f, 0f, (float)Math.Round(next.width * .01f, 3, MidpointRounding.AwayFromZero), (float)Math.Round(next.height * .01f, 3, MidpointRounding.AwayFromZero))
@@ -165,7 +166,6 @@ public class Generator : MonoBehaviour
         }
         return new Vector3(newPosX, newPosY);
     }
-
     //Custom Rect Bounds checker - Rectangles do NOT overlap if they share walls
     private bool RectOverlaps(Rect a, Rect b)
     {

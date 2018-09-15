@@ -123,7 +123,7 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: exits.Array.size
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -133,7 +133,7 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4051087215151074, guid: 6bbac503212a472489e7500c004e14f6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -171,7 +171,7 @@ Prefab:
         type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 110e079caf4a86d45b4ba6becb622b57,
+      objectReference: {fileID: 21300000, guid: bf03530dfc89c774487dc31a41906e7c,
         type: 3}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -251,7 +251,7 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: exits.Array.data[1].yMod
-      value: 1.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -261,7 +261,7 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: exits.Array.data[0].yMod
-      value: 1.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -317,12 +317,12 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addX
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addY
-      value: 0.302
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -347,42 +347,42 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[0].x
-      value: 1.6
+      value: -0.64
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[0].y
-      value: 0.64
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addColliderPoint.x
-      value: 1.6
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addColliderPoint.y
-      value: -0.63360006
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[1].x
-      value: 1.6
+      value: -1.6
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[1].y
-      value: 0.32
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[2].x
-      value: 1
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.data[2].y
-      value: 0.32
+      value: 0.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bbac503212a472489e7500c004e14f6, type: 2}

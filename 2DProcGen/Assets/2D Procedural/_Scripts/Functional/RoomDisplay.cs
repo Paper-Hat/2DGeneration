@@ -11,6 +11,9 @@ public class RoomDisplay : MonoBehaviour {
     [SerializeField] public List<Exit> roomExits;
     [SerializeField] public SpriteRenderer runtimeSprite;
     [SerializeField] public PatternBuilder.Pattern pattern;
+    [SerializeField] public GameObject roomColGO;
+    public List<V2List> cpts;
+    [SerializeField] private List<EdgeCollider2D> edgeColliders;
     public void Init() {
         //set room to an instantiated copy so as not to destroy the original instance
         room = Instantiate(room);
@@ -18,14 +21,17 @@ public class RoomDisplay : MonoBehaviour {
         cTypes = room.compatibleTypes;
         roomExits = room.exits;
         runtimeSprite.sprite = room.roomSprite;
+        cpts = room.collPoints;
 
-        AdjustPositions();
         //Later: set up spawning based on the pattern
         pattern = room.pattern;
+
+        AdjustExitPositions();
+        BuildColliders();
         room.name = gameObject.name = "Room #" + ++counter;
     }
 
-    private void AdjustPositions()
+    private void AdjustExitPositions()
     {
         Sprite modSprite = runtimeSprite.sprite;
 
@@ -56,5 +62,19 @@ public class RoomDisplay : MonoBehaviour {
             e.location = new Vector3(newX, newY);
         }
     }
-	
+
+    private void AdjustColliderPoints()
+    {
+
+    }
+    private void BuildColliders()
+    {
+        foreach(V2List vArr in cpts)
+        {
+            EdgeCollider2D coll = ((GameObject)Instantiate(roomColGO, gameObject.transform)).GetComponent<EdgeCollider2D>();
+            coll.points = vArr.vlist;
+            edgeColliders.Add(coll);
+        }
+    }
+
 }

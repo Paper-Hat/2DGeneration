@@ -52,11 +52,13 @@ public class RoomBuilderEditor : Editor {
         GUILayout.EndHorizontal();
         GUILayout.Label("-------------------------------------------------");
 
-        GUILayout.Label("Add Collider Point: ");
         GUILayout.BeginHorizontal();
+        GUILayout.Label("Add Collider Point: ");
+
         if (GUILayout.Button("Add"))
             builder.AddColliderPoint();
         GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
         GUILayout.Label("Complete room's collider:");
         if (GUILayout.Button("Complete"))
         {
@@ -64,6 +66,7 @@ public class RoomBuilderEditor : Editor {
             if (failCheck)
                 EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
         }
+        GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         if(GUILayout.Button("Clear Points"))
         {
@@ -71,9 +74,9 @@ public class RoomBuilderEditor : Editor {
             if (failCheck)
                 EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
         }
-        if(GUILayout.Button("Clear Dict"))
+        if(GUILayout.Button("Clear Colls"))
         {
-            failCheck = builder.ClearDict();
+            failCheck = builder.ClearColliders();
             if (failCheck)
                 EditorUtility.DisplayDialog("Failed", builder.GetReason(), "Continue");
         }
@@ -98,10 +101,10 @@ public class RoomBuilderEditor : Editor {
 
         GUILayout.Label("Debugging:");
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Debug List"))
-            builder.DebugList();
-        if (GUILayout.Button("Debug Dict"))
-            builder.DebugDict();
+        if (GUILayout.Button("Debug Exits"))
+            builder.DebugExits();
+        if (GUILayout.Button("Debug Colls"))
+            builder.DebugColliders();
         GUILayout.EndHorizontal();
     }
     public static void CreateScriptableRoomAsset(ScriptableObject so, string name)

@@ -20,18 +20,18 @@ public class RoomBuilder : MonoBehaviour
 
     [Header("-------Exit Information-------")]
     [Space(10)]
-    [Range(0f, 1f)] [SerializeField] private float horizontalModification = .5f;
-    [Range(0f, 1f)] [SerializeField] private float verticalModification = .5f;
+    [Range(0f, 1f)] [SerializeField] private float horizontalMod = .5f;
+    [Range(0f, 1f)] [SerializeField] private float verticalMod = .5f;
     [SerializeField] public List<Exit> exits = new List<Exit>();
     private float xMod = 0f, yMod = 0f;
     [Space(10)]
 
     [Header("-------Collider Creation Information-------")]
     [Space(10)]
-    [SerializeField] public Vector2 addColliderPoint = new Vector2();
+    public Vector2 addColliderPoint = new Vector2();
     private int colliderCount = 0;
     [SerializeField] private List<Vector2> currColPoints = new List<Vector2>();
-    private Dictionary<int, Vector2[]> edgeColliders = new Dictionary<int, Vector2[]>();
+    private List<V2List> edgeColliders = new List<V2List>();
     [Range(0f, 1f)] [SerializeField] private float addX = .5f;
     [Range(0f, 1f)] [SerializeField] private float addY = .5f;
 
@@ -86,10 +86,9 @@ public class RoomBuilder : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(addColliderPoint, .05f);
         if (edgeColliders.Count > 0) {
-            foreach (KeyValuePair<int, Vector2[]> edge in edgeColliders) {
-                for (int i = 0; i < edge.Value.Length - 1; i++)
-                    Gizmos.DrawLine(edge.Value[i], edge.Value[i + 1]);
-            }
+            foreach(V2List edge in edgeColliders)
+                for (int i = 0; i < edge.Length - 1; i++)
+                    Gizmos.DrawLine(edge[i], edge[i + 1]);
         }
     }
     public bool CreateExit(Exit.Orientation o)
@@ -133,7 +132,7 @@ public class RoomBuilder : MonoBehaviour
                 && compatible.Count > 0
                 && CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible))
             {
-                editing = Instantiate(new Room(roomType, compatible, exits, roomSprite));
+                editing = Instantiate(new Room(roomType, compatible, exits, roomSprite, edgeColliders));
                 initialized = false;
             }
             else if (!CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible)) {
@@ -166,7 +165,8 @@ public class RoomBuilder : MonoBehaviour
             reason = "Not enough points to create an edge collider.";
         }
         else {
-            edgeColliders.Add(colliderCount++, currColPoints.ToArray());
+            V2List v = new V2List{  vlist = currColPoints.ToArray() };
+            edgeColliders.Add(v);
             currColPoints.Clear();
         }
         return failed;
@@ -183,7 +183,7 @@ public class RoomBuilder : MonoBehaviour
             currColPoints.Clear();
         return failed;
     }
-    public bool ClearDict()
+    public bool ClearColliders()
     {
         bool failed = false;
         if (edgeColliders.Count < 1)
@@ -205,12 +205,12 @@ public class RoomBuilder : MonoBehaviour
             Vector3 t = e.location;
             if (e.GetOrientation() == Exit.Orientation.Up || e.GetOrientation() == Exit.Orientation.Down) {
                 t.x = Mathf.Clamp((centerX - extentsX)
-                    + (horizontalModification * ((centerX + extentsX) - (centerX - extentsX))), centerX - extentsX, centerX + extentsX);
+                    + (horizontalMod * ((centerX + extentsX) - (centerX - extentsX))), centerX - extentsX, centerX + extentsX);
                 xMod = centerX - (centerX + t.x);
             }
             else if (e.GetOrientation() == Exit.Orientation.Left || e.GetOrientation() == Exit.Orientation.Right) {
                 t.y = Mathf.Clamp((centerY - extentsY)
-                    + (verticalModification * ((centerY + extentsY) - (centerY - extentsY))), centerY - extentsY, centerY + extentsY);
+                    + (verticalMod * ((centerY + extentsY) - (centerY - extentsY))), centerY - extentsY, centerY + extentsY);
                 yMod = centerY - (centerY + t.y);
             }
             e.location = t;
@@ -226,21 +226,20 @@ public class RoomBuilder : MonoBehaviour
         addColliderPoint = t;
     }
     #region Debugging
-    public void DebugList()
+    public void DebugExits()
     {
         Debug.Log("Number of items in 'exits': " + exits.Count);
         Debug.Log("Full list of exits:");
         foreach(Exit e in exits)
             Debug.Log(e.ToString());
     }
-    public void DebugDict()
+    public void DebugColliders()
     {
         if (edgeColliders.Count > 0){
-            foreach (KeyValuePair<int, Vector2[]> edge in edgeColliders){
-                Debug.Log("Edge: " + edge.Key);
-                Vector2[] iterArr = edge.Value;
-                for (int i = 0; i < iterArr.Length; i++)
-                    Debug.Log("Point " + i + ":" + iterArr[i].ToString());
+            foreach (V2List edge in edgeColliders){
+                Debug.Log("Points: ");
+                for(int i = 0;i < edge.Length; i++)
+                    Debug.Log(edge[i] + " ");
             }
         }
     }

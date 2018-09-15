@@ -110,16 +110,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61087a326e5413945b70c09b5e06cb6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blank: {fileID: 11400000, guid: 199c52fe588784048ac5fcedfdd4c625, type: 2}
-  horizontalModification: 0.5
-  verticalModification: 0.5
   roomType: 0
   compatible: 
   spriteHolder: {fileID: 1165121665518860}
+  editing: {fileID: 0}
+  horizontalMod: 0.5
+  verticalMod: 0.5
   exits: []
-  scriptable: {fileID: 0}
-  xMod: 0
-  yMod: 0
+  addColliderPoint: {x: 0, y: 0}
+  currColPoints: []
+  addX: 0.5
+  addY: 0.5
   initialized: 0
 --- !u!212 &212077991775262986
 SpriteRenderer:
