@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
+  m_Name: tj
+  m_EditorClassIdentifier: 
+  roomType: 4
+  compatibleTypes: 010000000200000000000000
+  exits:
+  - location: {x: 0, y: 1.6, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 0
+  - location: {x: 0, y: -1.6, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 1
+  - location: {x: -1.6, y: 0, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 2
+  - location: {x: 1.6, y: 0, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 3
+  roomSprite: {fileID: 21300000, guid: 110e079caf4a86d45b4ba6becb622b57, type: 3}
+  pattern:
+    eSpawns: []
+    oSpawns: []
+    patternType: 0
+  colliders:
+  - vlist:
+    - {x: 1.6, y: -0.64}
+    - {x: 0.64, y: -0.64}
+    - {x: 0.64, y: -1.6}
+  - vlist:
+    - {x: -0.64, y: -1.6}
+    - {x: -0.64, y: -0.64}
+    - {x: -1.6, y: -0.64}
+  - vlist:
+    - {x: -1.6, y: 0.64}
+    - {x: -0.64, y: 0.64}
+    - {x: -0.64, y: 1.6}
+  - vlist:
+    - {x: 0.64, y: 1.6}
+    - {x: 0.64, y: 0.64}
+    - {x: 1.6, y: 0.64}

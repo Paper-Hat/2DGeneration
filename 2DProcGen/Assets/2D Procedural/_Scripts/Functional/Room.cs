@@ -9,14 +9,5 @@ public class Room : ScriptableObject
     [SerializeField] public List<Exit> exits;
     [SerializeField] public Sprite roomSprite;
     [SerializeField] public PatternBuilder.Pattern pattern;
-    [SerializeField] public List<V2List> collPoints;
-
-    public Room(PatternBuilder.Pattern.RoomType rT, List<PatternBuilder.Pattern.RoomType> cT, List<Exit> e, Sprite rS, List<V2List> cpts)
-    {
-        roomType = rT;
-        compatibleTypes = cT;
-        exits = e;
-        roomSprite = rS;
-        collPoints = cpts;
-    }
+    [SerializeField] public List<V2List> colliders;
 }

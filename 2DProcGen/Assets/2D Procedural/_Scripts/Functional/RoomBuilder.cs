@@ -29,7 +29,6 @@ public class RoomBuilder : MonoBehaviour
     [Header("-------Collider Creation Information-------")]
     [Space(10)]
     public Vector2 addColliderPoint = new Vector2();
-    private int colliderCount = 0;
     [SerializeField] private List<Vector2> currColPoints = new List<Vector2>();
     [SerializeField] private List<V2List> edgeColliders = new List<V2List>();
     [Range(0f, 1f)] [SerializeField] private float addX = .5f;
@@ -78,11 +77,17 @@ public class RoomBuilder : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
+        //Draw exit locations
         Gizmos.color = Color.red;
         if (exits.Count > 0)
             foreach (Exit e in exits)
                 Gizmos.DrawSphere(e.location, .05f);
-
+        //Draw collider points to track progress
+        Gizmos.color = Color.yellow;
+        if (currColPoints.Count > 0)
+            foreach (Vector2 v in currColPoints)
+                Gizmos.DrawSphere(v, .05f);
+        //draw lines for each finished collider
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(addColliderPoint, .05f);
         if (edgeColliders.Count > 0) {
@@ -132,7 +137,15 @@ public class RoomBuilder : MonoBehaviour
                 && compatible.Count > 0
                 && CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible))
             {
-                editing = Instantiate(new Room(roomType, compatible, exits, roomSprite, edgeColliders));
+                editing = Instantiate(ScriptableObject.CreateInstance<Room>());
+                editing.roomType = roomType;
+                editing.compatibleTypes = new List<PatternBuilder.Pattern.RoomType>(compatible);
+                editing.exits = new List<Exit>(exits);
+                editing.roomSprite = roomSprite;
+                editing.colliders = new List<V2List>(edgeColliders);
+                ClearColliders();
+                ClearPoints();
+                exits.Clear();
                 initialized = false;
             }
             else if (!CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible)) {
@@ -165,8 +178,9 @@ public class RoomBuilder : MonoBehaviour
             reason = "Not enough points to create an edge collider.";
         }
         else {
-            V2List v = new V2List{  vlist = currColPoints.ToArray() };
+            V2List v = new V2List(currColPoints.ToArray());
             edgeColliders.Add(v);
+            //v.Clear();
             currColPoints.Clear();
         }
         return failed;

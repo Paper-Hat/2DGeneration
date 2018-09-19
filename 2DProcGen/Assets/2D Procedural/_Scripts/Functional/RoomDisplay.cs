@@ -1,34 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
+
 public class RoomDisplay : MonoBehaviour {
 
     public static int counter = 0;
-    [SerializeField] public Room room;
-    [SerializeField] public PatternBuilder.Pattern.RoomType type;
-    [SerializeField] public List<PatternBuilder.Pattern.RoomType> cTypes;
-    [SerializeField] public List<Exit> roomExits;
-    [SerializeField] public SpriteRenderer runtimeSprite;
-    [SerializeField] public PatternBuilder.Pattern pattern;
-    [SerializeField] public GameObject roomColGO;
-    public List<V2List> cpts;
-    [SerializeField] private List<EdgeCollider2D> edgeColliders;
+    public Room room;
+    [SerializeField] private PatternBuilder.Pattern.RoomType type;
+    [SerializeField] private List<PatternBuilder.Pattern.RoomType> cTypes;
+    public List<Exit> roomExits;
+    [SerializeField] private SpriteRenderer runtimeSprite;
+    public PatternBuilder.Pattern pattern;
+    [SerializeField] private GameObject roomColGO;
+
+    public List<PatternBuilder.Pattern.RoomType> GetCTypes() { return cTypes; }
+    public PatternBuilder.Pattern.RoomType GetRType() { return type; }
+    public void SetRoom(Room r) {    room = Instantiate(r);          }
+
     public void Init() {
         //set room to an instantiated copy so as not to destroy the original instance
-        room = Instantiate(room);
         type = room.roomType;
-        cTypes = room.compatibleTypes;
-        roomExits = room.exits;
+        cTypes = new List<PatternBuilder.Pattern.RoomType>(room.compatibleTypes);
+        roomExits = new List<Exit>(room.exits);
+
+        runtimeSprite = gameObject.GetComponent<SpriteRenderer>();
         runtimeSprite.sprite = room.roomSprite;
-        cpts = room.collPoints;
 
         //Later: set up spawning based on the pattern
         pattern = room.pattern;
 
         AdjustExitPositions();
-        BuildColliders();
         room.name = gameObject.name = "Room #" + ++counter;
+        GameObject g = BuildColliders();
+        //g.transform.parent = gameObject.transform;
     }
 
     private void AdjustExitPositions()
@@ -62,18 +66,20 @@ public class RoomDisplay : MonoBehaviour {
             e.location = new Vector3(newX, newY);
         }
     }
-
-    private void AdjustColliderPoints()
+    private GameObject BuildColliders()
     {
-
-    }
-    private void BuildColliders()
-    {
-        foreach(V2List vArr in cpts){
-            EdgeCollider2D coll = ((GameObject)Instantiate(roomColGO, gameObject.transform)).GetComponent<EdgeCollider2D>();
-            coll.points = vArr.vlist;
-            edgeColliders.Add(coll);
+        GameObject collHolder = new GameObject("Colliders Room#" + counter);
+        //collHolder.transform.parent = gameObject.transform;
+        for(int i = 0;i < room.colliders.Count; i++)
+        {
+            GameObject colliderGO = (GameObject)Instantiate(roomColGO);
+            colliderGO.transform.position = gameObject.transform.position;
+            colliderGO.name = "RC R" + counter;
+            EdgeCollider2D coll = colliderGO.GetComponent<EdgeCollider2D>();
+            coll.points = room.colliders[i].GetValue();
+            colliderGO.transform.parent = collHolder.transform;
         }
+        return collHolder;
     }
 
 }

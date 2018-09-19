@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: STDSquare
+  m_Name: sq
   m_EditorClassIdentifier: 
   roomType: 0
-  compatibleTypes: 020000000100000004000000
+  compatibleTypes: 010000000200000004000000
   exits:
   - location: {x: 0, y: 1.6, z: 0}
     xMod: 0
@@ -35,3 +35,20 @@ MonoBehaviour:
     eSpawns: []
     oSpawns: []
     patternType: 0
+  colliders:
+  - vlist:
+    - {x: 1.6, y: 0.64}
+    - {x: 1.6, y: 1.6}
+    - {x: 0.64, y: 1.6}
+  - vlist:
+    - {x: -0.64, y: 1.6}
+    - {x: -1.6, y: 1.6}
+    - {x: -1.6, y: 0.64}
+  - vlist:
+    - {x: -1.6, y: -0.64}
+    - {x: -1.6, y: -1.6}
+    - {x: -0.64, y: -1.6}
+  - vlist:
+    - {x: 0.64, y: -1.6}
+    - {x: 1.6, y: -1.6}
+    - {x: 1.6, y: -0.64}

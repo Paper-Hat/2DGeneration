@@ -10,8 +10,8 @@ public class Generator : MonoBehaviour
     [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
     [SerializeField] public List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private int numRooms;
-    [SerializeField] private List<GameObject> hasExits;
-    [SerializeField] private List<GameObject> placedRooms;
+    [SerializeField] private List<GameObject> hasExits = new List<GameObject>();
+    [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
     private GameObject connecting;
 
@@ -45,8 +45,7 @@ public class Generator : MonoBehaviour
 #endif
         GenerateUnitySeed();
         Debug.Log(seed);
-        Room startRoom = Instantiate(GetRandom(startingRooms));
-        CreateRoomObject(startRoom, new Vector3(0f, 0f, 0f));
+        CreateRoomObject(Instantiate(GetRandom(startingRooms)), new Vector3(0f, 0f, 0f));
         while (placedRooms.Count < numRooms && hasExits.Count > 0)
             PlaceRoomObject();
         if (hasExits.Count == 0)
@@ -59,9 +58,7 @@ public class Generator : MonoBehaviour
         //Debug.Log("Object Position:" + baseRoom.transform.position + "\n Object LocalPosition: "+ baseRoom.transform.localPosition);
         baseRoom.transform.parent = transform;
         RoomDisplay display = baseRoom.GetComponent<RoomDisplay>();
-        SpriteRenderer renderer = baseRoom.GetComponent<SpriteRenderer>();
-        display.runtimeSprite = renderer;
-        display.room = toDisplay;
+        display.SetRoom(toDisplay);
         display.Init();
         hasExits.Add(baseRoom);
         placedRooms.Add(baseRoom);
@@ -187,7 +184,7 @@ public class Generator : MonoBehaviour
     {
         Gizmos.color = Color.red;
         foreach (GameObject g in placedRooms)
-            foreach(Exit e in g.GetComponent<RoomDisplay>().room.exits)
+            foreach(Exit e in g.GetComponent<RoomDisplay>().roomExits)
                 Gizmos.DrawSphere(e.location, 0.1f);
     }
 

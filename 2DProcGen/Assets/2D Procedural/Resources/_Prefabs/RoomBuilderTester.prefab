@@ -119,6 +119,7 @@ MonoBehaviour:
   exits: []
   addColliderPoint: {x: 0, y: 0}
   currColPoints: []
+  edgeColliders: []
   addX: 0.5
   addY: 0.5
   initialized: 0

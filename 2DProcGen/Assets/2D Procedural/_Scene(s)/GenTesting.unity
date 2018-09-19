@@ -155,11 +155,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseRoom: {fileID: 1318530334892888, guid: ea8bf48b1bfd38d4493336fa847332a2, type: 2}
   rooms:
-  - {fileID: 11400000, guid: e3751e0dfae2ca541bf9d709f2c8b6bc, type: 2}
+  - {fileID: 11400000, guid: 5cdb231f925bda64e85e7e3b78e9afb5, type: 2}
+  - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
   startingRooms:
-  - {fileID: 11400000, guid: e3751e0dfae2ca541bf9d709f2c8b6bc, type: 2}
+  - {fileID: 11400000, guid: 5cdb231f925bda64e85e7e3b78e9afb5, type: 2}
+  - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
   enemies: []
-  numRooms: 1
+  numRooms: 3
   hasExits: []
   placedRooms: []
   seed: 0

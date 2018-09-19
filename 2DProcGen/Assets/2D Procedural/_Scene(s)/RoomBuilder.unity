@@ -123,17 +123,17 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: exits.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: compatible.Array.size
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: currColPoints.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4051087215151074, guid: 6bbac503212a472489e7500c004e14f6, type: 2}
       propertyPath: m_LocalPosition.x
@@ -176,12 +176,12 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: roomType
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: initialized
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -267,8 +267,7 @@ Prefab:
         type: 2}
       propertyPath: editing
       value: 
-      objectReference: {fileID: 11400000, guid: d931ff5eeb1aa6543823d7159b475249,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: exits.Array.data[0].orientation
@@ -317,12 +316,12 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addX
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addY
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
@@ -357,12 +356,12 @@ Prefab:
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addColliderPoint.x
-      value: -1.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
       propertyPath: addColliderPoint.y
-      value: 0.64
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114434646449444874, guid: 6bbac503212a472489e7500c004e14f6,
         type: 2}
