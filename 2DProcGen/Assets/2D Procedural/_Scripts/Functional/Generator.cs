@@ -4,8 +4,17 @@ using System.Linq;
 using UnityEngine;
 using CRandom = System.Random;
 using URandom = UnityEngine.Random;
+
+/*TODO: 
+ * Room Map Class,
+ * Algorithmic Placement,
+ * Position Based on Map Cells/"Default" Room Size,
+ * GameObject Instantiation AFTER Proper Map Generation,
+ * Pattern Overlay  
+     */
 public class Generator : MonoBehaviour
 {
+    #region Generator_Variables
     [SerializeField] private GameObject baseRoom;
     [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
     [SerializeField] public List<GameObject> enemies = new List<GameObject>();
@@ -14,7 +23,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
     private GameObject connecting;
-
+    #endregion
     #region Randomized_Functions
     private static T GetRandom<T>(List<T> list) { return list[URandom.Range(0, list.Count)]; }
     private static int GenerateCRandom()
@@ -51,7 +60,7 @@ public class Generator : MonoBehaviour
         if (hasExits.Count == 0)
             Debug.Log("Ran out of exits to place rooms.");
     }
-    //TODO: fix this to return a gameobject, set it to private variable and remove connecting exit on exit matches
+    #region Room_Manipulation
     private GameObject CreateRoomObject(Room toDisplay, Vector3 position)
     {
         baseRoom = (GameObject)Instantiate(baseRoom, position, Quaternion.identity);
@@ -68,9 +77,9 @@ public class Generator : MonoBehaviour
     private void PlaceRoomObject()
     {
         GameObject current = GetRandom(hasExits);
-        MatchExits(current);
+        MatchExitsRandom(current);
     }
-    private void MatchExits(GameObject current)
+    private void MatchExitsRandom(GameObject current)
     {
         RoomDisplay r = current.GetComponent<RoomDisplay>();
         Room a = r.room;
@@ -113,8 +122,9 @@ public class Generator : MonoBehaviour
             //Debug.Log("Matching pairs not found on iteration.");
         }
     }
+    #endregion
+    #region Placement_Position_Validation
     //bounding box collision check since all sprites contain rect transform component
-
     private bool CheckCollision(Vector3 centerPos, Rect next)
     {
         Rect fNext = new Rect(0f, 0f, (float)Math.Round(next.width * .01f, 3, MidpointRounding.AwayFromZero), (float)Math.Round(next.height * .01f, 3, MidpointRounding.AwayFromZero))
@@ -180,6 +190,7 @@ public class Generator : MonoBehaviour
     Math.Round(a.y + a.height, 3, MidpointRounding.AwayFromZero) + " > " + Math.Round(b.y, 3, MidpointRounding.AwayFromZero)));*/
         #endregion
     }
+    #endregion
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -187,5 +198,4 @@ public class Generator : MonoBehaviour
             foreach(Exit e in g.GetComponent<RoomDisplay>().roomExits)
                 Gizmos.DrawSphere(e.location, 0.1f);
     }
-
 }

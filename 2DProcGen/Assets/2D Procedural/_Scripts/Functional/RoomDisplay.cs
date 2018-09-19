@@ -31,10 +31,9 @@ public class RoomDisplay : MonoBehaviour {
 
         AdjustExitPositions();
         room.name = gameObject.name = "Room #" + ++counter;
-        GameObject g = BuildColliders();
+        BuildColliders();
         //g.transform.parent = gameObject.transform;
     }
-
     private void AdjustExitPositions()
     {
         Sprite modSprite = runtimeSprite.sprite;
