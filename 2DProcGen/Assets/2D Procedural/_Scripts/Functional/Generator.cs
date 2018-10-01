@@ -6,26 +6,32 @@ using CRandom = System.Random;
 using URandom = UnityEngine.Random;
 
 /*TODO: 
- * Room Map Class,
+ * Room Map Class [X],
  * Algorithmic Placement,
  * Position Based on Map Cells/"Default" Room Size,
  * GameObject Instantiation AFTER Proper Map Generation,
  * Pattern Overlay  
      */
+[System.Serializable]
+[ExecuteInEditMode]
 public class Generator : MonoBehaviour
 {
     #region Generator_Variables
     [SerializeField] private GameObject baseRoom;
+    private GameObject cRoom;
     [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
     [SerializeField] public List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private Sprite defaultRoomSprite;
     [SerializeField] private int numRooms;
     [SerializeField] private List<GameObject> hasExits = new List<GameObject>();
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
+    public RoomMap map;
     private GameObject connecting;
+
     #endregion
     #region Randomized_Functions
-    private static T GetRandom<T>(List<T> list) { return list[URandom.Range(0, list.Count)]; }
+    private static T GetRandom<T>(List<T> list) {   return list[URandom.Range(0, list.Count)]; }
     private static int GenerateCRandom()
     {
         int rand = (int)(DateTime.Now.Ticks & 0x0000FFFF);
@@ -38,164 +44,180 @@ public class Generator : MonoBehaviour
             seed = GenerateCRandom();
         URandom.InitState(seed);
     }
-    private Room GetAppropriateRandom(List<Room> roomObjs, PatternBuilder.Pattern.RoomType matchingType)
-    {
-        //Fix this to cycle through the rooms' compatibleTypes array
-        List<Room> appropriateTypes = roomObjs.Where(x => x.compatibleTypes.Contains(matchingType) && x.exits.Count > 0).ToList();
-        if (appropriateTypes.Count <= 0)
-            Debug.Log("Failed to find appropriate room.");
-        return GetRandom(appropriateTypes);
-    }
     #endregion
-    public void Start()//CreateStartingRoom()
+    public void Generate()
     {
-#if UNITY_EDITOR
-        UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
-#endif
+        map = new RoomMap(defaultRoomSprite);
         GenerateUnitySeed();
-        Debug.Log(seed);
-        CreateRoomObject(Instantiate(GetRandom(startingRooms)), new Vector3(0f, 0f, 0f));
-        while (placedRooms.Count < numRooms && hasExits.Count > 0)
-            PlaceRoomObject();
-        if (hasExits.Count == 0)
-            Debug.Log("Ran out of exits to place rooms.");
+        Debug.Log("Seed: " + seed);
+        //Initialize starting room
+        RoomMap.RoomCell startCell = new RoomMap.RoomCell(new Vector2(0f, 0f), Instantiate(GetRandom(startingRooms)));
+        Debug.Log("Starting Cell Info: " + startCell.ToString());
+        CreateRoomObject(startCell);
+
+        //Simple Generation - subject to change
+        while (map.cells.Where(x => x.filled).ToList().Count < numRooms) 
+            MatchRandomViaMap();
     }
     #region Room_Manipulation
-    private GameObject CreateRoomObject(Room toDisplay, Vector3 position)
+    private GameObject CreateRoomObject(RoomMap.RoomCell cell)
     {
-        baseRoom = (GameObject)Instantiate(baseRoom, position, Quaternion.identity);
-        //Debug.Log("Object Position:" + baseRoom.transform.position + "\n Object LocalPosition: "+ baseRoom.transform.localPosition);
-        baseRoom.transform.parent = transform;
-        RoomDisplay display = baseRoom.GetComponent<RoomDisplay>();
-        display.SetRoom(toDisplay);
+        //Debug.Log("Using Cell: " + cell.ToString());
+        //Set map location to cell
+        map[(int)cell.index.x, (int)cell.index.y] = cell;
+        //Debug.Log("Cell Now has info: " + map[(int)cell.index.x, (int)cell.index.y]);
+        cRoom = (GameObject)Instantiate(baseRoom);
+        cRoom.transform.parent = transform;
+        cRoom.transform.position = cell.cellPos;
+        RoomDisplay display = cRoom.GetComponent<RoomDisplay>();
+        display.SetRoom(cell.room);
         display.Init();
-        hasExits.Add(baseRoom);
-        placedRooms.Add(baseRoom);
-        return baseRoom;
+
+        hasExits.Add(cRoom);
+        placedRooms.Add(cRoom);
+        return cRoom;
 
     }
-    private void PlaceRoomObject()
+    private void MatchRandomViaMap()
     {
-        GameObject current = GetRandom(hasExits);
-        MatchExitsRandom(current);
+        //Get a random existing cell
+        RoomMap.RoomCell randExistingCell = GetRandom(map.cells.Where(x => x.filled).ToList());
+        //Get a random cell adjacent to the existing cell that does not have anything placed into it
+        //Can change this single line to prioritize rooms building outward, inward, etc.
+        RoomMap.RoomCell newCell = GetRandom(map.GetAdjacentCells(randExistingCell).Where(x => !x.filled).ToList());
+        //Debug.Log(newCell.ToString());
+        newCell.room = DetermineRoom(randExistingCell, newCell);
+        newCell.filled = true;
+        CreateRoomObject(newCell);
     }
-    private void MatchExitsRandom(GameObject current)
+
+    //TODO: Match properly based on cells adjacent to nextCell & prevcell.roomType
+    private Room DetermineRoom(RoomMap.RoomCell prevCell, RoomMap.RoomCell nextCell)
     {
-        RoomDisplay r = current.GetComponent<RoomDisplay>();
-        Room a = r.room;
-        Room b = GetAppropriateRandom(rooms, a.roomType);
-        Dictionary<Exit, Exit> exitPairs = new Dictionary<Exit, Exit>();
-        List<Exit> existing = a.exits, prospective = b.exits;
+        //Debug.Log("New cell off of: " + prevCell.index + "\n Placing cell at: " + nextCell.index);
 
-        for (int i = 0; i < existing.Count; i++){
-            Exit matched = prospective.FirstOrDefault(x => x.Matches(existing[i].GetOrientation()));
-            //Debug.Log("Prospective exit: " + matched.ToString());
-            if(matched != null)
-                exitPairs.Add(existing[i], matched);
-        }
+        //Will always contain 4 elements no matter what.
+        RoomMap.RoomCell[] adjacentMapCells = map.GetAdjacentCells(nextCell).ToArray();
 
-        //If a matching pair of exits was found
-        if (exitPairs.Count > 0){
-            Exit connectToPicked = GetRandom(exitPairs.Keys.ToList());
-            Vector3 newPos = DeterminePosition(a, b, connectToPicked, exitPairs[connectToPicked]);
+        //List of all enums to 
+        List<PatternBuilder.Pattern.RoomType> types = PatternBuilder.Pattern.allTypes
+                                                                    .Intersect(prevCell.room.compatibleTypes)
+                                                                    .ToList();
 
-            //Debug.Log(b.roomSprite.rect.ToString());
-            //Check for collision
-            if(!CheckCollision(newPos, b.roomSprite.rect))
-                connecting = CreateRoomObject(b, newPos);
+        List<Room> possible = new List<Room>(rooms);
 
-            if (connecting){   
-                //Remove exit on object that is to be placed
-                List<Exit> connectedToExits = connecting.GetComponent<RoomDisplay>().roomExits;
-                Exit newRemove = connectedToExits.FirstOrDefault(x => x.location == connectToPicked.location);
-                //Remove exit on previous object
-                r.roomExits.Remove(r.roomExits.FirstOrDefault(x => x.location == connectToPicked.location));
-                connectedToExits.Remove(newRemove);
-                if (r.roomExits.Count == 0)
-                    hasExits.Remove(r.gameObject);
-                if (connectedToExits.Count == 0)
-                    hasExits.Remove(connecting);
+        foreach (RoomMap.RoomCell cell in adjacentMapCells){
+            if (cell.filled){
+                Room comparator = cell.room;
+                types = types.Intersect(comparator.compatibleTypes).ToList();
+
+                foreach (Room r in possible)
+                {
+                    List<Exit> exitsMatchCheck = new List<Exit>(comparator.exits.Where(x => x.HasMatchInList(r.exits)).ToList());
+                    if (exitsMatchCheck.Count == r.exits.Count)
+                        Debug.Log(r.roomType + "'s matches the existing room's exits at this position.");
+                }
+                possible = possible
+                                .Where(x => ListContainsList(x.exits, comparator.exits.Where(y => y.HasMatchInList(x.exits)).ToList()))
+                                .ToList();
             }
         }
-        else
-        {
-            //Debug.Log("Matching pairs not found on iteration.");
-        }
-    }
-    #endregion
-    #region Placement_Position_Validation
-    //bounding box collision check since all sprites contain rect transform component
-    private bool CheckCollision(Vector3 centerPos, Rect next)
-    {
-        Rect fNext = new Rect(0f, 0f, (float)Math.Round(next.width * .01f, 3, MidpointRounding.AwayFromZero), (float)Math.Round(next.height * .01f, 3, MidpointRounding.AwayFromZero))
-        {
-            center = centerPos
-        };
-        foreach (GameObject g in placedRooms){
-            Rect toMod = g.GetComponent<RoomDisplay>().room.roomSprite.rect;
-            Rect fAgainst = new Rect(0f, 0f, (float)Math.Round(toMod.width * .01f, 3, MidpointRounding.AwayFromZero),
-                                            (float)Math.Round(toMod.height * .01f, 3, MidpointRounding.AwayFromZero))
-            {
-                center = g.transform.position
-            };
-            if (RectOverlaps(fNext, fAgainst)){
-                Debug.Log("Collision!");
-                return true;
-            }
-        }
-        return false;
 
+        //exits of potential room must match exits in ALL surrounding cells, provided they exist.
+        #region non-functional matching
+        /*
+        //0: Left, 1: Right, 2: Up, 3: Down
+        for (int i = 0; i < adjacentMapCells.Length ;i++){
+            //Must be filled in to make comparisons
+            if (adjacentMapCells[i].filled){
+                switch (i){
+                    case 0:
+                        //Restrict types to those compatible with required connections & must contain an exit that this room can match
+                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right)){
+                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Right));
+                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
+                        }
+                        break;
+                    case 1:
+                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left)){
+                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Left));
+                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
+                        }
+                        break;
+                    case 2:
+                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down)){
+                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Down));
+                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
+                        }
+                        break;
+                    case 3:
+                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up)){
+                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Up));
+                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
+                        }
+                        break;
+                }
+
+            }
+        }*/
+        #endregion
+        //TODO: tailor prospective list of rooms to those that contain elements found in 'matches' exit orientation list
+        possible = possible.Where(x => types.Contains(x.roomType)).ToList();
+        //foreach (Room p in possible)
+          //  Debug.Log(p.roomType);
+        if (possible.Count > 0)
+            return Instantiate(GetRandom(possible));
+        else{
+            Debug.Log("Room could not be placed.");
+            return null;
+        }
     }
-    private Vector3 DeterminePosition(Room current, Room next, Exit currExit, Exit nextExit)
+
+    private bool ListContainsList<T>(List<T> list1, List<T> list2)
     {
-        Bounds eBounds = current.roomSprite.bounds;
-        Bounds cBounds = next.roomSprite.bounds;
-        float newPosX = currExit.location.x, newPosY = currExit.location.y;
-        if (currExit.GetOrientation() == Exit.Orientation.Down)
-        {
-            newPosY -= cBounds.extents.y;
-            newPosX -= nextExit.xMod;
+        int counter = 0;
+        foreach(T sLE in list2){
+            if (list1.Any(x => x.Equals(sLE)))
+                counter++;
         }
-        else if (currExit.GetOrientation() == Exit.Orientation.Up)
-        {
-            newPosY += cBounds.extents.y;
-            newPosX -= nextExit.xMod;
-        }
-        else if (currExit.GetOrientation() == Exit.Orientation.Right)
-        {
-            newPosX += cBounds.extents.x;
-            newPosY -= nextExit.yMod;
-        }
-        else if (currExit.GetOrientation() == Exit.Orientation.Left)
-        {
-            newPosX -= cBounds.extents.x;
-            newPosY -= nextExit.yMod;
-        }
-        return new Vector3(newPosX, newPosY);
-    }
-    //Custom Rect Bounds checker - Rectangles do NOT overlap if they share walls
-    private bool RectOverlaps(Rect a, Rect b)
-    {
-        if (Math.Round(a.x, 3, MidpointRounding.AwayFromZero) < Math.Round(b.x + b.width, 3, MidpointRounding.AwayFromZero) &&
-               Math.Round(a.x + a.width, 3, MidpointRounding.AwayFromZero) > Math.Round(b.x, 3, MidpointRounding.AwayFromZero) &&
-               Math.Round(a.y, 3, MidpointRounding.AwayFromZero) < Math.Round(b.y + b.height, 3, MidpointRounding.AwayFromZero) &&
-               Math.Round(a.y + a.height, 3, MidpointRounding.AwayFromZero) > Math.Round(b.y, 3, MidpointRounding.AwayFromZero))
+        if (counter == list2.Count)
             return true;
         else
             return false;
-        #region Debugging bounds check
-        /*Debug.Log((Math.Round(a.x, 3, MidpointRounding.AwayFromZero) + " < " + Math.Round(b.x + b.width, 3, MidpointRounding.AwayFromZero) + " \n " +
-    Math.Round(a.x + a.width, 3, MidpointRounding.AwayFromZero) + " > " + Math.Round(b.x, 3, MidpointRounding.AwayFromZero) + "\n" +
-    Math.Round(a.y, 3, MidpointRounding.AwayFromZero) + " < " + Math.Round(b.y + b.height, 3, MidpointRounding.AwayFromZero) + "\n" +
-    Math.Round(a.y + a.height, 3, MidpointRounding.AwayFromZero) + " > " + Math.Round(b.y, 3, MidpointRounding.AwayFromZero)));*/
-        #endregion
     }
+
     #endregion
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        foreach (GameObject g in placedRooms)
-            foreach(Exit e in g.GetComponent<RoomDisplay>().roomExits)
-                Gizmos.DrawSphere(e.location, 0.1f);
+        if (map.cells.Count > 1)
+        {
+            foreach (RoomMap.RoomCell c in map.cells)
+            {
+                if (!c.filled)
+                {
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawSphere(c.cellPos, .25f);
+                }
+                else
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(c.cellPos, .25f);
+                }
+            }
+            map.VisualizeMap();
+        }
+    }
+    public void ResetGenerator()
+    {
+        hasExits.Clear();
+        placedRooms.Clear();
+        seed = 0;
+        connecting = null;
+        RoomDisplay.counter = 0;
+        map.ClearMap();
+        map = new RoomMap(defaultRoomSprite);
+        while (gameObject.transform.childCount > 0)
+            foreach (Transform child in gameObject.transform)
+                DestroyImmediate(child.gameObject);
     }
 }

@@ -10,4 +10,12 @@ public class Room : ScriptableObject
     [SerializeField] public Sprite roomSprite;
     [SerializeField] public PatternBuilder.Pattern pattern;
     [SerializeField] public List<V2List> colliders;
+
+    public override string ToString()
+    {
+        return "Type: " + roomType 
+            + "\n #Compatible Types: " + compatibleTypes.Count 
+            + "\n #Exits: " + exits.Count 
+            + "\n #Colliders: " + colliders.Count;
+    }
 }

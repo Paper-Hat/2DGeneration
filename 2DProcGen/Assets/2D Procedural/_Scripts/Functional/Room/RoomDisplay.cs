@@ -29,41 +29,10 @@ public class RoomDisplay : MonoBehaviour {
         //Later: set up spawning based on the pattern
         pattern = room.pattern;
 
-        AdjustExitPositions();
+        //AdjustExitPositions();
         room.name = gameObject.name = "Room #" + ++counter;
         BuildColliders();
         //g.transform.parent = gameObject.transform;
-    }
-    private void AdjustExitPositions()
-    {
-        Sprite modSprite = runtimeSprite.sprite;
-
-        foreach(Exit e in roomExits)
-        {
-            float newX = gameObject.transform.position.x, newY = gameObject.transform.position.y;
-            if (e.GetOrientation() == Exit.Orientation.Up)
-            {
-                newY += modSprite.bounds.extents.y;
-                newX += e.xMod;
-            }
-            else if (e.GetOrientation() == Exit.Orientation.Down)
-            {
-                newY -= modSprite.bounds.extents.y;
-                newX += e.xMod;
-            }
-            else if (e.GetOrientation() == Exit.Orientation.Left)
-            {
-                newX -= modSprite.bounds.extents.x;
-                newY += e.yMod;
-            }
-            else if (e.GetOrientation() == Exit.Orientation.Right)
-            {
-                newX += modSprite.bounds.extents.x;
-                newY += e.yMod;
-            }
-            //Debug.Log("xMod: " + e.xMod + "\n yMod: " + e.yMod);
-            e.location = new Vector3(newX, newY);
-        }
     }
     private GameObject BuildColliders()
     {

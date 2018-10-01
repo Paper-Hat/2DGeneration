@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,7 +32,10 @@ public class PatternBuilder : MonoBehaviour
     [System.Serializable]
     public struct Pattern
     {
-        public enum RoomType { Square, Rectangle, L_Shape, Dead_End, T_Junct };
+        public enum RoomType { Sq, Rect, L, End, T };
+        public static List<RoomType> allTypes = Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
+                                                         .Cast<PatternBuilder.Pattern.RoomType>()
+                                                         .ToList();
         public List<Vector3> eSpawns, oSpawns;
         public RoomType patternType;
         public override bool Equals(object other)

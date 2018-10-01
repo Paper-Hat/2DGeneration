@@ -20,9 +20,23 @@ public class Exit
             || orientation == Orientation.Down && check == Orientation.Up
             || orientation == Orientation.Left && check == Orientation.Right
             || orientation == Orientation.Right && check == Orientation.Left)
+        {
+            //Debug.Log(check);
             return true;
+        }
         else
             return false;
+    }
+    public bool HasMatchInList(List<Exit> list)
+    {
+        int count = 0;
+        bool condition;
+        foreach(Exit e in list){
+            if (e.Matches(GetOrientation()))
+                count++;
+        }
+        return condition = (count > 0) ? true : false;
+        
     }
     public void SetOrientation(Orientation o) { orientation = o; }
     public Orientation GetOrientation() { return orientation; }
