@@ -28,7 +28,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private int seed;
     public RoomMap map;
     private GameObject connecting;
-
+    public List<GameObject> cHList = new List<GameObject>();
     #endregion
     #region Randomized_Functions
     private static T GetRandom<T>(List<T> list) {   return list[URandom.Range(0, list.Count)]; }
@@ -54,9 +54,8 @@ public class Generator : MonoBehaviour
         RoomMap.RoomCell startCell = new RoomMap.RoomCell(new Vector2(0f, 0f), Instantiate(GetRandom(startingRooms)));
         Debug.Log("Starting Cell Info: " + startCell.ToString());
         CreateRoomObject(startCell);
-
-        //Simple Generation - subject to change
-        while (map.cells.Where(x => x.filled).ToList().Count < numRooms) 
+        //PlaceAtLocation(new Vector2(0, 1));
+        while( numRooms > map.cells.Where(x=> x.filled).ToList().Count)
             MatchRandomViaMap();
     }
     #region Room_Manipulation
@@ -72,99 +71,70 @@ public class Generator : MonoBehaviour
         RoomDisplay display = cRoom.GetComponent<RoomDisplay>();
         display.SetRoom(cell.room);
         display.Init();
-
+        cHList.Add(display.cHolder);
         hasExits.Add(cRoom);
         placedRooms.Add(cRoom);
         return cRoom;
 
     }
+    /// <summary>
+    /// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacents.
+    /// </summary>
     private void MatchRandomViaMap()
     {
         //Get a random existing cell
-        RoomMap.RoomCell randExistingCell = GetRandom(map.cells.Where(x => x.filled).ToList());
+
+        List<RoomMap.RoomCell> filledCells = new List<RoomMap.RoomCell>(map.cells.Where(x => x.filled).ToList());
+        RoomMap.RoomCell randExistingCell = GetRandom(filledCells.Where(x => !map.CheckCellCompletion(x)).ToList());
+
         //Get a random cell adjacent to the existing cell that does not have anything placed into it
         //Can change this single line to prioritize rooms building outward, inward, etc.
-        RoomMap.RoomCell newCell = GetRandom(map.GetAdjacentCells(randExistingCell).Where(x => !x.filled).ToList());
-        //Debug.Log(newCell.ToString());
-        newCell.room = DetermineRoom(randExistingCell, newCell);
+        RoomMap.RoomCell newCell = GetRandom(map.GetAdjacentCells(randExistingCell.index).Where(x => !x.filled).ToList());
+        while (newCell.room == null){
+            randExistingCell = GetRandom(map.cells.Where(x => x.filled).ToList());
+            newCell = GetRandom(map.GetAdjacentCells(randExistingCell.index).Where(x => !x.filled).ToList());
+            newCell.room = DetermineRoom(newCell.index);
+        }
         newCell.filled = true;
         CreateRoomObject(newCell);
     }
 
-    //TODO: Match properly based on cells adjacent to nextCell & prevcell.roomType
-    private Room DetermineRoom(RoomMap.RoomCell prevCell, RoomMap.RoomCell nextCell)
+    private void PlaceAtLocation(Vector2 index)
     {
-        //Debug.Log("New cell off of: " + prevCell.index + "\n Placing cell at: " + nextCell.index);
+        RoomMap.RoomCell newCell = new RoomMap.RoomCell(index, DetermineRoom(index));
+        newCell.filled = true;
+        CreateRoomObject(newCell);
+    }
+    /// <summary>
+    /// Determines possible rooms to place based on cells adjacent to Vector2 index.
+    /// </summary>
+    /// <param name="prevCell"></param>
+    /// <param name="nextCell"></param>
+    /// <returns></returns>
+    private Room DetermineRoom(Vector2 index)
+    {
 
+        RoomMap.RoomCell curr = map[(int)index.x, (int)index.y];;
         //Will always contain 4 elements no matter what.
-        RoomMap.RoomCell[] adjacentMapCells = map.GetAdjacentCells(nextCell).ToArray();
+        RoomMap.RoomCell[] adjacentMapCells = map.GetAdjacentCells(index).ToArray();
 
         //List of all enums to 
-        List<PatternBuilder.Pattern.RoomType> types = PatternBuilder.Pattern.allTypes
-                                                                    .Intersect(prevCell.room.compatibleTypes)
-                                                                    .ToList();
+        List<PatternBuilder.Pattern.RoomType> types = new List<PatternBuilder.Pattern.RoomType>(Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
+                                                         .Cast<PatternBuilder.Pattern.RoomType>()
+                                                         .ToList());
 
         List<Room> possible = new List<Room>(rooms);
-
         foreach (RoomMap.RoomCell cell in adjacentMapCells){
             if (cell.filled){
-                Room comparator = cell.room;
-                types = types.Intersect(comparator.compatibleTypes).ToList();
-
-                foreach (Room r in possible)
-                {
-                    List<Exit> exitsMatchCheck = new List<Exit>(comparator.exits.Where(x => x.HasMatchInList(r.exits)).ToList());
-                    if (exitsMatchCheck.Count == r.exits.Count)
-                        Debug.Log(r.roomType + "'s matches the existing room's exits at this position.");
-                }
-                possible = possible
-                                .Where(x => ListContainsList(x.exits, comparator.exits.Where(y => y.HasMatchInList(x.exits)).ToList()))
-                                .ToList();
+                types = types.Intersect(cell.room.compatibleTypes).ToList();
+                possible = possible.Where(x => curr.ContainsExitMatchIn(cell, x)).ToList();
             }
         }
 
-        //exits of potential room must match exits in ALL surrounding cells, provided they exist.
-        #region non-functional matching
-        /*
-        //0: Left, 1: Right, 2: Up, 3: Down
-        for (int i = 0; i < adjacentMapCells.Length ;i++){
-            //Must be filled in to make comparisons
-            if (adjacentMapCells[i].filled){
-                switch (i){
-                    case 0:
-                        //Restrict types to those compatible with required connections & must contain an exit that this room can match
-                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right)){
-                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Right));
-                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
-                        }
-                        break;
-                    case 1:
-                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left)){
-                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Left));
-                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
-                        }
-                        break;
-                    case 2:
-                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down)){
-                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Down));
-                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
-                        }
-                        break;
-                    case 3:
-                        if (adjacentMapCells[i].room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up)){
-                            matches.Add(adjacentMapCells[i].room.exits.First(x => x.GetOrientation() == Exit.Orientation.Up));
-                            types = types.Intersect(adjacentMapCells[i].room.compatibleTypes).ToList();
-                        }
-                        break;
-                }
-
-            }
-        }*/
-        #endregion
-        //TODO: tailor prospective list of rooms to those that contain elements found in 'matches' exit orientation list
-        possible = possible.Where(x => types.Contains(x.roomType)).ToList();
+        possible = possible.Where(x => types.Any(y => y == x.roomType)).ToList();
+        Debug.Log("Possible thinned to: " + possible.Count + " elements.");
         //foreach (Room p in possible)
-          //  Debug.Log(p.roomType);
+        //  Debug.Log(p.roomType);
         if (possible.Count > 0)
             return Instantiate(GetRandom(possible));
         else{
@@ -219,5 +189,8 @@ public class Generator : MonoBehaviour
         while (gameObject.transform.childCount > 0)
             foreach (Transform child in gameObject.transform)
                 DestroyImmediate(child.gameObject);
+        foreach(GameObject g in cHList)
+            DestroyImmediate(g);
+        cHList.Clear();
     }
 }

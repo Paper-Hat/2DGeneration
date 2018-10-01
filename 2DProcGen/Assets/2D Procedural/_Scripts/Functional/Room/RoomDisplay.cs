@@ -16,7 +16,7 @@ public class RoomDisplay : MonoBehaviour {
     public List<PatternBuilder.Pattern.RoomType> GetCTypes() { return cTypes; }
     public PatternBuilder.Pattern.RoomType GetRType() { return type; }
     public void SetRoom(Room r) {    room = Instantiate(r);          }
-
+    public GameObject cHolder;
     public void Init() {
         //set room to an instantiated copy so as not to destroy the original instance
         type = room.roomType;
@@ -31,7 +31,7 @@ public class RoomDisplay : MonoBehaviour {
 
         //AdjustExitPositions();
         room.name = gameObject.name = "Room #" + ++counter;
-        BuildColliders();
+        cHolder = BuildColliders();
         //g.transform.parent = gameObject.transform;
     }
     private GameObject BuildColliders()

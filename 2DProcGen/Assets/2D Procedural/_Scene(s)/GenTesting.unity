@@ -164,7 +164,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
   enemies: []
   defaultRoomSprite: {fileID: 21300000, guid: bf03530dfc89c774487dc31a41906e7c, type: 3}
-  numRooms: 6
+  numRooms: 3
   hasExits: []
   placedRooms: []
   seed: 0

@@ -33,9 +33,6 @@ public class PatternBuilder : MonoBehaviour
     public struct Pattern
     {
         public enum RoomType { Sq, Rect, L, End, T };
-        public static List<RoomType> allTypes = Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
-                                                         .Cast<PatternBuilder.Pattern.RoomType>()
-                                                         .ToList();
         public List<Vector3> eSpawns, oSpawns;
         public RoomType patternType;
         public override bool Equals(object other)

@@ -9,12 +9,14 @@ public class RoomMap {
     [System.Serializable]
     public struct RoomCell
     {
+        #region Cell Variables
         public static Vector2 dimensions;
         public Vector3 cellPos;
         public Vector2 index;
         public Room room;
         public bool filled;
-
+        #endregion
+        #region Cell Constructors
         public RoomCell(Vector2 i, Room r)
         {
             index = i;
@@ -37,6 +39,44 @@ public class RoomMap {
             index = other.index;
             room = other.room;
             filled = true;
+        }
+        #endregion
+        /// <summary>
+        /// Determines if the cell compared could contain a matching room based on this cells location.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool ContainsExitMatchIn(RoomCell other, Room prospective)
+        {
+            int thisX = (int)this.index.x, otherX = (int)other.index.x;
+            int thisY = (int)this.index.y, otherY = (int)other.index.y;
+            //Debug.Log("This: " + new Vector2(thisX, thisY) + " , " + prospective.roomType + "\n Compared to: " + new Vector2(otherX, otherY) + " , "  + other.room.roomType);
+            if (otherX == thisX - 1 && otherY == thisY) //other cell is left
+            {
+               // Debug.Log("Comparing Left");
+                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right))
+                    return true;
+            }
+            else if (otherX == thisX + 1 && otherY == thisY) //" " right
+            {
+               // Debug.Log("Comparing right.");
+                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left))
+                    return true;
+            }
+            else if (otherX == thisX && otherY == thisY + 1) //" " up
+            {
+               // Debug.Log("Comparing Upwards.");
+                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down))
+                    return true;
+            }
+            else if (otherX == thisX && otherY == thisY - 1) //" " down
+            {
+               // Debug.Log("Comparing downwards.");
+                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up))
+                    return true;
+
+            }
+            return false;
         }
         public override string ToString()
         {
@@ -62,6 +102,7 @@ public class RoomMap {
     private Vector3 start;
     private int numRows = 0, numCols = 0;
     private RoomCell targ;
+
     public RoomMap(Sprite defaultRef)
     {
         if (defaultRef != null)
@@ -84,6 +125,14 @@ public class RoomMap {
             cells[index] = value;
         }
     }
+    public bool CheckCellCompletion(RoomCell c)
+    {
+        foreach(RoomCell check in GetAdjacentCells(c.index)){
+            if (!check.filled)
+                return false;
+        }
+        return true;
+    }
     public RoomCell GetOrCreateCell(int x, int y)
     {
         //If the cell already exists in the list of cells
@@ -97,25 +146,35 @@ public class RoomMap {
             targ = new RoomCell(new Vector2(x, y));
             cells.Add(targ);
         }
-        DetermineDimensions();
+
+        #if UNITY_EDITOR
+        DetermineVisualDimensions();
+        #endif
+
         return targ;
     }
+    /// <summary>
+    /// Returns list of adjacent cells, creates empty cells if they are not yet initialized.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public List<RoomCell> GetAdjacentCells(Vector2 index)
+    {
+        RoomCell[] adj = {  GetOrCreateCell((int)index.x - 1, (int)index.y),
+                            GetOrCreateCell((int)index.x + 1, (int)index.y),
+                            GetOrCreateCell((int)index.x, (int)index.y + 1),
+                            GetOrCreateCell((int)index.x, (int)index.y - 1) };
+        return adj.ToList();
+    }
+    #region Editor-Related Functions
     public void GetActiveCells()
     {
         List<RoomCell> activeCells = cells.Where(x => x.filled).ToList();
+        Debug.Log("Active Cells: " + activeCells.Count);
         foreach (RoomCell cell in activeCells)
             Debug.Log(cell.ToString());
     }
-    public List<RoomCell> GetAdjacentCells(RoomCell cell)
-    {
-        RoomCell[] adj = {  GetOrCreateCell((int)cell.index.x - 1, (int)cell.index.y),
-                            GetOrCreateCell((int)cell.index.x + 1, (int)cell.index.y),
-                            GetOrCreateCell((int)cell.index.x, (int)cell.index.y + 1),
-                            GetOrCreateCell((int)cell.index.x, (int)cell.index.y - 1) };
-        return adj.ToList();
-    }
-
-    private void DetermineDimensions()
+    private void DetermineVisualDimensions()
     {
         List<int> xIndexes = new List<int>(), yIndexes = new List<int>();
 
@@ -161,4 +220,5 @@ public class RoomMap {
         numCols = 0;
         RoomCell.dimensions = new Vector2(0f, 0f);
     }
+    #endregion
 }
