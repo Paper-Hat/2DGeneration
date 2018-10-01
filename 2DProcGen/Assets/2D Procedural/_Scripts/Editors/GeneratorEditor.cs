@@ -19,7 +19,10 @@ public class GeneratorEditor : Editor {
             Debug.Log("Rows: " + gen.map.Rows() + "\n Cols: " + gen.map.Cols());
         }
         if (GUILayout.Button("Reset"))
+        {
             gen.ResetGenerator();
+            ConsoleMod.ClearLog();
+        }
         GUILayout.EndHorizontal();
         if (GUILayout.Button("Debug Active Cells"))
             gen.map.GetActiveCells();

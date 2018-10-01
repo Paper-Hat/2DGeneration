@@ -86,7 +86,7 @@ public class Generator : MonoBehaviour
 
         List<RoomMap.RoomCell> filledCells = new List<RoomMap.RoomCell>(map.cells.Where(x => x.filled).ToList());
         RoomMap.RoomCell randExistingCell = GetRandom(filledCells.Where(x => !map.CheckCellCompletion(x)).ToList());
-
+        Debug.Log("Number of filled cells around picked existing: " + map.GetAdjacentCells(randExistingCell.index).Where(x=> x.filled).ToList().Count);
         //Get a random cell adjacent to the existing cell that does not have anything placed into it
         //Can change this single line to prioritize rooms building outward, inward, etc.
         RoomMap.RoomCell newCell = GetRandom(map.GetAdjacentCells(randExistingCell.index).Where(x => !x.filled).ToList());
@@ -122,7 +122,6 @@ public class Generator : MonoBehaviour
         List<PatternBuilder.Pattern.RoomType> types = new List<PatternBuilder.Pattern.RoomType>(Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
                                                          .Cast<PatternBuilder.Pattern.RoomType>()
                                                          .ToList());
-
         List<Room> possible = new List<Room>(rooms);
         foreach (RoomMap.RoomCell cell in adjacentMapCells){
             if (cell.filled){
@@ -132,7 +131,7 @@ public class Generator : MonoBehaviour
         }
 
         possible = possible.Where(x => types.Any(y => y == x.roomType)).ToList();
-        Debug.Log("Possible thinned to: " + possible.Count + " elements.");
+        //Debug.Log("Possible thinned to: " + possible.Count + " elements.");
         //foreach (Room p in possible)
         //  Debug.Log(p.roomType);
         if (possible.Count > 0)
@@ -141,19 +140,6 @@ public class Generator : MonoBehaviour
             Debug.Log("Room could not be placed.");
             return null;
         }
-    }
-
-    private bool ListContainsList<T>(List<T> list1, List<T> list2)
-    {
-        int counter = 0;
-        foreach(T sLE in list2){
-            if (list1.Any(x => x.Equals(sLE)))
-                counter++;
-        }
-        if (counter == list2.Count)
-            return true;
-        else
-            return false;
     }
 
     #endregion
