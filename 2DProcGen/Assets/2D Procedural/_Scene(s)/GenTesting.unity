@@ -159,14 +159,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
   - {fileID: 11400000, guid: 6cacb9666547ce24ebf49d0469215e50, type: 2}
   - {fileID: 11400000, guid: 7bf18e41cf068be4e9ab95fdd129a36c, type: 2}
+  - {fileID: 11400000, guid: 93dc19c5d0d512042bdd1e480fa7efba, type: 2}
+  - {fileID: 11400000, guid: 05ddb8e5b607a5b40846448e31785807, type: 2}
+  - {fileID: 11400000, guid: e03632fee58be8f4f86cb35f231af52b, type: 2}
+  - {fileID: 11400000, guid: e598bf2f1dd577d44b65785fff8e92ca, type: 2}
+  - {fileID: 11400000, guid: 5b8cf24985d47414abcfeefe293202ce, type: 2}
+  - {fileID: 11400000, guid: b112259083e223745b524d8a66370847, type: 2}
+  - {fileID: 11400000, guid: ff2b721710a8f1b4085fb99b0a377004, type: 2}
+  - {fileID: 11400000, guid: d862370ab7beee74286c9e3b52027d17, type: 2}
+  - {fileID: 11400000, guid: 579943c874cefd74388ccddabdff7689, type: 2}
   startingRooms:
   - {fileID: 11400000, guid: 5cdb231f925bda64e85e7e3b78e9afb5, type: 2}
   - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
   enemies: []
   defaultRoomSprite: {fileID: 21300000, guid: bf03530dfc89c774487dc31a41906e7c, type: 3}
-  numRooms: 3
   hasExits: []
   placedRooms: []
   seed: 0
   map:
     cells: []
+  cHList: []

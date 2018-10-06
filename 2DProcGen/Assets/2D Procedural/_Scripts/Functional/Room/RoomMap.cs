@@ -50,11 +50,14 @@ public class RoomMap {
         {
             int thisX = (int)this.index.x, otherX = (int)other.index.x;
             int thisY = (int)this.index.y, otherY = (int)other.index.y;
-            //Debug.Log("This: " + new Vector2(thisX, thisY) + " , " + prospective.roomType + "\n Compared to: " + new Vector2(otherX, otherY) + " , "  + other.room.roomType);
+            
             if (otherX == thisX - 1 && otherY == thisY) //other cell is left
             {
-               // Debug.Log("Comparing Left");
+                // Debug.Log("Comparing Left");
                 if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right))
+                    return true;
+                // Exact opposite case means it also "matches"
+                else if (!prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left) && !other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right))
                     return true;
             }
             else if (otherX == thisX + 1 && otherY == thisY) //" " right
@@ -62,17 +65,23 @@ public class RoomMap {
                // Debug.Log("Comparing right.");
                 if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left))
                     return true;
+                else if (!prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right) && !other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left))
+                    return true;
             }
             else if (otherX == thisX && otherY == thisY + 1) //" " up
             {
                // Debug.Log("Comparing Upwards.");
                 if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down))
                     return true;
+                else if (!prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up) && !other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down))
+                    return true;
             }
             else if (otherX == thisX && otherY == thisY - 1) //" " down
             {
                // Debug.Log("Comparing downwards.");
                 if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up))
+                    return true;
+                else if (!prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down) && !other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up))
                     return true;
 
             }
@@ -102,7 +111,6 @@ public class RoomMap {
     private Vector3 start;
     private int numRows = 0, numCols = 0;
     private RoomCell targ;
-
     public RoomMap(Sprite defaultRef)
     {
         if (defaultRef != null)
@@ -125,13 +133,16 @@ public class RoomMap {
             cells[index] = value;
         }
     }
+
+    //TODO: Fix this
     public bool CheckCellCompletion(RoomCell c)
     {
+        int ct = 0;
         foreach(RoomCell check in GetAdjacentCells(c.index)){
-            if (!check.filled)
-                return false;
+            if (check.filled)
+                ct++;
         }
-        return true;
+        return (ct < c.room.exits.Count) ? false : true;
     }
     public RoomCell GetOrCreateCell(int x, int y)
     {

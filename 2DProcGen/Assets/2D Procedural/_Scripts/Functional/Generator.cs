@@ -22,7 +22,6 @@ public class Generator : MonoBehaviour
     [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
     [SerializeField] public List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private Sprite defaultRoomSprite;
-    [SerializeField] private int numRooms;
     [SerializeField] private List<GameObject> hasExits = new List<GameObject>();
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
@@ -45,19 +44,44 @@ public class Generator : MonoBehaviour
         URandom.InitState(seed);
     }
     #endregion
-    public void Generate()
+    #region Room Placement Functions
+    public void Generate(int iterations)
     {
         map = new RoomMap(defaultRoomSprite);
         GenerateUnitySeed();
         Debug.Log("Seed: " + seed);
         //Initialize starting room
+        PlaceStart();
+        //PlaceAtLocation(new Vector2(0, 1));
+        while( iterations > map.cells.Where(x=> x.filled).ToList().Count)
+            MatchRandomViaMap();
+    }
+    public void PlaceRandAtLocation(int x, int y)
+    {
+        Vector2 index = new Vector2(x, y);
+        RoomMap.RoomCell newCell = new RoomMap.RoomCell(index, GetRandom(GetCompatibleRooms(index)));
+        newCell.filled = true;
+        CreateRoomObject(newCell);
+    }
+    public void PlaceAtLocation(int x, int y, Room r)
+    {
+        Vector2 index = new Vector2(x, y);
+        List<Room> confirmAgainst = GetCompatibleRooms(index);
+        if (confirmAgainst.Any(cp => cp == r)){
+            RoomMap.RoomCell newCell = new RoomMap.RoomCell(index, r);
+            newCell.filled = true;
+            CreateRoomObject(newCell);
+        }
+        else
+            Debug.Log("Selected room is not compatible with index.");
+    }
+    public void PlaceStart()
+    {
         RoomMap.RoomCell startCell = new RoomMap.RoomCell(new Vector2(0f, 0f), Instantiate(GetRandom(startingRooms)));
         Debug.Log("Starting Cell Info: " + startCell.ToString());
         CreateRoomObject(startCell);
-        //PlaceAtLocation(new Vector2(0, 1));
-        while( numRooms > map.cells.Where(x=> x.filled).ToList().Count)
-            MatchRandomViaMap();
     }
+    #endregion
     #region Room_Manipulation
     private GameObject CreateRoomObject(RoomMap.RoomCell cell)
     {
@@ -85,44 +109,44 @@ public class Generator : MonoBehaviour
         //Get a random existing cell
 
         List<RoomMap.RoomCell> filledCells = new List<RoomMap.RoomCell>(map.cells.Where(x => x.filled).ToList());
+        //Debug.Log("Avail:" + filledCells.Where(x => !map.CheckCellCompletion(x)).ToList().Count);
         RoomMap.RoomCell randExistingCell = GetRandom(filledCells.Where(x => !map.CheckCellCompletion(x)).ToList());
-        Debug.Log("Number of filled cells around picked existing: " + map.GetAdjacentCells(randExistingCell.index).Where(x=> x.filled).ToList().Count);
+        //Debug.Log("Number of filled cells around picked existing: " + map.GetAdjacentCells(randExistingCell.index).Where(x=> x.filled).ToList().Count);
+        
         //Get a random cell adjacent to the existing cell that does not have anything placed into it
         //Can change this single line to prioritize rooms building outward, inward, etc.
         RoomMap.RoomCell newCell = GetRandom(map.GetAdjacentCells(randExistingCell.index).Where(x => !x.filled).ToList());
         while (newCell.room == null){
             randExistingCell = GetRandom(map.cells.Where(x => x.filled).ToList());
             newCell = GetRandom(map.GetAdjacentCells(randExistingCell.index).Where(x => !x.filled).ToList());
-            newCell.room = DetermineRoom(newCell.index);
+            newCell.room = GetRandom(GetCompatibleRooms(newCell.index));
         }
         newCell.filled = true;
         CreateRoomObject(newCell);
     }
 
-    private void PlaceAtLocation(Vector2 index)
-    {
-        RoomMap.RoomCell newCell = new RoomMap.RoomCell(index, DetermineRoom(index));
-        newCell.filled = true;
-        CreateRoomObject(newCell);
-    }
+
     /// <summary>
     /// Determines possible rooms to place based on cells adjacent to Vector2 index.
     /// </summary>
     /// <param name="prevCell"></param>
     /// <param name="nextCell"></param>
     /// <returns></returns>
-    private Room DetermineRoom(Vector2 index)
+    //TODO: Types only need to be thinned when CONNECTING two rooms, not for adjacent spaces not connected to room in question
+    private List<Room> GetCompatibleRooms(Vector2 index)
     {
 
         RoomMap.RoomCell curr = map[(int)index.x, (int)index.y];;
         //Will always contain 4 elements no matter what.
         RoomMap.RoomCell[] adjacentMapCells = map.GetAdjacentCells(index).ToArray();
 
-        //List of all enums to 
+        //List of all enums to thin out based on adjacent cells
         List<PatternBuilder.Pattern.RoomType> types = new List<PatternBuilder.Pattern.RoomType>(Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
                                                          .Cast<PatternBuilder.Pattern.RoomType>()
                                                          .ToList());
         List<Room> possible = new List<Room>(rooms);
+
+        //Starting with list of all rooms, thin until only compatible are left
         foreach (RoomMap.RoomCell cell in adjacentMapCells){
             if (cell.filled){
                 types = types.Intersect(cell.room.compatibleTypes).ToList();
@@ -131,11 +155,9 @@ public class Generator : MonoBehaviour
         }
 
         possible = possible.Where(x => types.Any(y => y == x.roomType)).ToList();
-        //Debug.Log("Possible thinned to: " + possible.Count + " elements.");
-        //foreach (Room p in possible)
-        //  Debug.Log(p.roomType);
+
         if (possible.Count > 0)
-            return Instantiate(GetRandom(possible));
+            return possible;
         else{
             Debug.Log("Room could not be placed.");
             return null;

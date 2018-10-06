@@ -9,46 +9,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: sq
+  m_Name: L-UpLeft
   m_EditorClassIdentifier: 
-  roomType: 0
-  compatibleTypes: 010000000200000004000000
+  roomType: 2
+  compatibleTypes: 00000000010000000400000002000000
   exits:
   - location: {x: 0, y: 1.6, z: 0}
     xMod: 0
     yMod: 0
     orientation: 0
-  - location: {x: 0, y: -1.6, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 1
   - location: {x: -1.6, y: 0, z: 0}
     xMod: 0
     yMod: 0
     orientation: 2
-  - location: {x: 1.6, y: 0, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 3
-  roomSprite: {fileID: 21300000, guid: bf03530dfc89c774487dc31a41906e7c, type: 3}
+  roomSprite: {fileID: 21300000, guid: 5be66e481d7d8f943bed6884f25b1242, type: 3}
   pattern:
     eSpawns: []
     oSpawns: []
     patternType: 0
   colliders:
   - vlist:
-    - {x: 1.6, y: 0.64}
-    - {x: 1.6, y: 1.6}
     - {x: 0.64, y: 1.6}
-  - vlist:
-    - {x: -0.64, y: 1.6}
-    - {x: -1.6, y: 1.6}
-    - {x: -1.6, y: 0.64}
-  - vlist:
+    - {x: 0.64, y: -0.64}
     - {x: -1.6, y: -0.64}
-    - {x: -1.6, y: -1.6}
-    - {x: -0.64, y: -1.6}
   - vlist:
-    - {x: 0.64, y: -1.6}
-    - {x: 1.6, y: -1.6}
-    - {x: 1.6, y: -0.64}
+    - {x: -1.6, y: 0.64}
+    - {x: -0.64, y: 0.64}
+    - {x: -0.64, y: 1.6}
