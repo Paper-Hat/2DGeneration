@@ -6,9 +6,7 @@ using CRandom = System.Random;
 using URandom = UnityEngine.Random;
 
 /*TODO: Generation based on level "Types": GenerationStyle Enum, "Secret" Rooms, Fix Room Type Tailoring
- * Room Map Class [X],
  * Algorithmic Placement,
- * Position Based on Map Cells/"Default" Room Size,
  * GameObject Instantiation AFTER Proper Map Generation,
  * Pattern Overlay  
      */
@@ -47,7 +45,7 @@ public class Generator : MonoBehaviour
     #region Room Placement Functions
 
     /// <summary>
-    /// Generates rooms based on enum style and number of iterations (constraints)
+    /// TODO: Generates rooms based on enum style and number of iterations (constraints)
     /// </summary>
     /// <param name="iterations"></param>
     public void Generate(int iterations)
@@ -123,9 +121,8 @@ public class Generator : MonoBehaviour
         RoomDisplay display = cRoom.GetComponent<RoomDisplay>();
         display.SetRoom(cell.room);
         display.Init();
-
         //Add colliders and gameobjects to reference lists
-        cHList.Add(display.cHolder);
+        cHList.Add(display.BuildColliders());
         placedRooms.Add(cRoom);
 
         return cRoom;

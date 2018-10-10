@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class RoomDisplay : MonoBehaviour {
 
+    #region RoomDisplay Variables
     public static int counter = 0;
-    public Room room;
+    private Room room;
     [SerializeField] private PatternBuilder.Pattern.RoomType type;
     [SerializeField] private List<PatternBuilder.Pattern.RoomType> cTypes;
     public List<Exit> roomExits;
     [SerializeField] private SpriteRenderer runtimeSprite;
     public PatternBuilder.Pattern pattern;
     [SerializeField] private GameObject roomColGO;
-
-    public List<PatternBuilder.Pattern.RoomType> GetCTypes() { return cTypes; }
-    public PatternBuilder.Pattern.RoomType GetRType() { return type; }
+    #endregion
+    #region Getter(s)/Setter(s)
     public void SetRoom(Room r) {    room = Instantiate(r);          }
-    public GameObject cHolder;
+    public Room GetRoom(){return room;}
+    #endregion
+    #region Room Initialization Functions
+    /// <summary>
+    /// Initializes GameObject with set ScriptableObject Room
+    /// </summary>
     public void Init() {
         //set room to an instantiated copy so as not to destroy the original instance
         type = room.roomType;
@@ -28,13 +33,13 @@ public class RoomDisplay : MonoBehaviour {
 
         //Later: set up spawning based on the pattern
         pattern = room.pattern;
-
-        //AdjustExitPositions();
         room.name = gameObject.name = "Room #" + ++counter;
-        cHolder = BuildColliders();
-        //g.transform.parent = gameObject.transform;
     }
-    private GameObject BuildColliders()
+    /// <summary>
+    /// Builds colliders based on ScriptableObject Room List of List of Vector2 points (List<V2List>)
+    /// </summary>
+    /// <returns></returns>
+    public GameObject BuildColliders()
     {
         GameObject collHolder = new GameObject("Colliders Room#" + counter);
         //collHolder.transform.parent = gameObject.transform;
@@ -49,5 +54,5 @@ public class RoomDisplay : MonoBehaviour {
         }
         return collHolder;
     }
-
+    #endregion
 }

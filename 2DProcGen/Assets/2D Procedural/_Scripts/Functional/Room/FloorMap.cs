@@ -41,7 +41,7 @@ public class FloorMap {
             filled = true;
         }
         #endregion
-        #region Cell Functions
+        #region Cell Function(s)
         /// <summary>
         /// Determines if the cell compared could contain a matching room based on this cells location.
         /// </summary>
@@ -53,41 +53,17 @@ public class FloorMap {
             int thisY = (int)this.index.y, otherY = (int)other.index.y;
             
             if (otherX == thisX - 1 && otherY == thisY) //other cell is left
-            {
-                // Debug.Log("Comparing Left");
-                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right))
-                    return true;
-                // Exact opposite case means it also "matches"
-                if (prospective.exits.All(x => x.GetOrientation() != Exit.Orientation.Left) && other.room.exits.All(x => x.GetOrientation() != Exit.Orientation.Right))
-                    return true;
-            }
-            else if (otherX == thisX + 1 && otherY == thisY) //" " right
-            {
-               // Debug.Log("Comparing right.");
-                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Right) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Left))
-                    return true;
-                if (prospective.exits.All(x => x.GetOrientation() != Exit.Orientation.Right) && other.room.exits.All(x => x.GetOrientation() != Exit.Orientation.Left))
-                    return true;
-            }
-            else if (otherX == thisX && otherY == thisY + 1) //" " up
-            {
-               // Debug.Log("Comparing Upwards.");
-                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down))
-                    return true;
-                if (prospective.exits.All(x => x.GetOrientation() != Exit.Orientation.Up) && other.room.exits.All(x => x.GetOrientation() != Exit.Orientation.Down))
-                    return true;
-            }
-            else if (otherX == thisX && otherY == thisY - 1) //" " down
-            {
-               // Debug.Log("Comparing downwards.");
-                if (prospective.exits.Any(x => x.GetOrientation() == Exit.Orientation.Down) && other.room.exits.Any(x => x.GetOrientation() == Exit.Orientation.Up))
-                    return true;
-                if (prospective.exits.All(x => x.GetOrientation() != Exit.Orientation.Down) && other.room.exits.All(x => x.GetOrientation() != Exit.Orientation.Up))
-                    return true;
-
-            }
+                return Exit.ExitXOR(prospective.exits, other.room.exits, Exit.Orientation.Left, Exit.Orientation.Right);
+            if (otherX == thisX + 1 && otherY == thisY) //" " right
+                return Exit.ExitXOR(prospective.exits, other.room.exits, Exit.Orientation.Right, Exit.Orientation.Left);
+            if (otherX == thisX && otherY == thisY + 1) //" " up
+                return Exit.ExitXOR(prospective.exits, other.room.exits, Exit.Orientation.Up, Exit.Orientation.Down);
+            if (otherX == thisX && otherY == thisY - 1) //" " down
+                return Exit.ExitXOR(prospective.exits, other.room.exits, Exit.Orientation.Down, Exit.Orientation.Up);
             return false;
         }
+        #endregion
+        #region Overrides
         public override string ToString()
         {
             if (room != null)

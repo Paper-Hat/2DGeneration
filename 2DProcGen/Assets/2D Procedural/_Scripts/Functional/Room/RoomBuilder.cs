@@ -41,9 +41,14 @@ public class RoomBuilder : MonoBehaviour
     public bool initialized;
     private string reason;
 
-    /*Get extents on either side of image bounds, subtract or add extents on x or y
-    dependent on where the exit is on the image */
+
     public string GetReason() { return reason; }
+
+    /// <summary>
+    /// Get extents on either side of image bounds, subtract or add extents on x or y
+    /// dependent on where the exit is on the image
+    /// </summary>
+    /// <returns></returns>
     public bool Init()
     {
         bool failed = false;

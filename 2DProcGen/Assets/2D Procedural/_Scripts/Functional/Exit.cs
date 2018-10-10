@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 //TODO: (Low Priority) Clean Up/Remove extraneous code/functions
 [System.Serializable]
 public class Exit
@@ -18,23 +19,22 @@ public class Exit
         orientation = o;
     }
     #endregion
-    #region Compatibility Function(s)
-    public bool Matches(Orientation check)
+    #region Comparator(s)
+    /// <summary>
+    /// Determine whether an exit has a match or exits (only) point in directions other than towards each other.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="ao"></param>
+    /// <param name="bo"></param>
+    /// <returns></returns>
+    public static bool ExitXOR(List<Exit> a, List<Exit> b, Exit.Orientation ao, Exit.Orientation bo)
     {
-        if (orientation == Orientation.Up && check == Orientation.Down
-            || orientation == Orientation.Down && check == Orientation.Up
-            || orientation == Orientation.Left && check == Orientation.Right
-            || orientation == Orientation.Right && check == Orientation.Left)
-        {
-            //Debug.Log(check);
-            return true;
-        }
-        else
-            return false;
+        return (a.Any(x => x.GetOrientation() == ao) && b.Any(y => y.GetOrientation() == bo))
+               || (a.All(x => x.GetOrientation() != ao) && b.All(y => y.GetOrientation() != bo));
     }
     #endregion
     #region Getter/Setter(s)
-    public void SetOrientation(Orientation o) { orientation = o; }
     public Orientation GetOrientation() { return orientation; }
     #endregion
     #region overrides
