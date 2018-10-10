@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: L-LeftDown
   m_EditorClassIdentifier: 
   roomType: 2
-  compatibleTypes: 00000000010000000400000002000000
+  compatibleTypes: 0000000001000000040000000200000003000000
   exits:
   - location: {x: -1.6, y: 0, z: 0}
     xMod: 0

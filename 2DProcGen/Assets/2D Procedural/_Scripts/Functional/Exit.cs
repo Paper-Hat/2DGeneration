@@ -1,19 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//TODO: (Low Priority) Clean Up/Remove extraneous code/functions
 [System.Serializable]
 public class Exit
 {
+    #region Exit Variables
     public enum Orientation { Up, Down, Left, Right }
     [SerializeField] public Vector3 location;
     [SerializeField] public float xMod, yMod;
     [SerializeField] private Orientation orientation;
+    #endregion
+    #region Constructor(s)
     public Exit(Vector3 l, Orientation o)
     {
         location = l;
         orientation = o;
     }
+    #endregion
+    #region Compatibility Function(s)
     public bool Matches(Orientation check)
     {
         if (orientation == Orientation.Up && check == Orientation.Down
@@ -27,21 +32,13 @@ public class Exit
         else
             return false;
     }
-    public bool HasMatchInList(List<Exit> list)
-    {
-        int count = 0;
-        bool condition;
-        foreach(Exit e in list){
-            if (e.Matches(GetOrientation()))
-                count++;
-        }
-        return condition = (count > 0) ? true : false;
-        
-    }
+    #endregion
+    #region Getter/Setter(s)
     public void SetOrientation(Orientation o) { orientation = o; }
     public Orientation GetOrientation() { return orientation; }
-    public override string ToString(){ return "Orientation: " + orientation + "\n Location: " + location; }
+    #endregion
     #region overrides
+    public override string ToString() { return "Orientation: " + orientation + "\n Location: " + location; }
     public override bool Equals(object other)
     {
         var item = other as Exit;

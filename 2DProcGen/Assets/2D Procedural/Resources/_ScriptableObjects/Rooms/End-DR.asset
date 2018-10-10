@@ -9,30 +9,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: L-RightDown
+  m_Name: End-DR
   m_EditorClassIdentifier: 
-  roomType: 2
-  compatibleTypes: 0000000001000000040000000200000003000000
+  roomType: 3
+  compatibleTypes: 01000000020000000400000000000000
   exits:
   - location: {x: 1.6, y: 0, z: 0}
     xMod: 0
     yMod: 0
     orientation: 3
-  - location: {x: 0, y: -1.6, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 1
-  roomSprite: {fileID: 21300000, guid: 5cb957b1b6ecd9845816bcbc23e867f5, type: 3}
+  roomSprite: {fileID: 21300000, guid: 4c1304b1835111d41b388a6c31befc0a, type: 3}
   pattern:
     eSpawns: []
     oSpawns: []
     patternType: 0
   colliders:
   - vlist:
-    - {x: -0.64, y: -1.6}
-    - {x: -0.64, y: 0.64}
     - {x: 1.6, y: 0.64}
-  - vlist:
+    - {x: 1.28, y: 0.64}
+    - {x: 0.41599998, y: 1.28}
+    - {x: -1.28, y: 1.28}
+    - {x: -1.28, y: -1.28}
+    - {x: 0.41599998, y: -1.28}
+    - {x: 1.28, y: -0.64}
     - {x: 1.6, y: -0.64}
-    - {x: 0.64, y: -0.64}
-    - {x: 0.64, y: -1.6}
