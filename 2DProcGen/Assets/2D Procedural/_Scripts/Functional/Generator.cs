@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using UnityEditorInternal;
 using UnityEngine;
 using CRandom = System.Random;
+using Debug = UnityEngine.Debug;
 using URandom = UnityEngine.Random;
 
 /*TODO: Generation based on level "Types": GenerationStyle Enum, "Secret" Rooms, Fix Room Type Tailoring
@@ -14,18 +17,54 @@ using URandom = UnityEngine.Random;
 [ExecuteInEditMode]
 public class Generator : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Constraints
+    {
+        public enum Style
+        {
+            Random,
+            Organized,
+            LargeRooms
+        };
+
+        [Flags]
+        public enum Types
+        {
+            RoomCount = 1,
+            StartPos = 2,
+            BoundsX = 4,
+            BoundsY = 8,
+            SecretRoom = 16
+        }
+
+        public int RoomCount;
+        public IntCouple XRange, YRange;
+        public Vector2 StartPos;
+        public Style GenStyle;
+        public Types ConstraintTypes;
+
+        public Constraints(Style s, Types t, int rc, IntCouple xb, IntCouple yb, Vector2 sPos)
+        {
+            GenStyle = s;
+            ConstraintTypes = t;
+            RoomCount = rc;
+            XRange = xb;
+            YRange = yb;
+            StartPos = sPos;
+        }
+    }
     #region Generator_Variables
     [SerializeField] private GameObject baseRoom;
-    private GameObject cRoom;
-    [SerializeField] public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
-    [SerializeField] public List<GameObject> enemies = new List<GameObject>();
+    private Constraints gc;
+    private IntCouple XCouple, YCouple;
     [SerializeField] private Sprite defaultRoomSprite;
-
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
-    public FloorMap map;
-    private GameObject connecting;
+    public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
+    public List<GameObject> Enemies = new List<GameObject>();
+    public FloorMap Map;
     public List<GameObject> cHList = new List<GameObject>();
+    
     #endregion
     #region Randomized_Functions
     private static T GetRandom<T>(List<T> list) {   return list[URandom.Range(0, list.Count)]; }
@@ -39,28 +78,93 @@ public class Generator : MonoBehaviour
     {
         if(seed == 0)
             seed = GenerateCRandom();
-        URandom.InitState(seed);
+         URandom.InitState(seed);
     }
     #endregion
-    #region Room Placement Functions
 
+    #region Generation Constraints and Types
+
+    public void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms, IntCouple xRange, IntCouple yRange, Vector2 sPos)
+    {
+        gc = new Constraints(style, types, numRooms, xRange, yRange, sPos);
+    }
     /// <summary>
     /// TODO: Generates rooms based on enum style and number of iterations (constraints)
     /// </summary>
-    /// <param name="iterations"></param>
-    public void Generate(int iterations)
+    /// <param name="style"></param>
+    public void Generate()
     {
         //Map is indexed and sized dependent on the sizing of a SINGLE 1x1 room 
-        map = new FloorMap(defaultRoomSprite);
+        Map = new FloorMap(defaultRoomSprite);
         //Create generation seed
         GenerateUnitySeed();
         Debug.Log("Seed: " + seed);
-        //Initialize starting room
-        PlaceStart();
-
-        while( iterations > map.Cells.Where(x=> x.filled).ToList().Count)
-            MatchRandomViaMap();
+        //Choose generation style & begin generation
+        switch (gc.GenStyle)
+        {
+            case Constraints.Style.Random:
+                GenerateRandom(gc);
+                break;
+            case Constraints.Style.Organized:
+                GenerateOrganized(gc);
+                break;
+            case Constraints.Style.LargeRooms:
+                GenerateLRooms(gc);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
+
+    /// <summary>
+    /// Random walks outward from the designated stop point toward exit, completed by looping non-exit points 
+    /// </summary>
+    /// <param name="iterations"></param>
+    /// <param name="constraints"></param>
+    public void GenerateRandom(Constraints constraints)
+    {
+        //Place Start at given position, or at default (0,0)
+        if ((constraints.ConstraintTypes & Constraints.Types.StartPos) == Constraints.Types.StartPos) PlaceStart(constraints.StartPos); else { PlaceStart();}
+        
+        //Limit x-axis cells
+        if ((constraints.ConstraintTypes & Constraints.Types.BoundsX) == Constraints.Types.BoundsX)
+            XCouple = (constraints.XRange._item1 < constraints.XRange._item2) ? constraints.XRange : null;
+
+        //Limit y-axis cells
+        if ((constraints.ConstraintTypes & Constraints.Types.BoundsY) == Constraints.Types.BoundsY)
+            YCouple = (constraints.YRange._item1 < constraints.YRange._item2) ? constraints.YRange : null;
+
+        //Allow placement of secret room(s)
+        if ((constraints.ConstraintTypes & Constraints.Types.SecretRoom) == Constraints.Types.SecretRoom){        }
+
+        //Limited RoomcCount for Random Generation means that the generator will generate until it reaches a fixed number of rooms,
+        //then loop back and complete the level
+        if ((constraints.ConstraintTypes & Constraints.Types.RoomCount) == Constraints.Types.RoomCount){
+            while (constraints.RoomCount > Map.Cells.Where(x => x.filled).ToList().Count && !Map.Completed())
+                MatchRandomViaMap();
+        }
+        else{
+            Debug.Log("No RoomCount heuristic");
+            while (!Map.Completed())
+                MatchRandomViaMap();
+        }
+
+
+
+    }
+
+    public void GenerateOrganized(Constraints constraints)
+    {
+
+    }
+
+    public void GenerateLRooms(Constraints constraints)
+    {
+
+    }
+
+    #endregion
+    #region Room Placement Functions
     /// <summary>
     /// Place random compatible room at index (x, y)
     /// </summary>
@@ -69,8 +173,7 @@ public class Generator : MonoBehaviour
     public void PlaceRandAtLocation(int x, int y)
     {
         Vector2 index = new Vector2(x, y);
-        FloorMap.RoomCell newCell = new FloorMap.RoomCell(index, GetRandom(GetCompatibleRooms(index)));
-        newCell.filled = true;
+        FloorMap.RoomCell newCell = new FloorMap.RoomCell(index, GetRandom(GetCompatibleRooms(index))) {filled = true};
         CreateRoomObject(newCell);
     }
     /// <summary>
@@ -81,6 +184,7 @@ public class Generator : MonoBehaviour
     /// <param name="r"></param>
     public void PlaceAtLocation(int x, int y, Room r)
     {
+        Debug.Log(r);
         //Create index from x/y integers
         Vector2 index = new Vector2(x, y);
 
@@ -98,22 +202,31 @@ public class Generator : MonoBehaviour
         else
             Debug.Log("Selected room is not compatible with index.");
     }
-    public void PlaceStart()
+    private void PlaceStart()
     {
-        FloorMap.RoomCell startCell = new FloorMap.RoomCell(new Vector2(0f, 0f), Instantiate(GetRandom(startingRooms)));
-        Debug.Log("Starting Cell Info: " + startCell.ToString());
-        CreateRoomObject(startCell);
+        PlaceAtLocation(0 , 0 , GetRandom(startingRooms));
+        Debug.Log("Starting Cell Info: " + Map[0, 0]);
+    }
+
+    private void PlaceStart(Vector2 index)
+    {
+        PlaceAtLocation((int)index.x, (int)index.y, GetRandom(startingRooms));
+        Debug.Log("Starting Cell Info: " + Map[(int)index.x, (int)index.y]);
     }
     #endregion
     #region Room_Manipulation
-    private GameObject CreateRoomObject(FloorMap.RoomCell cell)
+    /// <summary>
+    /// Create GameObject/RoomDisplay with cell Information
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private void CreateRoomObject(FloorMap.RoomCell cell)
     {
-        //Debug.Log("Using Cell: " + cell.ToString());
         //Set map location to cell
-        map[(int)cell.index.x, (int)cell.index.y] = cell;
+        Map[(int)cell.index.x, (int)cell.index.y] = cell;
         
         //Create GameObject Room, initialize as child with cell position value
-        cRoom = (GameObject)Instantiate(baseRoom);
+        GameObject cRoom = (GameObject)Instantiate(baseRoom);
         cRoom.transform.parent = transform;
         cRoom.transform.position = cell.cellPos;
 
@@ -124,9 +237,6 @@ public class Generator : MonoBehaviour
         //Add colliders and gameobjects to reference lists
         cHList.Add(display.BuildColliders());
         placedRooms.Add(cRoom);
-
-        return cRoom;
-
     }
     /// <summary>
     /// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacents.
@@ -134,19 +244,19 @@ public class Generator : MonoBehaviour
     private void MatchRandomViaMap()
     {
         //Get a random existing cell that is not "completed", or surrounded in all directions where it has exits
-        var filledCells = new List<FloorMap.RoomCell>(map.Cells.Where(x => x.filled).ToList());
-        var randExistingCell = GetRandom(filledCells.Where(x => !map.CheckCellCompletion(x)).ToList());
+        var filledCells = new List<FloorMap.RoomCell>(Map.Cells.Where(x => x.filled).ToList());
+        var randExistingCell = GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
         
         //Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off its exits
         //Can change this single line to prioritize rooms building outward, inward, etc.
-        var newCell = GetRandom(map.GetAdjacentWithFilter(randExistingCell).Where(x=>!x.filled).ToList());
+        var newCell = GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x=>!x.filled).ToList());
         
         /*If it fails, find another existing cell on the map to generate from.
           This loop should not be accessed if the generator is fed enough rooms.
          */
         while (newCell.room == null){
-            randExistingCell = GetRandom(filledCells.Where(x => !map.CheckCellCompletion(x)).ToList());
-            newCell = GetRandom(map.GetAdjacentWithFilter(randExistingCell).Where(x => !x.filled).ToList());
+            randExistingCell = GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
+            newCell = GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x => !x.filled).ToList());
             newCell.room = GetRandom(GetCompatibleRooms(newCell.index));
         }
         newCell.filled = true;
@@ -162,13 +272,13 @@ public class Generator : MonoBehaviour
     private List<Room> GetCompatibleRooms(Vector2 index)
     {
 
-        var currentCell = map[(int)index.x, (int)index.y];
+        var currentCell = Map[(int)index.x, (int)index.y];
 
         //Will always contain 4 elements no matter what.
-        var adjacentMapCells = map.GetAdjacentCells(index).Where(x => x.filled).ToList();
+        var adjacentMapCells = Map.GetAdjacentCells(index).Where(x => x.filled).ToList();
         
         //Only contains cells that this room will be connected to (to thin connecting types)
-        var typeCheckCells = new List<FloorMap.RoomCell>(map.GetAdjacentFilterInverse(currentCell));
+        var typeCheckCells = new List<FloorMap.RoomCell>(Map.GetAdjacentFilterInverse(currentCell));
 
         //List of all enums to thin out types based on adjacent cells
         var types = new List<PatternBuilder.Pattern.RoomType>(Enum.GetValues(typeof(PatternBuilder.Pattern.RoomType))
@@ -180,17 +290,57 @@ public class Generator : MonoBehaviour
         //Starting with list of all rooms, thin by matching exits
         foreach (var cell in adjacentMapCells)
             possible = possible.Where(x => currentCell.ContainsExitMatchIn(cell, x)).ToList();
+
+        if (possible.Count == 0) return null;
+
         //Thin list of types by type compatibility of surrounding cells
         foreach (var tcCell in typeCheckCells)
-            types = types.Intersect(tcCell.room.compatibleTypes).ToList();
-        
+                types = types.Intersect(tcCell.room.compatibleTypes).ToList();
+
+        if (types.Count == 0) return null;
         //Final cut using only valid types
         possible = possible.Where(room => types.Contains(room.roomType)).ToList();
 
+        //TODO: This may be bad engineering. Fix if possible later down the road.
+        
+        //Null check - change x-y constraints to fit constraints if they exist
+        if (XCouple != null || YCouple != null)
+            possible = ApplyBoundaryConstraints(index, possible);
+
         //If the generator is fed enough rooms with proper types/exits, this will never return null
-        return (possible.Count > 0) ? possible : null;
+        return possible.Count == 0 ? null : possible;
     }
 
+    /// <summary>
+    /// Apply X/Y boundary constraints if set, using list of possible rooms & index of cell in question
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="thinList"></param>
+    /// <returns></returns>
+    private List<Room> ApplyBoundaryConstraints(Vector2 index, List<Room> thinList)
+    {
+        //If X constraint(s) exist
+        if (XCouple != null){
+            var indexX = (int)index.x;
+            //Items on the leftmost X-bound cannot exit to the left
+            if (indexX == XCouple._item1)
+                thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Left)).ToList();
+            //Items on the rightmost X-bound cannot exit to the right
+            if (indexX == XCouple._item2)
+                thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Right)).ToList();
+        }
+        //If Y constraint(s) exist
+        if (YCouple != null){
+            var indexY = (int)index.y;
+            //Items on the lower Y-bound cannot exit downwards
+            if (indexY == YCouple._item1)
+                thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Down)).ToList();
+            //Items on the upper Y-bound cannot exit upwards
+            if (indexY == YCouple._item2)
+                thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Up)).ToList();
+        }
+        return thinList;
+    }
     #endregion
     #region Editor Functions
 #if UNITY_EDITOR
@@ -200,8 +350,8 @@ public class Generator : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        if (map.Cells.Count <= 1) return;
-        foreach (FloorMap.RoomCell c in map.Cells)
+        if (Map.Cells.Count <= 1) return;
+        foreach (FloorMap.RoomCell c in Map.Cells)
         {
             if (!c.filled)
             {
@@ -214,16 +364,15 @@ public class Generator : MonoBehaviour
                 Gizmos.DrawSphere(c.cellPos, .25f);
             }
         }
-        map.VisualizeMap();
+        Map.VisualizeMap();
     }
     public void ResetGenerator()
     {
         placedRooms.Clear();
         seed = 0;
-        connecting = null;
         RoomDisplay.counter = 0;
-        map.ClearMap();
-        map = new FloorMap(defaultRoomSprite);
+        Map.ClearMap();
+        Map = new FloorMap(defaultRoomSprite);
         while (gameObject.transform.childCount > 0)
             foreach (Transform child in gameObject.transform)
                 DestroyImmediate(child.gameObject);

@@ -20,7 +20,7 @@ public class FloorMap {
         public RoomCell(Vector2 i, Room r)
         {
             index = i;
-            filled = (r != null) ? true : false;
+            filled = r != null;
             room = r;
             cellPos = new Vector3(index.x * dimensions.x,
                                   index.y * dimensions.y, 0f);
@@ -185,6 +185,10 @@ public class FloorMap {
         return fillCount == c.room.exits.Count;
     }
 
+    public bool Completed()
+    {
+        return Cells.Where(x=>x.filled).ToList().All(CheckCellCompletion);
+    }
     /// <summary>
     /// Returns list of accessed adjacent cells.
     /// </summary>

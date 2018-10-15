@@ -7,8 +7,6 @@ public class RoomDisplay : MonoBehaviour {
     #region RoomDisplay Variables
     public static int counter = 0;
     private Room room;
-    [SerializeField] private PatternBuilder.Pattern.RoomType type;
-    [SerializeField] private List<PatternBuilder.Pattern.RoomType> cTypes;
     public List<Exit> roomExits;
     [SerializeField] private SpriteRenderer runtimeSprite;
     public PatternBuilder.Pattern pattern;
@@ -24,8 +22,6 @@ public class RoomDisplay : MonoBehaviour {
     /// </summary>
     public void Init() {
         //set room to an instantiated copy so as not to destroy the original instance
-        type = room.roomType;
-        cTypes = new List<PatternBuilder.Pattern.RoomType>(room.compatibleTypes);
         roomExits = new List<Exit>(room.exits);
 
         runtimeSprite = gameObject.GetComponent<SpriteRenderer>();

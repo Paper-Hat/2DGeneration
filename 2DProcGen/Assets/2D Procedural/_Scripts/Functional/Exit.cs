@@ -28,7 +28,7 @@ public class Exit
     /// <param name="ao"></param>
     /// <param name="bo"></param>
     /// <returns></returns>
-    public static bool ExitXOR(List<Exit> a, List<Exit> b, Exit.Orientation ao, Exit.Orientation bo)
+    public static bool ExitXOR(List<Exit> a, List<Exit> b, Orientation ao, Orientation bo)
     {
         return (a.Any(x => x.GetOrientation() == ao) && b.Any(y => y.GetOrientation() == bo))
                || (a.All(x => x.GetOrientation() != ao) && b.All(y => y.GetOrientation() != bo));
