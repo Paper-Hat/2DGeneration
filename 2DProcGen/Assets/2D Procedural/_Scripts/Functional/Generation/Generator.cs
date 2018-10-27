@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
-using CRandom = System.Random;
 using Debug = UnityEngine.Debug;
-using URandom = UnityEngine.Random;
+using Object = UnityEngine.Object;
+using UnityEngine.AddressableAssets;
 
-/*TODO: Generation based on level "Types": GenerationStyle Enum, "Secret" Rooms, Fix Room Type Tailoring
+/*TODO: Generation based on level "Types", "Secret" Rooms, Directional Walks
+ * TODO: Implement addressables, Static batching for rendering combinations
  * Algorithmic Placement,
- * GameObject Instantiation AFTER Proper Map Generation,
  * Pattern Overlay  
      */
 [System.Serializable]
 [ExecuteInEditMode]
 public class Generator : MonoBehaviour
 {
+    #region Constraints
     [System.Serializable]
     public struct Constraints
     {
@@ -38,12 +37,12 @@ public class Generator : MonoBehaviour
         }
 
         public int RoomCount;
-        public IntCouple XRange, YRange;
+        public (int, int) XRange, YRange;
         public Vector2 StartPos;
         public Style GenStyle;
         public Types ConstraintTypes;
 
-        public Constraints(Style s, Types t, int rc, IntCouple xb, IntCouple yb, Vector2 sPos)
+        public Constraints(Style s, Types t, int rc, (int, int) xb, (int, int)  yb, Vector2 sPos)
         {
             GenStyle = s;
             ConstraintTypes = t;
@@ -53,51 +52,44 @@ public class Generator : MonoBehaviour
             StartPos = sPos;
         }
     }
+    #endregion
     #region Generator_Variables
     [SerializeField] private GameObject baseRoom;
-    private Constraints gc;
-    private IntCouple XCouple, YCouple;
+    private static Constraints gc;
+    private static (int, int) XCouple, YCouple;
     [SerializeField] private Sprite defaultRoomSprite;
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
     [SerializeField] private int seed;
-    public List<Room> rooms = new List<Room>(), startingRooms = new List<Room>();
-    public List<GameObject> Enemies = new List<GameObject>();
+    private static List<Room> rooms, startingRooms;
+    private static List<GameObject> Enemies = new List<GameObject>();
     public FloorMap Map;
-    public List<GameObject> cHList = new List<GameObject>();
-    
-    #endregion
-    #region Randomized_Functions
-    private static T GetRandom<T>(List<T> list) {   return list[URandom.Range(0, list.Count)]; }
-    private static int GenerateCRandom()
-    {
-        int rand = (int)(DateTime.Now.Ticks & 0x0000FFFF);
-        CRandom seed = new CRandom(rand);
-        return seed.Next();
-    }
-    private void GenerateUnitySeed()
-    {
-        if(seed == 0)
-            seed = GenerateCRandom();
-         URandom.InitState(seed);
-    }
-    #endregion
+    private static List<GameObject> cHList = new List<GameObject>();
 
-    #region Generation Constraints and Types
+    #endregion
+    #region Generation Constraint(s) Definition and Types
 
-    public void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms, IntCouple xRange, IntCouple yRange, Vector2 sPos)
+    public static void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms, (int,int) xRange,
+        (int, int) yRange, Vector2 sPos)
     {
         gc = new Constraints(style, types, numRooms, xRange, yRange, sPos);
+    }
+
+    public void Init()
+    {
+        List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
+        rooms = roomsAsObjects.Cast<Room>().ToList();
+        startingRooms = rooms.Where(x => x.exits.Count == 4).ToList();
+        Debug.Log(rooms.Count);
     }
     /// <summary>
     /// TODO: Generates rooms based on enum style and number of iterations (constraints)
     /// </summary>
-    /// <param name="style"></param>
     public void Generate()
     {
         //Map is indexed and sized dependent on the sizing of a SINGLE 1x1 room 
         Map = new FloorMap(defaultRoomSprite);
         //Create generation seed
-        GenerateUnitySeed();
+        Randomization.GenerateUnitySeed(seed);
         Debug.Log("Seed: " + seed);
         //Choose generation style & begin generation
         switch (gc.GenStyle)
@@ -117,9 +109,8 @@ public class Generator : MonoBehaviour
     }
 
     /// <summary>
-    /// Random walks outward from the designated stop point toward exit, completed by looping non-exit points 
+    /// Random walks outward from the designated start point toward, completed after all cells within grid are completed
     /// </summary>
-    /// <param name="iterations"></param>
     /// <param name="constraints"></param>
     public void GenerateRandom(Constraints constraints)
     {
@@ -128,11 +119,11 @@ public class Generator : MonoBehaviour
         
         //Limit x-axis cells
         if ((constraints.ConstraintTypes & Constraints.Types.BoundsX) == Constraints.Types.BoundsX)
-            XCouple = (constraints.XRange._item1 < constraints.XRange._item2) ? constraints.XRange : null;
+            XCouple = (constraints.XRange.Item1 < constraints.XRange.Item2) ? constraints.XRange : (0, 0);
 
         //Limit y-axis cells
         if ((constraints.ConstraintTypes & Constraints.Types.BoundsY) == Constraints.Types.BoundsY)
-            YCouple = (constraints.YRange._item1 < constraints.YRange._item2) ? constraints.YRange : null;
+            YCouple = (constraints.YRange.Item1 < constraints.YRange.Item2) ? constraints.YRange : (0, 0);
 
         //Allow placement of secret room(s)
         if ((constraints.ConstraintTypes & Constraints.Types.SecretRoom) == Constraints.Types.SecretRoom){        }
@@ -155,7 +146,18 @@ public class Generator : MonoBehaviour
 
     public void GenerateOrganized(Constraints constraints)
     {
+        if ((constraints.ConstraintTypes & Constraints.Types.StartPos) == Constraints.Types.StartPos) PlaceStart(constraints.StartPos); else { PlaceStart(); }
+        //Limit x-axis cells
+        if ((constraints.ConstraintTypes & Constraints.Types.BoundsX) == Constraints.Types.BoundsX)
+            XCouple = (constraints.XRange.Item1 < constraints.XRange.Item2) ? constraints.XRange : (0,0);
 
+        //Limit y-axis cells
+        if ((constraints.ConstraintTypes & Constraints.Types.BoundsY) == Constraints.Types.BoundsY)
+            YCouple = (constraints.YRange.Item1 < constraints.YRange.Item2) ? constraints.YRange : (0,0);
+        //Allow placement of secret room(s)
+        if ((constraints.ConstraintTypes & Constraints.Types.SecretRoom) == Constraints.Types.SecretRoom) { }
+
+        //Set weighting for "squarish" patterns to appear more frequently
     }
 
     public void GenerateLRooms(Constraints constraints)
@@ -172,8 +174,8 @@ public class Generator : MonoBehaviour
     /// <param name="y"></param>
     public void PlaceRandAtLocation(int x, int y)
     {
-        Vector2 index = new Vector2(x, y);
-        FloorMap.RoomCell newCell = new FloorMap.RoomCell(index, GetRandom(GetCompatibleRooms(index))) {filled = true};
+        var index = new Vector2(x, y);
+        var newCell = new FloorMap.RoomCell(index, Randomization.GetRandomWeightedRoom(GetCompatibleRooms(index))) {filled = true};
         CreateRoomObject(newCell);
     }
     /// <summary>
@@ -186,14 +188,14 @@ public class Generator : MonoBehaviour
     {
         Debug.Log(r);
         //Create index from x/y integers
-        Vector2 index = new Vector2(x, y);
+        var index = new Vector2(x, y);
 
         //Create a list of rooms available for placement at this index
-        List<Room> confirmAgainst = GetCompatibleRooms(index);
+        var confirmAgainst = GetCompatibleRooms(index);
 
         //If the room chosen can be placed at this index, then create the RoomCell with the room and create an object over it
         if (confirmAgainst.Any(cp => cp == r)){
-            FloorMap.RoomCell newCell = new FloorMap.RoomCell(index, r)
+            var newCell = new FloorMap.RoomCell(index, r)
             {
                 filled = true
             };
@@ -202,15 +204,22 @@ public class Generator : MonoBehaviour
         else
             Debug.Log("Selected room is not compatible with index.");
     }
+    /// <summary>
+    /// Place starting room to build out from at default index (0,0)
+    /// </summary>
     private void PlaceStart()
     {
-        PlaceAtLocation(0 , 0 , GetRandom(startingRooms));
+        PlaceAtLocation(0 , 0 , Randomization.GetRandom(startingRooms));
         Debug.Log("Starting Cell Info: " + Map[0, 0]);
     }
 
+    /// <summary>
+    /// Place starting room to build out from at designated index
+    /// </summary>
+    /// <param name="index"></param>
     private void PlaceStart(Vector2 index)
     {
-        PlaceAtLocation((int)index.x, (int)index.y, GetRandom(startingRooms));
+        PlaceAtLocation((int)index.x, (int)index.y, Randomization.GetRandom(startingRooms));
         Debug.Log("Starting Cell Info: " + Map[(int)index.x, (int)index.y]);
     }
     #endregion
@@ -226,17 +235,17 @@ public class Generator : MonoBehaviour
         Map[(int)cell.index.x, (int)cell.index.y] = cell;
         
         //Create GameObject Room, initialize as child with cell position value
-        GameObject cRoom = (GameObject)Instantiate(baseRoom);
-        cRoom.transform.parent = transform;
-        cRoom.transform.position = cell.cellPos;
+        var cRoomGO = (GameObject)Instantiate(baseRoom);
+        cRoomGO.transform.parent = transform;
+        cRoomGO.transform.position = cell.cellPos;
 
         //Initialize room display with ScriptableObject room from cell
-        RoomDisplay display = cRoom.GetComponent<RoomDisplay>();
+        var display = cRoomGO.GetComponent<RoomDisplay>();
         display.SetRoom(cell.room);
         display.Init();
         //Add colliders and gameobjects to reference lists
         cHList.Add(display.BuildColliders());
-        placedRooms.Add(cRoom);
+        placedRooms.Add(cRoomGO);
     }
     /// <summary>
     /// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacents.
@@ -245,19 +254,19 @@ public class Generator : MonoBehaviour
     {
         //Get a random existing cell that is not "completed", or surrounded in all directions where it has exits
         var filledCells = new List<FloorMap.RoomCell>(Map.Cells.Where(x => x.filled).ToList());
-        var randExistingCell = GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
+        var randExistingCell = Randomization.GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
         
         //Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off its exits
         //Can change this single line to prioritize rooms building outward, inward, etc.
-        var newCell = GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x=>!x.filled).ToList());
+        var newCell = Randomization.GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x=>!x.filled).ToList());
         
         /*If it fails, find another existing cell on the map to generate from.
-          This loop should not be accessed if the generator is fed enough rooms.
+          This loop should not be accessed more than once if the generator is fed enough rooms.
          */
         while (newCell.room == null){
-            randExistingCell = GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
-            newCell = GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x => !x.filled).ToList());
-            newCell.room = GetRandom(GetCompatibleRooms(newCell.index));
+            randExistingCell = Randomization.GetRandom(filledCells.Where(x => !Map.CheckCellCompletion(x)).ToList());
+            newCell = Randomization.GetRandom(Map.GetAdjacentWithFilter(randExistingCell).Where(x => !x.filled).ToList());
+            newCell.room = Randomization.GetRandomWeightedRoom(GetCompatibleRooms(newCell.index));
         }
         newCell.filled = true;
         CreateRoomObject(newCell);
@@ -304,7 +313,7 @@ public class Generator : MonoBehaviour
         //TODO: This may be bad engineering. Fix if possible later down the road.
         
         //Null check - change x-y constraints to fit constraints if they exist
-        if (XCouple != null || YCouple != null)
+        if (Math.Abs(XCouple.Item1-XCouple.Item2) > 0 || Math.Abs(YCouple.Item1-YCouple.Item2) > 0)
             possible = ApplyBoundaryConstraints(index, possible);
 
         //If the generator is fed enough rooms with proper types/exits, this will never return null
@@ -320,23 +329,23 @@ public class Generator : MonoBehaviour
     private List<Room> ApplyBoundaryConstraints(Vector2 index, List<Room> thinList)
     {
         //If X constraint(s) exist
-        if (XCouple != null){
+        if (XCouple != (0,0)){
             var indexX = (int)index.x;
             //Items on the leftmost X-bound cannot exit to the left
-            if (indexX == XCouple._item1)
+            if (indexX == XCouple.Item1)
                 thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Left)).ToList();
             //Items on the rightmost X-bound cannot exit to the right
-            if (indexX == XCouple._item2)
+            if (indexX == XCouple.Item2)
                 thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Right)).ToList();
         }
         //If Y constraint(s) exist
-        if (YCouple != null){
+        if (YCouple != (0,0)){
             var indexY = (int)index.y;
             //Items on the lower Y-bound cannot exit downwards
-            if (indexY == YCouple._item1)
+            if (indexY == YCouple.Item1)
                 thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Down)).ToList();
             //Items on the upper Y-bound cannot exit upwards
-            if (indexY == YCouple._item2)
+            if (indexY == YCouple.Item2)
                 thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Up)).ToList();
         }
         return thinList;

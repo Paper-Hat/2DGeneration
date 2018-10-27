@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Rect-Vert
   m_EditorClassIdentifier: 
   roomType: 1
-  compatibleTypes: 00000000040000000300000002000000
+  compatibleTypes: 0000000004000000030000000200000001000000
   exits:
   - location: {x: 0, y: 1.6, z: 0}
     xMod: 0
@@ -38,3 +38,4 @@ MonoBehaviour:
     - {x: -1.28, y: 1.6}
     - {x: -1.28, y: -1.6}
     - {x: -0.64, y: -1.6}
+  Weight: 7

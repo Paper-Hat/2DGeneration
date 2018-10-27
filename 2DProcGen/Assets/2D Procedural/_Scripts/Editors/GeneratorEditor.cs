@@ -7,17 +7,19 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class GeneratorEditor : Editor {
     
-    private int _rooms, _boundsX1, _boundsX2, _boundsY1, _boundsY2, _sRx, _sRy, _sX, _sY;
+    [SerializeField] private int _rooms, _boundsX1 = -4, _boundsX2 = 4, _boundsY1 = -4, _boundsY2 = 4, _sRx, _sRy, _sX, _sY;
     private Vector2 _start;
     private Object room;
-    private Generator.Constraints.Style _style;
-    private Generator.Constraints.Types _constraints;
+    [SerializeField] private Generator.Constraints.Style _style;
+    [SerializeField] private Generator.Constraints.Types _constraints;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         Generator gen = (Generator) target;
      
         GUILayout.Label("--------------------------", GUILayout.ExpandWidth(false));
+        if (GUILayout.Button("Init", GUILayout.ExpandWidth(false)))
+            gen.Init();
         GUILayout.Label("Set Constraints For Generation: ", GUILayout.ExpandWidth(false));
         GUILayout.BeginHorizontal();
         GUILayout.Label("Style:", GUILayout.ExpandWidth(false));
@@ -50,7 +52,7 @@ public class GeneratorEditor : Editor {
         GUILayout.BeginHorizontal();
         GUILayout.Label("Set constraints with above values: ");
         if(GUILayout.Button("Set"))
-            gen.SetGenConstraints(_style, _constraints, _rooms, new IntCouple(_boundsX1, _boundsX2), new IntCouple(_boundsY1, _boundsY2), _start);
+            Generator.SetGenConstraints(_style, _constraints, _rooms, (_boundsX1, _boundsX2), (_boundsY1, _boundsY2), _start);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.Label("Generate with above constraints: ", GUILayout.ExpandWidth(false));

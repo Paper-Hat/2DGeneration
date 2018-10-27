@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Justin\.Rider2018.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Justin\.Rider2018.2\system\resharper-host\local\Transient\ReSharperHost\v182\SolutionCaches\_2DProcGen.126635981.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Justin\Documents\GitHub\_2DPG\2DGeneration\2DProcGen" t="IncludeRecursive">
+      <e p="2DProcGen.sln" t="IncludeFlat" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="2D Procedural" t="Include">
+          <e p="_Scripts" t="Include">
+            <e p="Editors" t="Include">
+              <e p="GeneratorEditor.cs" t="Include" />
+              <e p="GridCellEditor.cs" t="Include" />
+              <e p="PatternBuilderEditor.cs" t="Include" />
+              <e p="PatternContainerEditor.cs" t="Include" />
+              <e p="RoomBuilderEditor.cs" t="Include" />
+            </e>
+            <e p="Functional" t="Include">
+              <e p="Generation" t="Include">
+                <e p="Generator.cs" t="Include" />
+                <e p="Randomization.cs" t="Include" />
+              </e>
+              <e p="Pattern" t="Include">
+                <e p="GridCell.cs" t="Include" />
+                <e p="PatternBuilder.cs" t="Include" />
+                <e p="PatternContainer.cs" t="Include" />
+              </e>
+              <e p="Room" t="Include">
+                <e p="Exit.cs" t="Include" />
+                <e p="FloorMap.cs" t="Include" />
+                <e p="Room.cs" t="Include" />
+                <e p="RoomBuilder.cs" t="Include" />
+                <e p="RoomDisplay.cs" t="Include" />
+              </e>
+            </e>
+            <e p="General" t="Include">
+              <e p="IntCouple.cs" t="Include" />
+              <e p="SerializedPropertyViewer.cs" t="Include" />
+              <e p="UsefulFunctions.cs" t="Include" />
+              <e p="V2List.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>

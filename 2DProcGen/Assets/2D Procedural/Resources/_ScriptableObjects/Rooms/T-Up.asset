@@ -43,3 +43,4 @@ MonoBehaviour:
   - vlist:
     - {x: -1.6, y: -0.64}
     - {x: 1.6, y: -0.64}
+  Weight: 6

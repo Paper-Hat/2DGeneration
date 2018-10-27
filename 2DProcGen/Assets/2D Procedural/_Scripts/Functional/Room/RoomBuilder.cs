@@ -14,6 +14,7 @@ public class RoomBuilder : MonoBehaviour
     [SerializeField] public List<PatternBuilder.Pattern.RoomType> compatible;
     [SerializeField] public GameObject spriteHolder;
     [SerializeField] public Room editing;
+    [Range(0, 10)][SerializeField] public int Weight;
     private Sprite roomSprite;
     private float extentsX, centerX, extentsY, centerY;
     [Space(10)]
@@ -148,6 +149,7 @@ public class RoomBuilder : MonoBehaviour
                 editing.exits = new List<Exit>(exits);
                 editing.roomSprite = roomSprite;
                 editing.colliders = new List<V2List>(edgeColliders);
+                editing.Weight = Weight;
                 ClearColliders();
                 ClearPoints();
                 exits.Clear();
