@@ -121,7 +121,7 @@ public class PatternBuilderEditor : Editor {
             DestroyImmediate(prevGO, false);
             //DestroyImmediate(prevGO, false);
         }
-        PrefabUtility.ReplacePrefab(g, PrefabUtility.CreatePrefab(prefabPath, g, ReplacePrefabOptions.ConnectToPrefab), ReplacePrefabOptions.ConnectToPrefab);
+        PrefabUtility.SaveAsPrefabAssetAndConnect(g, prefabPath, InteractionMode.AutomatedAction);
     }
     static List<PatternBuilder.Pattern> CombinePrefabLists(GameObject prevPrefab, List<PatternBuilder.Pattern> newList)
     {
