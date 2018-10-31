@@ -59,10 +59,10 @@ public class Generator : MonoBehaviour
     private static (int, int) XCouple, YCouple;
     [SerializeField] private Sprite defaultRoomSprite;
     [SerializeField] private List<GameObject> placedRooms = new List<GameObject>();
-    [SerializeField] private int seed;
+    [SerializeField] private static int seed;
     private static List<Room> rooms, startingRooms;
     private static List<GameObject> Enemies = new List<GameObject>();
-    public FloorMap Map;
+    private static FloorMap Map;
     private static List<GameObject> cHList = new List<GameObject>();
 
     #endregion
@@ -76,10 +76,12 @@ public class Generator : MonoBehaviour
 
     public void Init()
     {
+        //Load all created Rooms from file folder
         List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
         rooms = roomsAsObjects.Cast<Room>().ToList();
+        //All rooms with 4 exits are designated as "starting rooms". Modify this to change what rooms generation can begin with
         startingRooms = rooms.Where(x => x.exits.Count == 4).ToList();
-        Debug.Log(rooms.Count);
+        Debug.Log("Rooms Initialized: " + rooms.Count);
     }
     /// <summary>
     /// TODO: Generates rooms based on enum style and number of iterations (constraints)
@@ -278,7 +280,7 @@ public class Generator : MonoBehaviour
     /// <param name="prevCell"></param>
     /// <param name="nextCell"></param>
     /// <returns></returns>
-    private List<Room> GetCompatibleRooms(Vector2 index)
+    private static List<Room> GetCompatibleRooms(Vector2 index)
     {
 
         var currentCell = Map[(int)index.x, (int)index.y];
@@ -326,10 +328,10 @@ public class Generator : MonoBehaviour
     /// <param name="index"></param>
     /// <param name="thinList"></param>
     /// <returns></returns>
-    private List<Room> ApplyBoundaryConstraints(Vector2 index, List<Room> thinList)
+    private static List<Room> ApplyBoundaryConstraints(Vector2 index, List<Room> thinList)
     {
         //If X constraint(s) exist
-        if (XCouple != (0,0)){
+        if (!XCouple.Equals((0,0))){
             var indexX = (int)index.x;
             //Items on the leftmost X-bound cannot exit to the left
             if (indexX == XCouple.Item1)
@@ -339,7 +341,7 @@ public class Generator : MonoBehaviour
                 thinList = thinList.Where(x => x.exits.All(y => y.GetOrientation() != Exit.Orientation.Right)).ToList();
         }
         //If Y constraint(s) exist
-        if (YCouple != (0,0)){
+        if (!YCouple.Equals((0,0))){
             var indexY = (int)index.y;
             //Items on the lower Y-bound cannot exit downwards
             if (indexY == YCouple.Item1)
@@ -351,16 +353,20 @@ public class Generator : MonoBehaviour
         return thinList;
     }
     #endregion
+    #region Setters/Getters
+
+    public static FloorMap GetMap(){    return Map;    }
+    #endregion
     #region Editor Functions
 #if UNITY_EDITOR
     /// <summary>
     /// Visual cues: Visualizes map based on filled map cell rows and columns:
     /// Gizmos place yellow circles for filled cells, green circles for empty cells, nothing for uninitiated cells
     /// </summary>
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
-        if (Map.Cells.Count <= 1) return;
-        foreach (FloorMap.RoomCell c in Map.Cells)
+        if (GetMap().Cells.Count <= 1) return;
+        foreach (var c in GetMap().Cells)
         {
             if (!c.filled)
             {
@@ -373,8 +379,8 @@ public class Generator : MonoBehaviour
                 Gizmos.DrawSphere(c.cellPos, .25f);
             }
         }
-        Map.VisualizeMap();
-    }
+        GetMap().VisualizeMap();
+    }*/
     public void ResetGenerator()
     {
         placedRooms.Clear();

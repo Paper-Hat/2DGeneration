@@ -59,7 +59,7 @@ public class GeneratorEditor : Editor {
         if (GUILayout.Button("Generate", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
         {
             gen.Generate(/*_constraints, _style*/);
-            Debug.Log("Rows: " + gen.Map.Rows() + "\n Cols: " + gen.Map.Cols());
+            Debug.Log("Rows: " + Generator.GetMap().Rows() + "\n Cols: " + Generator.GetMap().Cols());
         }
         GUILayout.EndHorizontal();
         GUILayout.Label("--------------------------");
@@ -95,7 +95,7 @@ public class GeneratorEditor : Editor {
         }
 
         if (GUILayout.Button("Debug Active Cells", GUILayout.ExpandWidth(false)))
-            gen.Map.GetActiveCells();
+            Generator.GetMap().GetActiveCells();
     }
 }
 #endif

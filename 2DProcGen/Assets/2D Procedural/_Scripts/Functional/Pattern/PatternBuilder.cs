@@ -129,18 +129,6 @@ public class PatternBuilder : MonoBehaviour
             for (int i = 0; i < columns; i++){
                 for (int j = 0; j < rows; j++){
                     buttonGrid[i, j] = Instantiate(gridButton, gridRef.transform);
-                    #region Fully Scripted Object Creation (deprecated)
-                    /*GameObject tempRef;
-                    tempRef = buttonGrid[i, j] = Instantiate(gridButton, gridRef.transform);
-                    tempRef.AddComponent<CanvasRenderer>();
-                    Button gBtnFunct = tempRef.AddComponent<Button>();
-                    Image buttonImg = tempRef.AddComponent<Image>();
-                    GridCell cell = tempRef.AddComponent<GridCell>();
-                    gBtnFunct.targetGraphic = buttonImg;
-                    buttonImg.sprite = unselected;
-                    UnityAction<GameObject> action = new UnityAction<GameObject>(OnButtonClick);
-                    UnityEventTools.AddObjectPersistentListener<GameObject>(gBtnFunct.onClick, action, tempRef);*/
-                    #endregion
                 }
             }
             filled = true;
