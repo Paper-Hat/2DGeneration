@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -58,7 +58,7 @@ public class GeneratorEditor : Editor {
         GUILayout.Label("Generate with above constraints: ", GUILayout.ExpandWidth(false));
         if (GUILayout.Button("Generate", GUILayout.Height(20f), GUILayout.ExpandWidth(false)))
         {
-            gen.Generate(/*_constraints, _style*/);
+            gen.Generate();
             Debug.Log("Rows: " + Generator.GetMap().Rows() + "\n Cols: " + Generator.GetMap().Cols());
         }
         GUILayout.EndHorizontal();
@@ -99,3 +99,4 @@ public class GeneratorEditor : Editor {
     }
 }
 #endif
+*/

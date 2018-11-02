@@ -50,7 +50,6 @@ LightmapSettings:
     m_BounceScale: 1
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
-    m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
@@ -113,28 +112,131 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &618986487
+--- !u!1 &747171791
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 618986488}
-  - component: {fileID: 618986489}
+  - component: {fileID: 747171793}
+  - component: {fileID: 747171792}
   m_Layer: 0
-  m_Name: GeneratorTester
+  m_Name: GenTester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &618986488
+--- !u!114 &747171792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747171791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3f082357422b94f89b6bef8d70ec41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _style: 0
+  _numRooms: 10
+  _x1: -4
+  _x2: 4
+  _y1: -4
+  _y2: 4
+  _startIndex: {x: 0, y: 0}
+--- !u!4 &747171793
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 618986487}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747171791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2107008003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107008006}
+  - component: {fileID: 2107008005}
+  - component: {fileID: 2107008004}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &2107008004
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107008003}
+  m_Enabled: 1
+--- !u!20 &2107008005
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107008003}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.3190192, g: 0.44076326, b: 0.6320754, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &2107008006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107008003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -142,43 +244,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &618986489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 618986487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce125693bec8e04e995ec4a2cc8e64d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseRoom: {fileID: 1318530334892888, guid: ea8bf48b1bfd38d4493336fa847332a2, type: 2}
-  rooms:
-  - {fileID: 11400000, guid: 6cacb9666547ce24ebf49d0469215e50, type: 2}
-  - {fileID: 11400000, guid: 1caabb450f88ee54688f80fa40a33e01, type: 2}
-  - {fileID: 11400000, guid: 41acac1203f9e1f41b471b08f95417af, type: 2}
-  - {fileID: 11400000, guid: 0770876c879f57f4bb7697b12884c660, type: 2}
-  - {fileID: 11400000, guid: b5078f41a9e8d7848969d150f22d1ee5, type: 2}
-  - {fileID: 11400000, guid: 93dc19c5d0d512042bdd1e480fa7efba, type: 2}
-  - {fileID: 11400000, guid: 05ddb8e5b607a5b40846448e31785807, type: 2}
-  - {fileID: 11400000, guid: e03632fee58be8f4f86cb35f231af52b, type: 2}
-  - {fileID: 11400000, guid: e598bf2f1dd577d44b65785fff8e92ca, type: 2}
-  - {fileID: 11400000, guid: 579943c874cefd74388ccddabdff7689, type: 2}
-  - {fileID: 11400000, guid: 7bf18e41cf068be4e9ab95fdd129a36c, type: 2}
-  - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
-  - {fileID: 11400000, guid: 5b8cf24985d47414abcfeefe293202ce, type: 2}
-  - {fileID: 11400000, guid: 5cdb231f925bda64e85e7e3b78e9afb5, type: 2}
-  - {fileID: 11400000, guid: b112259083e223745b524d8a66370847, type: 2}
-  - {fileID: 11400000, guid: ff2b721710a8f1b4085fb99b0a377004, type: 2}
-  - {fileID: 11400000, guid: d862370ab7beee74286c9e3b52027d17, type: 2}
-  startingRooms:
-  - {fileID: 11400000, guid: c9b12dce0fa0ddd4395b6cb1ad999031, type: 2}
-  - {fileID: 11400000, guid: 5cdb231f925bda64e85e7e3b78e9afb5, type: 2}
-  enemies: []
-  defaultRoomSprite: {fileID: 21300000, guid: bf03530dfc89c774487dc31a41906e7c, type: 3}
-  placedRooms: []
-  seed: 0
-  map:
-    Cells: []
-  cHList: []

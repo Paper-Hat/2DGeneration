@@ -19,6 +19,7 @@
             <e p="Functional" t="Include">
               <e p="Generation" t="Include">
                 <e p="Generator.cs" t="Include" />
+                <e p="IGenerable.cs" t="Include" />
                 <e p="Randomization.cs" t="Include" />
               </e>
               <e p="Pattern" t="Include">
@@ -39,6 +40,9 @@
               <e p="SerializedPropertyViewer.cs" t="Include" />
               <e p="UsefulFunctions.cs" t="Include" />
               <e p="V2List.cs" t="Include" />
+            </e>
+            <e p="Testing" t="Include">
+              <e p="GenerationTesting.cs" t="Include" />
             </e>
           </e>
         </e>
