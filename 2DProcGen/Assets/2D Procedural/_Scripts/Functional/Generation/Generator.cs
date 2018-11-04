@@ -72,6 +72,7 @@ namespace jkGenerator
         private static readonly List<GameObject> PlacedRooms = new List<GameObject>();
         private static int _seed;
         private static List<Room> _rooms, _startingRooms;
+        private static List<Pattern> _patterns;
         private static List<GameObject> _enemies = new List<GameObject>();
         private static List<GameObject> _obstacles = new List<GameObject>();
         private static List<GameObject> _walls = new List<GameObject>();
@@ -93,6 +94,8 @@ namespace jkGenerator
             _startingRooms = _rooms.Where(x => x.exits.Count == 4).ToList();
             //Initialize base room
             _baseRoom = Resources.Load<GameObject>("_Prefabs/Generator/RoomBase");
+            var patternObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
+            _patterns = patternObjs.Cast<Pattern>().ToList();
             var enemyObjs = Resources.LoadAll("_Prefabs/_Enemies").ToList();
             _enemies = enemyObjs.Cast<GameObject>().ToList();
             var obstacleObjs = Resources.LoadAll("_Prefabs/_Obstacles").ToList();
@@ -128,9 +131,21 @@ namespace jkGenerator
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            CreateOverlay();
         }
         #endregion
-        
+
+        #region Room Overlays
+        //TODO: Overlay rooms with random appropriate patterns
+        private static void CreateOverlay()
+        {
+            foreach (var cell in _map.Cells)
+            {
+                cell.room.pattern = Randomization.GetRandom(_patterns.Where(x=>x.PatternType == cell.room.roomType).ToList());
+            }
+        }        
+
+        #endregion
         #region Generation Constraint(s) Definition and Types
 
         public static void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms,
@@ -294,17 +309,17 @@ namespace jkGenerator
             _map[(int) cell.index.x, (int) cell.index.y] = cell;
 
             //Create GameObject Room, initialize as child with cell position value
-            var cRoomGO = Object.Instantiate<GameObject>(_baseRoom);
-            cRoomGO.transform.parent = _generatorObj.transform;
-            cRoomGO.transform.position = cell.cellPos;
+            var cRoomGo = Object.Instantiate(_baseRoom);
+            cRoomGo.transform.parent = _generatorObj.transform;
+            cRoomGo.transform.position = cell.cellPos;
 
             //Initialize room display with ScriptableObject room from cell
-            var display = cRoomGO.GetComponent<RoomDisplay>();
+            var display = cRoomGo.GetComponent<RoomDisplay>();
             display.SetRoom(cell.room);
             display.Init();
             //Add colliders and gameobjects to reference lists
             _cHList.Add(display.BuildColliders());
-            PlacedRooms.Add(cRoomGO);
+            PlacedRooms.Add(cRoomGo);
         }
 
         /// <summary>
