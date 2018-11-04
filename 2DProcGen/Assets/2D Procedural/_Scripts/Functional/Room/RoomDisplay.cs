@@ -9,7 +9,7 @@ public class RoomDisplay : MonoBehaviour {
     private Room room;
     public List<Exit> roomExits;
     [SerializeField] private SpriteRenderer runtimeSprite;
-    public PatternBuilder.Pattern pattern;
+    public Pattern pattern;
     [SerializeField] private GameObject roomColGO;
     #endregion
     #region Getter(s)/Setter(s)

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
 
 [ExecuteInEditMode]
 [System.Serializable]
@@ -41,4 +41,4 @@ public class PatternContainer : MonoBehaviour
     }
     public string GetReason() { return reason; }
 }
-#endif
+#endif*/

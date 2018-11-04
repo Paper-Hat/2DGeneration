@@ -1,70 +1,47 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
+[System.Serializable]
 [ExecuteInEditMode]
 public class PatternBuilder : MonoBehaviour
 {
     #region Room_Builder Variables
+    //ScriptableObject pattern vars
+    [SerializeField] public List<GridCell> placements;
+    [SerializeField] public Pattern.RoomType typing;
+    [SerializeField] public Pattern editing;
+
+    //Builder-only vars
+    //canvas = Canvas object, gridRef = panel object
     [SerializeField] private int columns = 10, rows = 10;
     [SerializeField] private float size = 10;
     [SerializeField] private bool hasReferenceImage;
     [SerializeField] private Sprite imgSprite;
     [SerializeField] private GameObject gridButton;
     [SerializeField] private GameObject[,] buttonGrid;
-    public List<Vector3> enemySpawns, obstacleSpawns;
-    public List<Pattern> patternList = new List<Pattern>();
-    public Pattern.RoomType typing;
-
-    //canvas = Canvas object, gridRef = panel object
-    private GameObject gridRef, canvas, imgRef, cntnr;
+    //List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
+    private GameObject gridRef, canvas, imgRef;
     private Canvas canvasRef;
     private GridLayoutGroup glg;
     private bool filled;
-    private string reason, prefabFilePath = "_Prefabs/PatternContainerPrefabs/PatternContainer";
+    private string reason;
+    private List<Pattern> allPatterns;
     #endregion
-    #region Struct(s)
-    [System.Serializable]
-    public struct Pattern
-    {
-        public enum RoomType { Sq, Rect, L, End, T };
-        public List<Vector3> eSpawns, oSpawns;
-        public RoomType patternType;
-        public override bool Equals(object other)
-        {
-            if (!(other is Pattern))
-                return false;
-            Pattern ptrn = (Pattern)other;
-            return (eSpawns.SequenceEqual<Vector3>(ptrn.eSpawns))
-                && (oSpawns.SequenceEqual<Vector3>(ptrn.oSpawns))
-                && (patternType == ptrn.patternType);
-        }
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + eSpawns.GetHashCode();
-                hash = hash * 23 + oSpawns.GetHashCode();
-                hash = hash * 23 + patternType.GetHashCode();
-                return hash;
-            }
-        }
-        public Pattern(List<Vector3> es, List<Vector3> os, RoomType type)
-        {
-            eSpawns = es;
-            oSpawns = os;
-            patternType = type;
-        }
-    }
-    #endregion
+    
     #region PatternBuilder_Functionality
-    //Canvas and grid creators use manual object creation; this could be sped up (processor-wise) by creating prefabs.
+
+    public void Init()
+    {
+        List<Object> ptrnObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
+        allPatterns = ptrnObjs.Cast<Pattern>().ToList();
+        placements = new List<GridCell>();
+        Debug.Log("Current patterns in list: " + allPatterns.Count);
+    }
+    //Canvas and grid creators use manual object creation; this could be sped up (processor-wise) by creating scriptableobjects.
     //However, not relying on setup/prefab placement allows lesser burden of information on users.
     public void CreateCanvas()
     {
@@ -80,8 +57,8 @@ public class PatternBuilder : MonoBehaviour
             Image img = imgRef.AddComponent<Image>();
             img.sprite = imgSprite;
             img.SetNativeSize();
-            RectTransform canvasRect = canvasRef.GetComponent<RectTransform>();
-            RectTransform imgRect = img.GetComponent<RectTransform>();
+            var canvasRect = canvasRef.GetComponent<RectTransform>();
+            var imgRect = img.GetComponent<RectTransform>();
             //Image rectangle transform will always be shaped to a square
             if(imgRect.sizeDelta.x > imgRect.sizeDelta.y)
                 canvasRect.sizeDelta = new Vector2(imgRect.sizeDelta.x, imgRect.sizeDelta.x);
@@ -143,28 +120,31 @@ public class PatternBuilder : MonoBehaviour
         }
         return failed;
     }
+    
+    //TODO: Compare against all current stored patterns
     public bool CreatePattern()
     {
         bool failed = false;
         if (filled){
-            enemySpawns = new List<Vector3>();
-            obstacleSpawns = new List<Vector3>();
-            foreach (GameObject g in buttonGrid){
-                GridCell c = g.GetComponent<GridCell>();
-                c.SetLocation(g.transform.localPosition);
-                if (c.GetSpawnType() == GridCell.SpawnType.Enemy) { enemySpawns.Add(c.location); }
-                else if (c.GetSpawnType() == GridCell.SpawnType.Obstacle) { obstacleSpawns.Add(c.location); }
-            }
-            Pattern toAdd = new Pattern(enemySpawns, obstacleSpawns, typing);
-            foreach (Pattern p in patternList){      
-                if (toAdd.Equals(p)){
-                    failed = true;
-                    reason = "Pattern Exists.";
+            editing = Instantiate(ScriptableObject.CreateInstance<Pattern>());
+            foreach (var g in buttonGrid){
+                GCVisualComponent c = g.GetComponent<GCVisualComponent>();
+                c.SetLocation(g.transform.position);
+                if (c.GetSpawnType() != GridCell.SpawnType.None || c.GetWallType() != GridCell.WallType.None)
+                {
+                    placements.Add(new GridCell(c.CellRef));
                 }
             }
-            if (!failed)
-                patternList.Add(toAdd);
-
+            editing.Placements = new List<GridCell>(placements);
+            editing.PatternType = typing;
+            if(allPatterns.Count > 0){
+                foreach (var p in allPatterns){
+                    if (editing.Equals(p)){
+                        failed = true;
+                        reason = "Pattern exists.";
+                    }
+                }
+            }
         }
         else {
             failed = true;
@@ -182,8 +162,6 @@ public class PatternBuilder : MonoBehaviour
         else{
             foreach (GameObject g in buttonGrid)
                 DestroyImmediate(g);
-            enemySpawns = null;
-            obstacleSpawns = null;
             filled = false;
         }
         return failed;
@@ -197,12 +175,12 @@ public class PatternBuilder : MonoBehaviour
         }
         else{
             foreach (GameObject g in buttonGrid){
-                GridCell cell = g.GetComponent<GridCell>();
+                GCVisualComponent cell = g.GetComponent<GCVisualComponent>();
                 cell.SetSpawnType(GridCell.SpawnType.None);
-                cell.spawnChance = 0f;
+                cell.SetWallType(GridCell.WallType.None);
+                cell.SetSpawnChance(0f);
             }
-            enemySpawns = null;
-            obstacleSpawns = null;
+
         }
         return failed;
     }
@@ -210,43 +188,17 @@ public class PatternBuilder : MonoBehaviour
     {
         DestroyImmediate(gridRef);
         DestroyImmediate(canvas);
-        DestroyImmediate(cntnr);
-        ClearStoredPatterns();
-        enemySpawns = null;
-        obstacleSpawns = null;
+        DestroyImmediate(editing);
         filled = false;
     }
-    public bool SavePatterns()
+
+    public GameObject[,] GetButtonGrid()
     {
-        bool failed = false;
-        if (patternList != null && patternList.Count > 0){
-            if (cntnr)
-                DestroyImmediate(cntnr, false);
-            cntnr = Instantiate(Resources.Load(prefabFilePath) as GameObject, gameObject.transform);
-            cntnr.GetComponent<PatternContainer>().Setup(patternList);
-        }
-        else{
-            failed = true;
-            reason = "No patterns to save.";
-        }
-        return failed;
+        return buttonGrid;
     }
-    public bool ClearStoredPatterns()
-    {
-        bool failed = false;
-        if (patternList != null && patternList.Count > 0)
-            patternList.Clear();
-        else {
-            failed = true;
-            reason = "No patterns to clear.";
-        }
-        return failed;
-    }
+    
     public string GetReason()       { return reason;}
-    public string GetFilePath()     { return prefabFilePath; }
-    public GameObject GetContainer(){ return cntnr; }
     public GameObject GetCanvas()   { return canvas;}
-    public bool ListEquals(List<Pattern> list1, List<Pattern> list2){   return list1.SequenceEqual<Pattern>(list2); }
     #endregion
 }
 #endif

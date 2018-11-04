@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,4 +52,4 @@ public class PatternContainerEditor : Editor {
         Repaint();
     }
 }
-#endif
+#endif*/

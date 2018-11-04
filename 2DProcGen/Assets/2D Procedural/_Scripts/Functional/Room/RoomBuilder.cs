@@ -10,8 +10,8 @@ public class RoomBuilder : MonoBehaviour
 {
     [Header("-------Room Information-------")]
     [Space(10)]
-    [SerializeField] public PatternBuilder.Pattern.RoomType roomType;
-    [SerializeField] public List<PatternBuilder.Pattern.RoomType> compatible;
+    [SerializeField] public Pattern.RoomType roomType;
+    [SerializeField] public List<Pattern.RoomType> compatible;
     [SerializeField] public GameObject spriteHolder;
     [SerializeField] public Room editing;
     [Range(0, 10)][SerializeField] public int Weight;
@@ -141,11 +141,11 @@ public class RoomBuilder : MonoBehaviour
         if (initialized) {
             if (exits.Count > 0
                 && compatible.Count > 0
-                && CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible))
+                && CheckDuplicates(compatible))
             {
                 editing = Instantiate(ScriptableObject.CreateInstance<Room>());
                 editing.roomType = roomType;
-                editing.compatibleTypes = new List<PatternBuilder.Pattern.RoomType>(compatible);
+                editing.compatibleTypes = new List<Pattern.RoomType>(compatible);
                 editing.exits = new List<Exit>(exits);
                 editing.roomSprite = roomSprite;
                 editing.colliders = new List<V2List>(edgeColliders);
@@ -155,7 +155,7 @@ public class RoomBuilder : MonoBehaviour
                 exits.Clear();
                 initialized = false;
             }
-            else if (!CheckDuplicates<PatternBuilder.Pattern.RoomType>(compatible)) {
+            else if (!CheckDuplicates(compatible)) {
                 failed = true;
                 reason = "List of compatible rooms contains duplicates.";
             }

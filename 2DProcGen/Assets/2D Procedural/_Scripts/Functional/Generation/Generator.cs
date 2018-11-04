@@ -69,37 +69,38 @@ namespace jkGenerator
         private static Constraints _gc;
         private static (int, int) _xCouple, _yCouple;
         private static Sprite _defaultRoomSprite;
-        private static List<GameObject> _placedRooms = new List<GameObject>();
+        private static readonly List<GameObject> PlacedRooms = new List<GameObject>();
         private static int _seed;
         private static List<Room> _rooms, _startingRooms;
         private static List<GameObject> _enemies = new List<GameObject>();
+        private static List<GameObject> _obstacles = new List<GameObject>();
+        private static List<GameObject> _walls = new List<GameObject>();
         private static FloorMap _map;
         private static List<GameObject> _cHList = new List<GameObject>();
 
         #endregion
 
-        #region Generation Constraint(s) Definition and Types
-
-        public static void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms,
-            (int, int) xRange,
-            (int, int) yRange, Vector2 sPos)
-        {
-            _gc = new Constraints(style, types, numRooms, xRange, yRange, sPos);
-        }
-
+        #region Generation
         public static void Init()
         {
             _generatorObj = new GameObject("Generator");
             //Load Sprite from file
             _defaultRoomSprite = Resources.Load<Sprite>("_Prefabs/Generator/DefaultRoomSprite");
             //Load all created Rooms from file folder
-            List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
+            var roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
             _rooms = roomsAsObjects.Cast<Room>().ToList();
             //All rooms with 4 exits are designated as "starting rooms". Modify this to change what rooms generation can begin with
             _startingRooms = _rooms.Where(x => x.exits.Count == 4).ToList();
             //Initialize base room
             _baseRoom = Resources.Load<GameObject>("_Prefabs/Generator/RoomBase");
-            Debug.Log("Rooms Initialized: " + _rooms.Count);
+            var enemyObjs = Resources.LoadAll("_Prefabs/_Enemies").ToList();
+            _enemies = enemyObjs.Cast<GameObject>().ToList();
+            var obstacleObjs = Resources.LoadAll("_Prefabs/_Obstacles").ToList();
+            _obstacles = obstacleObjs.Cast<GameObject>().ToList();
+            var wallObjs = Resources.LoadAll("_Prefabs/_Walls").ToList();
+            _walls = wallObjs.Cast<GameObject>().ToList();
+            Debug.Log("Rooms Initialized: " + _rooms.Count + "\n Enemies Initialized: " + 
+                      _enemies.Count + "\n Obstacles Initialized: " + _obstacles.Count + "\n Walls Initialized: " + _walls.Count);
         }
 
         /// <summary>
@@ -128,12 +129,24 @@ namespace jkGenerator
                     throw new ArgumentOutOfRangeException();
             }
         }
+        #endregion
+        
+        #region Generation Constraint(s) Definition and Types
+
+        public static void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms,
+            (int, int) xRange,
+            (int, int) yRange, Vector2 sPos)
+        {
+            _gc = new Constraints(style, types, numRooms, xRange, yRange, sPos);
+        }
+
+
 
         /// <summary>
         /// Random walks outward from the designated start point toward, completed after all cells within grid are completed
         /// </summary>
         /// <param name="constraints"></param>
-        public static void GenerateRandom(Constraints constraints)
+        private static void GenerateRandom(Constraints constraints)
         {
             //Place Start at given position, or at default (0,0)
             if ((constraints.ConstraintTypes & Constraints.Types.StartPos) == Constraints.Types.StartPos)
@@ -165,7 +178,6 @@ namespace jkGenerator
             }
             else
             {
-                Debug.Log("No RoomCount heuristic");
                 while (!_map.Completed())
                     MatchRandomViaMap();
             }
@@ -174,7 +186,7 @@ namespace jkGenerator
 
         }
 
-        public static void GenerateOrganized(Constraints constraints)
+        private static void GenerateOrganized(Constraints constraints)
         {
             if ((constraints.ConstraintTypes & Constraints.Types.StartPos) == Constraints.Types.StartPos)
                 PlaceStart(constraints.StartPos);
@@ -198,7 +210,7 @@ namespace jkGenerator
             //Set weighting for "squarish" patterns to appear more frequently
         }
 
-        public static void GenerateLRooms(Constraints constraints)
+        private static void GenerateLRooms(Constraints constraints)
         {
 
         }
@@ -292,7 +304,7 @@ namespace jkGenerator
             display.Init();
             //Add colliders and gameobjects to reference lists
             _cHList.Add(display.BuildColliders());
-            _placedRooms.Add(cRoomGO);
+            PlacedRooms.Add(cRoomGO);
         }
 
         /// <summary>
@@ -344,9 +356,9 @@ namespace jkGenerator
             var typeCheckCells = new List<FloorMap.RoomCell>(_map.GetAdjacentFilterInverse(currentCell));
 
             //List of all enums to thin out types based on adjacent cells
-            var types = new List<PatternBuilder.Pattern.RoomType>(Enum
-                .GetValues(typeof(PatternBuilder.Pattern.RoomType))
-                .Cast<PatternBuilder.Pattern.RoomType>()
+            var types = new List<Pattern.RoomType>(Enum
+                .GetValues(typeof(Pattern.RoomType))
+                .Cast<Pattern.RoomType>()
                 .ToList());
 
             List<Room> possible = new List<Room>(_rooms);
@@ -457,7 +469,7 @@ namespace jkGenerator
         }*/
         public static void ResetGenerator()
         {
-            _placedRooms.Clear();
+            PlacedRooms.Clear();
             _seed = 0;
             RoomDisplay.counter = 0;
             _map.ClearMap();
