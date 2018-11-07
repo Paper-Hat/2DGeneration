@@ -10,7 +10,6 @@
         <e p="2D Procedural" t="Include">
           <e p="_Scripts" t="Include">
             <e p="Editors" t="Include">
-              <e p="GCVisualComponent.cs" t="Include" />
               <e p="GeneratorEditor.cs" t="Include" />
               <e p="GridCellEditor.cs" t="Include" />
               <e p="PatternBuilderEditor.cs" t="Include" />
@@ -18,12 +17,16 @@
               <e p="RoomBuilderEditor.cs" t="Include" />
             </e>
             <e p="Functional" t="Include">
+              <e p="Forced - Needs Refactor" t="Include">
+                <e p="Wall.cs" t="Include" />
+              </e>
               <e p="Generation" t="Include">
                 <e p="Generator.cs" t="Include" />
                 <e p="IGenerable.cs" t="Include" />
                 <e p="Randomization.cs" t="Include" />
               </e>
               <e p="Pattern" t="Include">
+                <e p="GCVisualComponent.cs" t="Include" />
                 <e p="GridCell.cs" t="Include" />
                 <e p="Pattern.cs" t="Include" />
                 <e p="PatternBuilder.cs" t="Include" />

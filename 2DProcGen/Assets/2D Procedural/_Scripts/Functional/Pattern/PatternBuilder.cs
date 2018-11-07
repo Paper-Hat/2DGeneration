@@ -127,7 +127,8 @@ public class PatternBuilder : MonoBehaviour
         bool failed = false;
         if (filled){
             editing = Instantiate(ScriptableObject.CreateInstance<Pattern>());
-            foreach (var g in buttonGrid){
+            foreach (var g in buttonGrid)
+            {
                 GCVisualComponent c = g.GetComponent<GCVisualComponent>();
                 c.SetLocation(g.transform.position);
                 if (c.GetSpawnType() != GridCell.SpawnType.None || c.GetWallType() != GridCell.WallType.None)
@@ -136,7 +137,7 @@ public class PatternBuilder : MonoBehaviour
                 }
             }
             editing.Placements = new List<GridCell>(placements);
-            editing.PatternType = typing;
+            editing.roomType = typing;
             if(allPatterns.Count > 0){
                 foreach (var p in allPatterns){
                     if (editing.Equals(p)){

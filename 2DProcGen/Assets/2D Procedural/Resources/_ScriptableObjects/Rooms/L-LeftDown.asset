@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,28 +13,25 @@ MonoBehaviour:
   m_Name: L-LeftDown
   m_EditorClassIdentifier: 
   roomType: 2
-  compatibleTypes: 0000000001000000040000000200000003000000
+  compatibleTypes: 0100000002000000000000000400000003000000
   exits:
-  - location: {x: -1.6, y: 0, z: 0}
+  - location: {x: -14.5, y: 0, z: 0}
     xMod: 0
     yMod: 0
     orientation: 2
-  - location: {x: 0, y: -1.6, z: 0}
+  - location: {x: 0, y: -14.5, z: 0}
     xMod: 0
     yMod: 0
     orientation: 1
   roomSprite: {fileID: 21300000, guid: 9863494402cec2043897872963974384, type: 3}
-  pattern:
-    eSpawns: []
-    oSpawns: []
-    patternType: 0
+  pattern: {fileID: 0}
   colliders:
   - vlist:
-    - {x: -1.6, y: -0.64}
-    - {x: -0.64, y: -0.64}
-    - {x: -0.64, y: -1.6}
+    - {x: -5.7999997, y: -14.5}
+    - {x: -5.7999997, y: -5.7999997}
+    - {x: -14.5, y: -5.7999997}
   - vlist:
-    - {x: -1.6, y: 0.64}
-    - {x: 0.64, y: 0.64}
-    - {x: 0.64, y: -1.6}
+    - {x: -14.5, y: 5.7999997}
+    - {x: 5.7999997, y: 5.7999997}
+    - {x: 5.7999997, y: -14.5}
   Weight: 5

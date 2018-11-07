@@ -3,7 +3,10 @@
 public class GridCell{
 
     public enum SpawnType { None, Enemy, Obstacle };
-    public enum WallType{ None, Horiz, Vert, Cross, CRU, CRD, CLU, CLD}
+    public enum WallType{ None, HorizBot, HorizTop, InCornLowerLeft, 
+                        InCornLowerRight, InCornUpperLeft, InCornerUpperRight,
+                        OutCornLowerLeft, OutCornLowerRight, OutCornerUpperLeft,
+                        OutCornerUpperRight, VertLeft, VertRight }
     [SerializeField] private SpawnType spawnType;
     [SerializeField] private WallType wallType;
     [SerializeField] private float spawnChance = 100f;

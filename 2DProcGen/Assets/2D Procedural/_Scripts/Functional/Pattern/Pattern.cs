@@ -6,7 +6,7 @@ public class Pattern : ScriptableObject
 {
     public enum RoomType { Sq, Rect, L, End, T };
     [SerializeField] public List<GridCell> Placements;
-    [SerializeField] public RoomType PatternType;
+    [SerializeField] public RoomType roomType;
     
     public override bool Equals(object other)
     {
@@ -14,7 +14,7 @@ public class Pattern : ScriptableObject
             return false;
         var ptrn = (Pattern)other;
         return (UsefulFunctions.ListEquals(Placements, ptrn.Placements)
-               && (PatternType == ptrn.PatternType));
+               && (roomType == ptrn.roomType));
     }
     public override int GetHashCode()
     {
@@ -22,7 +22,7 @@ public class Pattern : ScriptableObject
         {
             int hash = 17;
             hash = hash * 23 + Placements.GetHashCode();
-            hash = hash * 23 + PatternType.GetHashCode();
+            hash = hash * 23 + roomType.GetHashCode();
             return hash;
         }
     }

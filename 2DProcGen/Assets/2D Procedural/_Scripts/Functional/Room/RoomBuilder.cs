@@ -87,15 +87,15 @@ public class RoomBuilder : MonoBehaviour
         Gizmos.color = Color.red;
         if (exits.Count > 0)
             foreach (Exit e in exits)
-                Gizmos.DrawSphere(e.location, .05f);
+                Gizmos.DrawSphere(e.location, 1f);
         //Draw collider points to track progress
         Gizmos.color = Color.yellow;
         if (currColPoints.Count > 0)
             foreach (Vector2 v in currColPoints)
-                Gizmos.DrawSphere(v, .05f);
+                Gizmos.DrawSphere(v, 1f);
         //draw lines for each finished collider
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(addColliderPoint, .05f);
+        Gizmos.DrawSphere(addColliderPoint, 1f);
         if (edgeColliders.Count > 0) {
             foreach(V2List edge in edgeColliders)
                 for (int i = 0; i < edge.Length - 1; i++)

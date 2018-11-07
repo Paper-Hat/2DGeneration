@@ -7,5 +7,9 @@ public class SpriteSort : MonoBehaviour
     private SpriteRenderer _objSprite;
     // Start is called before the first frame update
     void Start(){_objSprite = GetComponent<SpriteRenderer>();    }
-    void LateUpdate(){_objSprite.sortingOrder = (int)(transform.position.y + _objSprite.sprite.textureRectOffset.y);}
+
+    void LateUpdate()
+    {
+        _objSprite.sortingOrder = (int)(transform.position.y + _objSprite.sprite.textureRectOffset.y);
+    }
 }

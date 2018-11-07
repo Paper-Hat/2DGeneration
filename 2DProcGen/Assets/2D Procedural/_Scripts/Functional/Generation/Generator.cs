@@ -102,6 +102,7 @@ namespace jkGenerator
             _obstacles = obstacleObjs.Cast<GameObject>().ToList();
             var wallObjs = Resources.LoadAll("_Prefabs/_Walls").ToList();
             _walls = wallObjs.Cast<GameObject>().ToList();
+            foreach(GameObject g in _walls){ Debug.Log(g.GetComponent<Wall>().GetWallType());}
             Debug.Log("Rooms Initialized: " + _rooms.Count + "\n Enemies Initialized: " + 
                       _enemies.Count + "\n Obstacles Initialized: " + _obstacles.Count + "\n Walls Initialized: " + _walls.Count);
         }
@@ -135,16 +136,43 @@ namespace jkGenerator
         }
         #endregion
 
-        #region Room Overlays
+        #region Room Overlay
         //TODO: Overlay rooms with random appropriate patterns
         private static void CreateOverlay()
         {
             foreach (var cell in _map.Cells)
             {
-                cell.room.pattern = Randomization.GetRandom(_patterns.Where(x=>x.PatternType == cell.room.roomType).ToList());
+                var pickFrom = _patterns.Where(x => x.roomType == cell.room.roomType).ToList();
+                if (pickFrom.Count > 0){
+                    cell.room.pattern = Randomization.GetRandom(pickFrom);
+                    PlaceEntities(cell.room.pattern);
+                }
             }
-        }        
+        }
 
+        private static void PlaceEntities(Pattern p)
+        {
+            if (p == null || p.Placements.Count <= 0) return;
+            foreach (GridCell cell in p.Placements)
+            {
+                switch (cell.GetSpawnType())
+                {
+                    case GridCell.SpawnType.Enemy:
+                        Object.Instantiate(Randomization.GetRandom(_enemies), cell.GetLocation(),
+                            Quaternion.identity);
+                        break;
+                    case GridCell.SpawnType.Obstacle:
+                        Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
+                            Quaternion.identity);
+                        break;
+                    case GridCell.SpawnType.None:
+                        Object.Instantiate(Randomization.GetRandom(_walls
+                            .Where(x => x.GetComponent<Wall>().GetWallType() == cell.GetWallType()).ToList()),
+                            cell.GetLocation(), Quaternion.identity);
+                        break;
+                }
+            }
+        }
         #endregion
         #region Generation Constraint(s) Definition and Types
 

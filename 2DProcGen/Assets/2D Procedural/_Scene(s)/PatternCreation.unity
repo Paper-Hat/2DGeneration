@@ -155,7 +155,7 @@ PrefabInstance:
         type: 3}
       propertyPath: imgSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8b7b7acc8fbc9834e8ea67d923688e31,
+      objectReference: {fileID: 21300000, guid: fdc3ac7b97c36b14ab5e402f5e9d3baf,
         type: 3}
     - target: {fileID: 114416772400182312, guid: e1eb6d1f65786904cae778c89fe6b90c,
         type: 3}
