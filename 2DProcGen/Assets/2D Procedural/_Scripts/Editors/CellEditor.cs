@@ -6,10 +6,10 @@ using UnityEngine.UI;
 using UnityEditor;
 [CustomEditor(typeof(GCVisualComponent))]
 [CanEditMultipleObjects]
-public class GridCellEditor : Editor
+public class CellEditor : Editor
 {
-    private GridCell.SpawnType spawnType;
-    private GridCell.WallType wallType;
+    private Cell.SpawnType spawnType;
+    private Cell.WallType wallType;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -21,19 +21,19 @@ public class GridCellEditor : Editor
             cellEditor.SetSpawnType(spawnType);
             Debug.Log(cellEditor.GetSpawnType());
         }
-        spawnType = (GridCell.SpawnType)EditorGUILayout.EnumPopup(spawnType, GUILayout.ExpandWidth(false));
+        spawnType = (Cell.SpawnType)EditorGUILayout.EnumPopup(spawnType, GUILayout.ExpandWidth(false));
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Set Wall Spawn", GUILayout.ExpandWidth(false)))
         {
             cellEditor.SetWallType(wallType);
         }
-        wallType = (GridCell.WallType)EditorGUILayout.EnumPopup(wallType, GUILayout.ExpandWidth(false));
+        wallType = (Cell.WallType)EditorGUILayout.EnumPopup(wallType, GUILayout.ExpandWidth(false));
         GUILayout.EndHorizontal();
         if (GUILayout.Button("Reset Spawn", GUILayout.ExpandWidth(false)))
         {
-            cellEditor.SetSpawnType(GridCell.SpawnType.None);
-            cellEditor.SetWallType(GridCell.WallType.None);
+            cellEditor.SetSpawnType(Cell.SpawnType.None);
+            cellEditor.SetWallType(Cell.WallType.None);
             cellEditor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }

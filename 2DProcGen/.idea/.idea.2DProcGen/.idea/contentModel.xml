@@ -10,8 +10,8 @@
         <e p="2D Procedural" t="Include">
           <e p="_Scripts" t="Include">
             <e p="Editors" t="Include">
+              <e p="CellEditor.cs" t="Include" />
               <e p="GeneratorEditor.cs" t="Include" />
-              <e p="GridCellEditor.cs" t="Include" />
               <e p="PatternBuilderEditor.cs" t="Include" />
               <e p="PatternContainerEditor.cs" t="Include" />
               <e p="RoomBuilderEditor.cs" t="Include" />
@@ -25,25 +25,27 @@
                 <e p="IGenerable.cs" t="Include" />
                 <e p="Randomization.cs" t="Include" />
               </e>
+              <e p="Overlay" t="Include">
+                <e p="Overlay.cs" t="Include" />
+              </e>
               <e p="Pattern" t="Include">
+                <e p="Cell.cs" t="Include" />
                 <e p="GCVisualComponent.cs" t="Include" />
-                <e p="GridCell.cs" t="Include" />
                 <e p="Pattern.cs" t="Include" />
                 <e p="PatternBuilder.cs" t="Include" />
                 <e p="PatternContainer.cs" t="Include" />
-                <e p="SpriteSort.cs" t="Include" />
               </e>
               <e p="Room" t="Include">
                 <e p="Exit.cs" t="Include" />
-                <e p="FloorMap.cs" t="Include" />
+                <e p="Map.cs" t="Include" />
                 <e p="Room.cs" t="Include" />
                 <e p="RoomBuilder.cs" t="Include" />
                 <e p="RoomDisplay.cs" t="Include" />
               </e>
             </e>
             <e p="General" t="Include">
-              <e p="IntCouple.cs" t="Include" />
               <e p="SerializedPropertyViewer.cs" t="Include" />
+              <e p="SpriteSort.cs" t="Include" />
               <e p="UsefulFunctions.cs" t="Include" />
               <e p="V2List.cs" t="Include" />
             </e>

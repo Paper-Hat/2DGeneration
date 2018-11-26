@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: FloorLayer
+    uniqueID: 432906395
+    locked: 0
+  - name: OverlayLayer
+    uniqueID: 1128374971
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

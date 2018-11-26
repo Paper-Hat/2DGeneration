@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pattern : ScriptableObject
 {
     public enum RoomType { Sq, Rect, L, End, T };
-    [SerializeField] public List<GridCell> Placements;
+    [SerializeField] public List<Cell> Placements;
     [SerializeField] public RoomType roomType;
     
     public override bool Equals(object other)

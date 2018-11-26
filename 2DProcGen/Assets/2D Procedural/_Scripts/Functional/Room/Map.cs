@@ -4,10 +4,11 @@ using System.Linq;
 
 [System.Serializable]
 [ExecuteInEditMode]
-public class FloorMap {
+public class Map {
+    //TODO: (refactor) change all "indexing" variables to (int, int) instead of cast Vector2
     #region Individual Cell Definition
     [System.Serializable]
-    public struct RoomCell
+    public struct Node
     {
         #region Cell Variables
         public static Vector2 dimensions;
@@ -17,7 +18,7 @@ public class FloorMap {
         public bool filled;
         #endregion
         #region Cell Constructors
-        public RoomCell(Vector2 i, Room r)
+        public Node(Vector2 i, Room r)
         {
             index = i;
             filled = r != null;
@@ -25,7 +26,7 @@ public class FloorMap {
             cellPos = new Vector3(index.x * dimensions.x,
                                   index.y * dimensions.y, 0f);
         }
-        public RoomCell(Vector2 i)
+        public Node(Vector2 i)
         {
             index = i;
             room = null;
@@ -33,7 +34,7 @@ public class FloorMap {
             cellPos = new Vector3(index.x * dimensions.x,
                                   index.y * dimensions.y, 0f);
         }
-        public RoomCell(RoomCell other)
+        public Node(Node other)
         {
             cellPos = other.cellPos;
             index = other.index;
@@ -47,7 +48,7 @@ public class FloorMap {
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool ContainsExitMatchIn(RoomCell other, Room prospective)
+        public bool ContainsExitMatchIn(Node other, Room prospective)
         {
             int thisX = (int)this.index.x, otherX = (int)other.index.x;
             int thisY = (int)this.index.y, otherY = (int)other.index.y;
@@ -87,7 +88,7 @@ public class FloorMap {
     #endregion
     #region Map Variables/Constructor
     //Modify the size fields to activate OnValidate and create the grid
-    public List<RoomCell> Cells = new List<RoomCell>();
+    public List<Node> Cells = new List<Node>();
     private Vector3 _start;
     private int _numRows = 0, _numCols = 0;
     
@@ -95,16 +96,16 @@ public class FloorMap {
     /// Constructor defines dimensions of each cell (and by extension, the map) based on a "default" 1x1 cell sprite
     /// </summary>
     /// <param name="defaultRef"></param>
-    public FloorMap(Sprite defaultRef)
+    public Map(Sprite defaultRef)
     {
         if (defaultRef != null)
-            RoomCell.dimensions = new Vector2(2 * defaultRef.bounds.extents.x, 2 * defaultRef.bounds.extents.y);
+            Node.dimensions = new Vector2(2 * defaultRef.bounds.extents.x, 2 * defaultRef.bounds.extents.y);
     }
     #endregion
     #region Indexer/Cell Accessor
 
     //Indexer allows access to list "Cells" with coordinates
-    public RoomCell this[int xKey, int yKey]
+    public Node this[int xKey, int yKey]
     {
         get
         {
@@ -123,9 +124,9 @@ public class FloorMap {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public RoomCell AccessCell(int x, int y)
+    public Node AccessCell(int x, int y)
     {
-        RoomCell target;
+        Node target;
         //If the cell already exists in the list of cells
         if(Cells.Any(c => (int)c.index.x == x && (int)c.index.y == y)){
             //assign target to found cell
@@ -134,7 +135,7 @@ public class FloorMap {
         //If the cell does not yet exist
         else{
             //create blank cell for possible override
-            target = new RoomCell(new Vector2(x, y));
+            target = new Node(new Vector2(x, y));
             Cells.Add(target);
         }
 
@@ -156,7 +157,7 @@ public class FloorMap {
     /// </summary>
     /// <param name="c"></param>
     /// <returns></returns>
-    public bool CheckCellCompletion(RoomCell c)
+    public bool CheckCellCompletion(Node c)
     {
         int fillCount = 0;
         foreach (Exit e in c.room.exits)
@@ -194,9 +195,9 @@ public class FloorMap {
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public List<RoomCell> GetAdjacentCells(Vector2 index)
+    public List<Node> GetAdjacentCells(Vector2 index)
     {
-        RoomCell[] adj = {  this[(int)index.x - 1, (int)index.y],
+        Node[] adj = {  this[(int)index.x - 1, (int)index.y],
                             this[(int)index.x + 1, (int)index.y],
                             this[(int)index.x, (int)index.y + 1],
                             this[(int)index.x, (int)index.y - 1] };
@@ -207,9 +208,9 @@ public class FloorMap {
     /// </summary>
     /// <param name="cell"></param>
     /// <returns></returns>
-    public List<RoomCell> GetAdjacentWithFilter(RoomCell cell)
+    public List<Node> GetAdjacentWithFilter(Node cell)
     {
-        List<RoomCell> adj = new List<RoomCell>();
+        List<Node> adj = new List<Node>();
         foreach (Exit e in cell.room.exits){
             switch (e.GetOrientation())
             {
@@ -234,9 +235,9 @@ public class FloorMap {
     /// </summary>
     /// <param name="cell"></param>
     /// <returns></returns>
-    public List<RoomCell> GetAdjacentFilterInverse(RoomCell cell)
+    public List<Node> GetAdjacentFilterInverse(Node cell)
     {
-        List<RoomCell> adj = new List<RoomCell>();
+        List<Node> adj = new List<Node>();
         foreach (var c in GetAdjacentCells(cell.index).Where(x=> x.filled).ToList())
         {
             int cellX = (int) cell.index.x,
@@ -274,9 +275,9 @@ public class FloorMap {
     /// </summary>
     public void GetActiveCells()
     {
-        List<RoomCell> activeCells = Cells.Where(x => x.filled).ToList();
+        List<Node> activeCells = Cells.Where(x => x.filled).ToList();
         Debug.Log("Active Cells: " + activeCells.Count);
-        foreach (RoomCell cell in activeCells)
+        foreach (Node cell in activeCells)
             Debug.Log(cell.ToString());
     }
     /// <summary>
@@ -286,7 +287,7 @@ public class FloorMap {
     {
         List<int> xIndexes = new List<int>(), yIndexes = new List<int>();
 
-        foreach(RoomCell cell in Cells){
+        foreach(Node cell in Cells){
             xIndexes.Add((int)cell.index.x);
             yIndexes.Add((int)cell.index.y);
         }
@@ -300,8 +301,8 @@ public class FloorMap {
             _numCols++;
             _numRows++;
         }
-        _start =  new Vector3(   .5f * RoomCell.dimensions.x * -_numRows,
-                                .5f * RoomCell.dimensions.y * _numCols,
+        _start =  new Vector3(   .5f * Node.dimensions.x * -_numRows,
+                                .5f * Node.dimensions.y * _numCols,
                                  0f);
     }
 
@@ -312,12 +313,12 @@ public class FloorMap {
             Gizmos.color = Color.red;
             //Draw Horizontal Lines
             for (int i = 0; i <= _numCols; i++)
-                Gizmos.DrawLine(new Vector3(_start.x, _start.y - (i * RoomCell.dimensions.y)),
-                                new Vector3(_start.x + (RoomCell.dimensions.x * _numRows), _start.y - (i * RoomCell.dimensions.y)));
+                Gizmos.DrawLine(new Vector3(_start.x, _start.y - (i * Node.dimensions.y)),
+                                new Vector3(_start.x + (Node.dimensions.x * _numRows), _start.y - (i * Node.dimensions.y)));
             //Draw Vertical Lines
             for (int j = 0; j <= _numRows; j++)
-                Gizmos.DrawLine(new Vector3(_start.x + (j * RoomCell.dimensions.x), _start.y),
-                                new Vector3(_start.x + (j * RoomCell.dimensions.x), _start.y - (RoomCell.dimensions.y * _numCols)));
+                Gizmos.DrawLine(new Vector3(_start.x + (j * Node.dimensions.x), _start.y),
+                                new Vector3(_start.x + (j * Node.dimensions.x), _start.y - (Node.dimensions.y * _numCols)));
         }
     }
     public void ClearMap()
@@ -326,7 +327,7 @@ public class FloorMap {
         _start = Vector3.zero;
         _numRows = 0;
         _numCols = 0;
-        RoomCell.dimensions = new Vector2(0f, 0f);
+        Node.dimensions = new Vector2(0f, 0f);
     }
 #endif
 #endregion

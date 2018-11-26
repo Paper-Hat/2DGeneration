@@ -4,26 +4,26 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class GCVisualComponent : MonoBehaviour
 {
-    public GridCell CellRef;
+    public Cell CellRef;
 
     public void SetLocation(Vector3 loc)
     {
         Vector3 newLoc = new Vector3(loc.x/100, loc.y/100);
         CellRef.SetLocation(newLoc);
     }
-    public GridCell.SpawnType GetSpawnType(){return CellRef.GetSpawnType(); }
-    public GridCell.WallType GetWallType(){ return CellRef.GetWallType();}
+    public Cell.SpawnType GetSpawnType(){return CellRef.GetSpawnType(); }
+    public Cell.WallType GetWallType(){ return CellRef.GetWallType();}
     //if set as spawn, resets wall type to none
-    public void SetSpawnType(GridCell.SpawnType choice)
+    public void SetSpawnType(Cell.SpawnType choice)
     {
-        if (choice == GridCell.SpawnType.None) CellRef.SetSpawnChance(0f);
-        CellRef.SetWallType(GridCell.WallType.None);
+        if (choice == Cell.SpawnType.None) CellRef.SetSpawnChance(0f);
+        CellRef.SetWallType(Cell.WallType.None);
         CellRef.SetSpawnType(choice);
     }
     //if set as wall, resets enemy spawntype
-    public void SetWallType(GridCell.WallType choice)
+    public void SetWallType(Cell.WallType choice)
     {
-        CellRef.SetSpawnType(GridCell.SpawnType.None);
+        CellRef.SetSpawnType(Cell.SpawnType.None);
         CellRef.SetWallType(choice);
     }
     public void SetSpawnChance(float chance){ CellRef.SetSpawnChance(chance);}

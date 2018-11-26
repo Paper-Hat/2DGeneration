@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 [System.Serializable]
-public class GridCell{
+public class Cell{
 
     public enum SpawnType { None, Enemy, Obstacle };
     public enum WallType{ None, HorizBot, HorizTop, InCornLowerLeft, 
@@ -12,14 +12,14 @@ public class GridCell{
     [SerializeField] private float spawnChance = 100f;
     [SerializeField] private Vector3 location;
     #region Constructor(s)
-    public GridCell(SpawnType s, WallType w, float chance, Vector3 loc)
+    public Cell(SpawnType s, WallType w, float chance, Vector3 loc)
     {
         spawnType = s;
         wallType = w;
         spawnChance = chance;
         location = loc;
     }
-    public GridCell(GridCell other)
+    public Cell(Cell other)
     {
         spawnType = other.GetSpawnType();
         wallType = other.GetWallType();
@@ -27,7 +27,7 @@ public class GridCell{
         location = other.GetLocation();
     }
 
-    public GridCell()
+    public Cell()
     {
         spawnChance = 100f;
     }
@@ -57,7 +57,7 @@ public class GridCell{
     #region overrides
     public override bool Equals(object other)
     {
-        var item = other as GridCell;
+        var item = other as Cell;
         if (item == null)
             return false;
         return (spawnType == item.spawnType)

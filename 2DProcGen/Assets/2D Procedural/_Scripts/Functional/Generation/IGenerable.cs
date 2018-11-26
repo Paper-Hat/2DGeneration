@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace jkGenerator
 {
+    //Slap this onto your generator object
     public interface IGenerable
     {
         Generator.Constraints.Style Style { get; set; }

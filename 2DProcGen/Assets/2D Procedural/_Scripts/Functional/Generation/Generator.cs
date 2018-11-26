@@ -37,6 +37,7 @@ namespace jkGenerator
             }
 
             public int RoomCount;
+            //because grid is preset, entire structure can be changed to perform better
             public (int, int) XRange, YRange;
             public Vector2 StartPos;
             public Style GenStyle;
@@ -65,26 +66,34 @@ namespace jkGenerator
 
         #region Generator_Variables
 
-        private static GameObject _generatorObj, _baseRoom;
+        private static GameObject _generatorObj, _baseRoom, _roomContainer, _entityContainer;
         private static Constraints _gc;
         private static (int, int) _xCouple, _yCouple;
         private static Sprite _defaultRoomSprite;
-        private static readonly List<GameObject> PlacedRooms = new List<GameObject>();
+        private static List<GameObject> PlacedRooms = new List<GameObject>();
         private static int _seed;
         private static List<Room> _rooms, _startingRooms;
         private static List<Pattern> _patterns;
         private static List<GameObject> _enemies = new List<GameObject>();
         private static List<GameObject> _obstacles = new List<GameObject>();
         private static List<GameObject> _walls = new List<GameObject>();
-        private static FloorMap _map;
+        private static Map _map;
         private static List<GameObject> _cHList = new List<GameObject>();
-
+        private static int overlayCounter = 0;
         #endregion
 
         #region Generation
+        /// <summary>
+        /// Loads all assets to be used for the generator from the file hierarchy
+        /// </summary>
         public static void Init()
         {
             _generatorObj = new GameObject("Generator");
+            _roomContainer = new GameObject("Rooms");
+            _entityContainer = new GameObject("Entities");
+            _roomContainer.transform.parent = _generatorObj.transform;
+            _entityContainer.transform.parent = _generatorObj.transform;
+            
             //Load Sprite from file
             _defaultRoomSprite = Resources.Load<Sprite>("_Prefabs/Generator/DefaultRoomSprite");
             //Load all created Rooms from file folder
@@ -100,11 +109,12 @@ namespace jkGenerator
             _enemies = enemyObjs.Cast<GameObject>().ToList();
             var obstacleObjs = Resources.LoadAll("_Prefabs/_Obstacles").ToList();
             _obstacles = obstacleObjs.Cast<GameObject>().ToList();
+            _obstacles = obstacleObjs.Cast<GameObject>().ToList();
             var wallObjs = Resources.LoadAll("_Prefabs/_Walls").ToList();
             _walls = wallObjs.Cast<GameObject>().ToList();
-            foreach(GameObject g in _walls){ Debug.Log(g.GetComponent<Wall>().GetWallType());}
-            Debug.Log("Rooms Initialized: " + _rooms.Count + "\n Enemies Initialized: " + 
-                      _enemies.Count + "\n Obstacles Initialized: " + _obstacles.Count + "\n Walls Initialized: " + _walls.Count);
+            //foreach(GameObject g in _walls){ Debug.Log(g.GetComponent<Wall>().GetWallType());}
+            //Debug.Log("Rooms Initialized: " + _rooms.Count + "\n Enemies Initialized: " + 
+            //          _enemies.Count + "\n Obstacles Initialized: " + _obstacles.Count + "\n Walls Initialized: " + _walls.Count);
         }
 
         /// <summary>
@@ -113,11 +123,11 @@ namespace jkGenerator
         public static void Generate()
         {
             //Map is indexed and sized dependent on the sizing of a SINGLE 1x1 room 
-            _map = new FloorMap(_defaultRoomSprite);
+            _map = new Map(_defaultRoomSprite);
             //Create generation seed
             Randomization.GenerateUnitySeed(_seed);
             Debug.Log("Seed: " + _seed);
-            //Choose generation style & begin generation
+            //Choose generation style & generate room floors
             switch (_gc.GenStyle)
             {
                 case Constraints.Style.Random:
@@ -133,47 +143,65 @@ namespace jkGenerator
                     throw new ArgumentOutOfRangeException();
             }
             CreateOverlay();
+            SpawnPlayer();
         }
         #endregion
 
-        #region Room Overlay
+        #region Room Entities
         //TODO: Overlay rooms with random appropriate patterns
         private static void CreateOverlay()
         {
-            foreach (var cell in _map.Cells)
+            _entityContainer.transform.position = Vector3.zero;
+            //Debug.Log("Patterns Accessible: " + _patterns.Count);
+            //skip first element (starting room)
+            foreach (var cell in _map.Cells.Where(x => x.filled).ToList())
             {
+                if (_patterns.All(x => x.roomType != cell.room.roomType)) continue;
                 var pickFrom = _patterns.Where(x => x.roomType == cell.room.roomType).ToList();
-                if (pickFrom.Count > 0){
-                    cell.room.pattern = Randomization.GetRandom(pickFrom);
-                    PlaceEntities(cell.room.pattern);
-                }
+                cell.room.pattern = Randomization.GetRandom(pickFrom);
+                PlaceEntities(cell);
             }
         }
-
-        private static void PlaceEntities(Pattern p)
+        //TODO: adjust placement based on room location as well
+        private static void PlaceEntities(Map.Node Node)
         {
+            Pattern p = Node.room.pattern;
+            GameObject ovlContainer = new GameObject(""+ overlayCounter++);
+            ovlContainer.transform.parent = _entityContainer.transform;
             if (p == null || p.Placements.Count <= 0) return;
-            foreach (GridCell cell in p.Placements)
+            foreach (Cell cell in p.Placements)
             {
+                //Debug.Log("Active Cell Location: " + cell.GetLocation());
+                GameObject ovlObj = null;
                 switch (cell.GetSpawnType())
                 {
-                    case GridCell.SpawnType.Enemy:
-                        Object.Instantiate(Randomization.GetRandom(_enemies), cell.GetLocation(),
+                    case Cell.SpawnType.Enemy:
+                        ovlObj = Object.Instantiate(Randomization.GetRandom(_enemies), cell.GetLocation(),
                             Quaternion.identity);
                         break;
-                    case GridCell.SpawnType.Obstacle:
-                        Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
+                    case Cell.SpawnType.Obstacle:
+                        ovlObj = Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
                             Quaternion.identity);
                         break;
-                    case GridCell.SpawnType.None:
-                        Object.Instantiate(Randomization.GetRandom(_walls
-                            .Where(x => x.GetComponent<Wall>().GetWallType() == cell.GetWallType()).ToList()),
+                    case Cell.SpawnType.None:
+                        ovlObj = Object.Instantiate(Randomization.GetRandom(_walls
+                                .Where(x => x.GetComponent<Wall>().GetWallType() == cell.GetWallType()).ToList()),
                             cell.GetLocation(), Quaternion.identity);
                         break;
                 }
+                if (!ovlObj) continue;
+                ovlObj.transform.position += Node.cellPos;
+                ovlObj.transform.parent = ovlContainer.transform;
+
             }
         }
+        private static void SpawnPlayer()
+        {
+            Vector3 spawnCellPos = _map[(int) _gc.StartPos.x, (int) _gc.StartPos.y].cellPos;
+            Object.Instantiate(Resources.Load<GameObject>("Player"),spawnCellPos, Quaternion.identity);
+        }
         #endregion
+        
         #region Generation Constraint(s) Definition and Types
 
         public static void SetGenConstraints(Constraints.Style style, Constraints.Types types, int numRooms,
@@ -270,7 +298,7 @@ namespace jkGenerator
         public static void PlaceRandAtLocation(int x, int y)
         {
             var index = new Vector2(x, y);
-            var newCell = new FloorMap.RoomCell(index, Randomization.GetRandomWeightedRoom(GetCompatibleRooms(index)))
+            var newCell = new Map.Node(index, Randomization.GetRandomWeightedRoom(GetCompatibleRooms(index)))
                 {filled = true};
             CreateRoomObject(newCell);
         }
@@ -281,7 +309,7 @@ namespace jkGenerator
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="r"></param>
-        public static void PlaceAtLocation(int x, int y, Room r)
+        private static void PlaceAtLocation(int x, int y, Room r)
         {
             Debug.Log(r);
             //Create index from x/y integers
@@ -290,10 +318,10 @@ namespace jkGenerator
             //Create a list of rooms available for placement at this index
             var confirmAgainst = GetCompatibleRooms(index);
 
-            //If the room chosen can be placed at this index, then create the RoomCell with the room and create an object over it
+            //If the room chosen can be placed at this index, then create the Node with the room and create an object over it
             if (confirmAgainst.Any(cp => cp == r))
             {
-                var newCell = new FloorMap.RoomCell(index, r)
+                var newCell = new Map.Node(index, r)
                 {
                     filled = true
                 };
@@ -331,7 +359,7 @@ namespace jkGenerator
         /// </summary>
         /// <param name="cell"></param>
         /// <returns></returns>
-        private static void CreateRoomObject(FloorMap.RoomCell cell)
+        private static void CreateRoomObject(Map.Node cell)
         {
             //Set map location to cell
             _map[(int) cell.index.x, (int) cell.index.y] = cell;
@@ -347,6 +375,7 @@ namespace jkGenerator
             display.Init();
             //Add colliders and gameobjects to reference lists
             _cHList.Add(display.BuildColliders());
+            cRoomGo.transform.parent = _roomContainer.transform;
             PlacedRooms.Add(cRoomGo);
         }
 
@@ -356,7 +385,7 @@ namespace jkGenerator
         private static void MatchRandomViaMap()
         {
             //Get a random existing cell that is not "completed", or surrounded in all directions where it has exits
-            var filledCells = new List<FloorMap.RoomCell>(_map.Cells.Where(x => x.filled).ToList());
+            var filledCells = new List<Map.Node>(_map.Cells.Where(x => x.filled).ToList());
             var randExistingCell =
                 Randomization.GetRandom(filledCells.Where(x => !_map.CheckCellCompletion(x)).ToList());
 
@@ -384,8 +413,6 @@ namespace jkGenerator
         /// <summary>
         /// Determines possible rooms to place based on cells adjacent to Vector2 index.
         /// </summary>
-        /// <param name="prevCell"></param>
-        /// <param name="nextCell"></param>
         /// <returns></returns>
         private static List<Room> GetCompatibleRooms(Vector2 index)
         {
@@ -396,7 +423,7 @@ namespace jkGenerator
             var adjacentMapCells = _map.GetAdjacentCells(index).Where(x => x.filled).ToList();
 
             //Only contains cells that this room will be connected to (to thin connecting types)
-            var typeCheckCells = new List<FloorMap.RoomCell>(_map.GetAdjacentFilterInverse(currentCell));
+            var typeCheckCells = new List<Map.Node>(_map.GetAdjacentFilterInverse(currentCell));
 
             //List of all enums to thin out types based on adjacent cells
             var types = new List<Pattern.RoomType>(Enum
@@ -473,7 +500,7 @@ namespace jkGenerator
 
         #region Setters/Getters
 
-        public static FloorMap GetMap()
+        public static Map GetMap()
         {
             return _map;
         }
@@ -516,7 +543,7 @@ namespace jkGenerator
             _seed = 0;
             RoomDisplay.counter = 0;
             _map.ClearMap();
-            _map = new FloorMap(_defaultRoomSprite);
+            _map = new Map(_defaultRoomSprite);
             while (_generatorObj.transform.childCount > 0)
                 foreach (Transform child in _generatorObj.transform)
                     Object.DestroyImmediate(child.gameObject);

@@ -223,6 +223,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f3f082357422b94f89b6bef8d70ec41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 0
+  Start: 1
+  BoundsX: 1
+  BoundsY: 1
+  _start: {x: 0, y: -2}
+  _roomCount: 0
   _x1: -4
   _x2: 4
   _y1: -4

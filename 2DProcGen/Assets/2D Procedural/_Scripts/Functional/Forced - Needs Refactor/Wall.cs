@@ -6,14 +6,14 @@ namespace jkGenerator
 {
     public class Wall : MonoBehaviour
     {
-        [SerializeField] private GridCell.WallType gcWT;
+        [SerializeField] private Cell.WallType gcWT;
 
-        public GridCell.WallType GetWallType()
+        public Cell.WallType GetWallType()
         {
             return gcWT;
         }
 
-        public void SetWallType(GridCell.WallType wt)
+        public void SetWallType(Cell.WallType wt)
         {
             gcWT = wt;
         }

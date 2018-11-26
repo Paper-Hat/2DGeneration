@@ -26,7 +26,7 @@ public class RoomDisplay : MonoBehaviour {
 
         runtimeSprite = gameObject.GetComponent<SpriteRenderer>();
         runtimeSprite.sprite = room.roomSprite;
-
+        runtimeSprite.sortingLayerName = "FloorLayer";
         //Later: set up spawning based on the pattern
         pattern = room.pattern;
         room.name = gameObject.name = "Room #" + ++counter;

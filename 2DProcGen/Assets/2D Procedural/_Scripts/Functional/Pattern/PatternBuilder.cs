@@ -11,7 +11,7 @@ public class PatternBuilder : MonoBehaviour
 {
     #region Room_Builder Variables
     //ScriptableObject pattern vars
-    [SerializeField] public List<GridCell> placements;
+    [SerializeField] public List<Cell> placements;
     [SerializeField] public Pattern.RoomType typing;
     [SerializeField] public Pattern editing;
 
@@ -38,7 +38,7 @@ public class PatternBuilder : MonoBehaviour
     {
         List<Object> ptrnObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
         allPatterns = ptrnObjs.Cast<Pattern>().ToList();
-        placements = new List<GridCell>();
+        placements = new List<Cell>();
         Debug.Log("Current patterns in list: " + allPatterns.Count);
     }
     //Canvas and grid creators use manual object creation; this could be sped up (processor-wise) by creating scriptableobjects.
@@ -131,12 +131,12 @@ public class PatternBuilder : MonoBehaviour
             {
                 GCVisualComponent c = g.GetComponent<GCVisualComponent>();
                 c.SetLocation(g.transform.position);
-                if (c.GetSpawnType() != GridCell.SpawnType.None || c.GetWallType() != GridCell.WallType.None)
+                if (c.GetSpawnType() != Cell.SpawnType.None || c.GetWallType() != Cell.WallType.None)
                 {
-                    placements.Add(new GridCell(c.CellRef));
+                    placements.Add(new Cell(c.CellRef));
                 }
             }
-            editing.Placements = new List<GridCell>(placements);
+            editing.Placements = new List<Cell>(placements);
             editing.roomType = typing;
             if(allPatterns.Count > 0){
                 foreach (var p in allPatterns){
@@ -177,8 +177,8 @@ public class PatternBuilder : MonoBehaviour
         else{
             foreach (GameObject g in buttonGrid){
                 GCVisualComponent cell = g.GetComponent<GCVisualComponent>();
-                cell.SetSpawnType(GridCell.SpawnType.None);
-                cell.SetWallType(GridCell.WallType.None);
+                cell.SetSpawnType(Cell.SpawnType.None);
+                cell.SetWallType(Cell.WallType.None);
                 cell.SetSpawnChance(0f);
             }
 
