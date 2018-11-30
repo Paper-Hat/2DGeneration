@@ -10,9 +10,9 @@ public class GenerationTesting : MonoBehaviour, IGenerable
     public int NRooms { get; set; }
     public (int, int) XRangeConstraint { get; set; } 
     public (int, int) YRangeConstraint { get; set; }
-    public bool Count, Start, BoundsX, BoundsY;
-    public Vector2 StartIndex { get; set; }
-    [SerializeField] private Vector2 _start;
+    public (int, int) StartIndex { get; set; }
+    public bool Count, BoundsX, BoundsY;
+    [SerializeField] private (int, int) _start;
     [SerializeField] private int _roomCount;
     [SerializeField] private int _x1, _x2, _y1, _y2;
     public void Awake()
@@ -32,7 +32,6 @@ public class GenerationTesting : MonoBehaviour, IGenerable
     public void SetTypes()
     {
         if (Count) Types |= Generator.Constraints.Types.RoomCount;
-        if (Start) Types |= Generator.Constraints.Types.StartPos;
         if (BoundsX) Types |= Generator.Constraints.Types.BoundsX;
         if (BoundsY) Types |= Generator.Constraints.Types.BoundsY;
     }

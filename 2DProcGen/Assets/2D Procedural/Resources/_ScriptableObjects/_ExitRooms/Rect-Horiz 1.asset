@@ -10,25 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: End-Right
+  m_Name: Rect-Horiz 1
   m_EditorClassIdentifier: 
-  roomType: 3
-  compatibleTypes: 01000000020000000000000004000000
+  roomType: 2
+  compatibleTypes: 0100000002000000000000000400000003000000
   exits:
+  - location: {x: -14.5, y: 0, z: 0}
+    xMod: 0
+    yMod: 0
+    orientation: 2
   - location: {x: 14.5, y: 0, z: 0}
     xMod: 0
     yMod: 0
     orientation: 3
-  roomSprite: {fileID: 21300000, guid: 4c1304b1835111d41b388a6c31befc0a, type: 3}
+  roomSprite: {fileID: 21300000, guid: 8522395305d8b2246a8d064f662a4ce0, type: 3}
   pattern: {fileID: 0}
   colliders:
   - vlist:
+    - {x: -14.5, y: 5.7999997}
+    - {x: -14.5, y: 11.599999}
+    - {x: 14.5, y: 11.599999}
     - {x: 14.5, y: 5.7999997}
-    - {x: 11.599999, y: 5.7999997}
-    - {x: 3.625, y: 11.599999}
-    - {x: -11.6, y: 11.599999}
-    - {x: -11.6, y: -11.6}
-    - {x: 3.625, y: -11.6}
-    - {x: 11.599999, y: -5.7999997}
+  - vlist:
     - {x: 14.5, y: -5.7999997}
+    - {x: 14.5, y: -11.6}
+    - {x: -14.5, y: -11.6}
+    - {x: -14.5, y: -5.7999997}
   Weight: 5

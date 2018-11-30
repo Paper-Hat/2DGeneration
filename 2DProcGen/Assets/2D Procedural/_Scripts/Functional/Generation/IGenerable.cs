@@ -10,7 +10,7 @@ namespace jkGenerator
         int NRooms { get; set; }
         (int, int) XRangeConstraint { get; set; }
         (int, int) YRangeConstraint { get; set; }
-        Vector2 StartIndex { get; set; }
+        (int, int) StartIndex { get; set; }
         void Awake();
     }
 }

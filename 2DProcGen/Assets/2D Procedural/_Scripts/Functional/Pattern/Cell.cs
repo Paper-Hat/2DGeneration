@@ -2,7 +2,7 @@
 [System.Serializable]
 public class Cell{
 
-    public enum SpawnType { None, Enemy, Obstacle };
+    public enum SpawnType { None, Enemy, Obstacle, Gun };
     public enum WallType{ None, HorizBot, HorizTop, InCornLowerLeft, 
                         InCornLowerRight, InCornUpperLeft, InCornerUpperRight,
                         OutCornLowerLeft, OutCornLowerRight, OutCornerUpperLeft,

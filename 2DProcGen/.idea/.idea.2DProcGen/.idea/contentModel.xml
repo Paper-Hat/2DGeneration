@@ -51,6 +51,7 @@
             </e>
             <e p="Testing" t="Include">
               <e p="GenerationTesting.cs" t="Include" />
+              <e p="TestPlayerMove.cs" t="Include" />
             </e>
           </e>
         </e>

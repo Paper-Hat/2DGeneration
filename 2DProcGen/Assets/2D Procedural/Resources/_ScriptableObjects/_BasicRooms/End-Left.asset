@@ -10,35 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: T-Up
+  m_Name: End-Left
   m_EditorClassIdentifier: 
-  roomType: 4
-  compatibleTypes: 01000000020000000000000003000000
+  roomType: 3
+  compatibleTypes: 01000000020000000000000004000000
   exits:
-  - location: {x: 0, y: 14.5, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 0
   - location: {x: -14.5, y: 0, z: 0}
     xMod: 0
     yMod: 0
     orientation: 2
-  - location: {x: 14.5, y: 0, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 3
-  roomSprite: {fileID: 21300000, guid: a4bb243c951636140a5e7d9494f2116a, type: 3}
+  roomSprite: {fileID: 21300000, guid: 6f76d7d1a6105bb4e92b6fd30aff5c3a, type: 3}
   pattern: {fileID: 0}
   colliders:
   - vlist:
-    - {x: 14.5, y: -5.7999997}
     - {x: -14.5, y: -5.7999997}
-  - vlist:
+    - {x: -11.6, y: -5.7999997}
+    - {x: -3.9874997, y: -11.6}
+    - {x: 11.599999, y: -11.6}
+    - {x: 11.599999, y: 11.599999}
+    - {x: -3.9874997, y: 11.599999}
+    - {x: -11.6, y: 5.7999997}
     - {x: -14.5, y: 5.7999997}
-    - {x: -5.7999997, y: 5.7999997}
-    - {x: -5.7999997, y: 14.5}
-  - vlist:
-    - {x: 5.7999997, y: 14.5}
-    - {x: 5.7999997, y: 5.7999997}
-    - {x: 14.5, y: 5.7999997}
-  Weight: 5
+  Weight: 1

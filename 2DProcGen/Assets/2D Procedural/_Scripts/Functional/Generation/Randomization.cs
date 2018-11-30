@@ -31,7 +31,7 @@ public static class Randomization {
     public static Room GetRandomWeightedRoom(List<Room> weightedRooms)
     {
         var weightedRand = URandom.Range(0, TotalWeight(weightedRooms));
-        foreach (var weightedRoom in weightedRooms)
+        foreach (var weightedRoom in weightedRooms.Where(x=> x != null))
         {
             if (weightedRand < weightedRoom.Weight)
                 return weightedRoom;

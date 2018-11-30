@@ -13,26 +13,26 @@ public class Map {
         #region Cell Variables
         public static Vector2 dimensions;
         public Vector3 cellPos;
-        public Vector2 index;
+        public (int, int) index;
         public Room room;
         public bool filled;
         #endregion
         #region Cell Constructors
-        public Node(Vector2 i, Room r)
+        public Node((int, int) i, Room r)
         {
             index = i;
             filled = r != null;
             room = r;
-            cellPos = new Vector3(index.x * dimensions.x,
-                                  index.y * dimensions.y, 0f);
+            cellPos = new Vector3(index.Item1 * dimensions.x,
+                                  index.Item2 * dimensions.y, 0f);
         }
-        public Node(Vector2 i)
+        public Node((int, int) i)
         {
             index = i;
             room = null;
             filled = false;
-            cellPos = new Vector3(index.x * dimensions.x,
-                                  index.y * dimensions.y, 0f);
+            cellPos = new Vector3(index.Item1 * dimensions.x,
+                                  index.Item2 * dimensions.y, 0f);
         }
         public Node(Node other)
         {
@@ -50,8 +50,8 @@ public class Map {
         /// <returns></returns>
         public bool ContainsExitMatchIn(Node other, Room prospective)
         {
-            int thisX = (int)this.index.x, otherX = (int)other.index.x;
-            int thisY = (int)this.index.y, otherY = (int)other.index.y;
+            int thisX = (int)this.index.Item1, otherX = (int)other.index.Item1;
+            int thisY = (int)this.index.Item2, otherY = (int)other.index.Item2;
             
             if (otherX == thisX - 1 && otherY == thisY) //other cell is left
                 return Exit.ExitXOR(prospective.exits, other.room.exits, Exit.Orientation.Left, Exit.Orientation.Right);
@@ -71,14 +71,14 @@ public class Map {
             {
                 return "Dimensions: (" + dimensions.x + "," + dimensions.y
                 + ") \n Position: (" + cellPos.x + "," + cellPos.y + "," + cellPos.z
-                + ") \n Index: (" + index.x + "," + index.y
+                + ") \n Index: (" + index.Item1 + "," + index.Item2
                 + ") \n Room: \n" + room.ToString()
                 + "\n Filled: " + filled;
             }
             else
                 return "Dimensions: (" + dimensions.x + "," + dimensions.y
                 + ") \n Position: (" + cellPos.x + "," + cellPos.y + "," + cellPos.z
-                + ") \n Index: (" + index.x + "," + index.y
+                + ") \n Index: (" + index.Item1 + "," + index.Item2
                 + ") \n Room: null \n"
                 + "\n Filled: " + filled;
         }
@@ -89,6 +89,7 @@ public class Map {
     #region Map Variables/Constructor
     //Modify the size fields to activate OnValidate and create the grid
     public List<Node> Cells = new List<Node>();
+    public Node StartingNode;
     private Vector3 _start;
     private int _numRows = 0, _numCols = 0;
     
@@ -124,18 +125,18 @@ public class Map {
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public Node AccessCell(int x, int y)
+    private Node AccessCell(int x, int y)
     {
         Node target;
         //If the cell already exists in the list of cells
-        if(Cells.Any(c => (int)c.index.x == x && (int)c.index.y == y)){
+        if(Cells.Any(c => c.index.Item1 == x && c.index.Item2 == y)){
             //assign target to found cell
-            target = Cells.First(c => (int)c.index.x == x && (int)c.index.y == y);
+            target = Cells.First(c => (int)c.index.Item1 == x && c.index.Item2 == y);
         }
         //If the cell does not yet exist
         else{
             //create blank cell for possible override
-            target = new Node(new Vector2(x, y));
+            target = new Node((x, y));
             Cells.Add(target);
         }
 
@@ -146,10 +147,7 @@ public class Map {
         return target;
     }
     #endregion
-    #region Getters/Adjacency
-
-    public int Rows() { return _numCols; }
-    public int Cols() { return _numRows; }
+    #region Setters/Getters/Adjacency
 
     /// <summary>
     /// Returns whether a cell is "Completed"
@@ -165,19 +163,19 @@ public class Map {
             switch (e.GetOrientation())
             {
                 case Exit.Orientation.Up:
-                    if (this[(int)c.index.x, (int)c.index.y + 1].filled)
+                    if (this[c.index.Item1, c.index.Item2 + 1].filled)
                         fillCount++;
                     break;
                 case Exit.Orientation.Down:
-                    if (this[(int)c.index.x, (int)c.index.y - 1].filled)
+                    if (this[c.index.Item1, c.index.Item2 - 1].filled)
                         fillCount++;
                     break;
                 case Exit.Orientation.Left:
-                    if (this[(int)c.index.x - 1, (int)c.index.y].filled)
+                    if (this[c.index.Item1 - 1, c.index.Item2].filled)
                         fillCount++;
                     break;
                 case Exit.Orientation.Right:
-                    if (this[(int)c.index.x + 1, (int)c.index.y].filled)
+                    if (this[c.index.Item1 + 1, c.index.Item2].filled)
                         fillCount++;
                     break;
             }
@@ -195,12 +193,12 @@ public class Map {
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public List<Node> GetAdjacentCells(Vector2 index)
+    public List<Node> GetAdjacentCells((int, int) index)
     {
-        Node[] adj = {  this[(int)index.x - 1, (int)index.y],
-                            this[(int)index.x + 1, (int)index.y],
-                            this[(int)index.x, (int)index.y + 1],
-                            this[(int)index.x, (int)index.y - 1] };
+        Node[] adj = {  this[index.Item1 - 1, index.Item2],
+                        this[index.Item1 + 1, index.Item2],
+                        this[index.Item1, index.Item2 + 1],
+                        this[index.Item1, index.Item2 - 1] };
         return adj.ToList();
     }
     /// <summary>
@@ -215,16 +213,16 @@ public class Map {
             switch (e.GetOrientation())
             {
                 case Exit.Orientation.Up:
-                    adj.Add(this[(int) cell.index.x,(int) cell.index.y + 1]);
+                    adj.Add(this[cell.index.Item1, cell.index.Item2 + 1]);
                     break;
                 case Exit.Orientation.Down:
-                    adj.Add(this[(int) cell.index.x, (int) cell.index.y - 1]);
+                    adj.Add(this[cell.index.Item1, cell.index.Item2 - 1]);
                     break;
                 case Exit.Orientation.Left:
-                    adj.Add(this[(int) cell.index.x - 1, (int) cell.index.y]);
+                    adj.Add(this[cell.index.Item1 - 1, cell.index.Item2]);
                     break;
                 case Exit.Orientation.Right:
-                    adj.Add(this[(int) cell.index.x + 1, (int) cell.index.y]);
+                    adj.Add(this[cell.index.Item1 + 1, cell.index.Item2]);
                     break;
             }
         }
@@ -240,10 +238,10 @@ public class Map {
         List<Node> adj = new List<Node>();
         foreach (var c in GetAdjacentCells(cell.index).Where(x=> x.filled).ToList())
         {
-            int cellX = (int) cell.index.x,
-                cellY = (int) cell.index.y,
-                compareX = (int) c.index.x,
-                compareY = (int) c.index.y;
+            int cellX = cell.index.Item1,
+                cellY = cell.index.Item2,
+                compareX = c.index.Item1,
+                compareY = c.index.Item2;
             //Up
             if (compareX == cellX && compareY == cellY + 1){
                 if(c.room.exits.Any( x => x.GetOrientation() == Exit.Orientation.Down))
@@ -288,8 +286,8 @@ public class Map {
         List<int> xIndexes = new List<int>(), yIndexes = new List<int>();
 
         foreach(Node cell in Cells){
-            xIndexes.Add((int)cell.index.x);
-            yIndexes.Add((int)cell.index.y);
+            xIndexes.Add((int)cell.index.Item1);
+            yIndexes.Add((int)cell.index.Item2);
         }
 
         _numCols = (xIndexes.Min() >= 0) ? xIndexes.Max() : xIndexes.Max() - xIndexes.Min();

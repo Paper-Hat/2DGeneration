@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6183cd223715c4bb7a577f031ea352, type: 3}
-  m_Name: T-Left
+  m_Name: Rect-Vert 1
   m_EditorClassIdentifier: 
-  roomType: 4
-  compatibleTypes: 01000000020000000000000003000000
+  roomType: 2
+  compatibleTypes: 0100000002000000000000000400000003000000
   exits:
   - location: {x: 0, y: 14.5, z: 0}
     xMod: 0
@@ -23,22 +23,17 @@ MonoBehaviour:
     xMod: 0
     yMod: 0
     orientation: 1
-  - location: {x: -14.5, y: 0, z: 0}
-    xMod: 0
-    yMod: 0
-    orientation: 2
-  roomSprite: {fileID: 21300000, guid: 71646c1418029474cb408d2ab4019083, type: 3}
+  roomSprite: {fileID: 21300000, guid: f75a00c1e565a1945aaa6d85d2315060, type: 3}
   pattern: {fileID: 0}
   colliders:
   - vlist:
-    - {x: -14.5, y: -5.7999997}
-    - {x: -5.7999997, y: -5.7999997}
     - {x: -5.7999997, y: -14.5}
-  - vlist:
-    - {x: 5.7999997, y: -14.5}
-    - {x: 5.7999997, y: 14.5}
-  - vlist:
+    - {x: -11.6, y: -14.5}
+    - {x: -11.6, y: 14.5}
     - {x: -5.7999997, y: 14.5}
-    - {x: -5.7999997, y: 5.7999997}
-    - {x: -14.5, y: 5.7999997}
+  - vlist:
+    - {x: 5.7999997, y: 14.5}
+    - {x: 11.599999, y: 14.5}
+    - {x: 11.599999, y: -14.5}
+    - {x: 5.7999997, y: -14.5}
   Weight: 5
