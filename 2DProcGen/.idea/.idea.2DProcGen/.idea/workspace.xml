@@ -1,83 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b5f21d0-8f34-4942-9145-19a1d1eaccc1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/Resources/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Enemies.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Enemies/TestEnemy.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Enemies/TestEnemy.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Obstacles.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Obstacles/TestObstacle.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Obstacles/TestObstacle.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/HBot.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/HBot.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/HTop.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/HTop.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICLL.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICLL.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICLR.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICLR.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICUL.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICUL.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICUR.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/ICUR.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCLL.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCLL.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCLR.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCLR.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCUL.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCUL.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCUR.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/OCUR.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/VLeft.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/VLeft.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/VRight.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_Prefabs/_Walls/VRight.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Down.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Down.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Left.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Left.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Right.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Right.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Up.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/End-Up.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-LeftDown.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-LeftDown.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-LeftUp.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-LeftUp.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-RightDown.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-RightDown.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-RightUp.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/L-RightUp.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Rect-Horiz.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Rect-Horiz.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Rect-Vert.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Rect-Vert.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Sq-Default.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/Sq-Default.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Down.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Down.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Full.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Full.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Left.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Left.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Right.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Right.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Up.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/Resources/_ScriptableObjects/Rooms/T-Up.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/IGenerable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/IGenerable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Randomization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Randomization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Map.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/RoomDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/RoomDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/GenerationTesting.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/GenerationTesting.cs" afterDir="false" />
-    </list>
+    <list default="true" id="4b5f21d0-8f34-4942-9145-19a1d1eaccc1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+            <state relative-caret-position="331">
+              <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
               <folding>
                 <marker date="1543464848636" expanded="false" signature="6:126" ph="..." />
                 <marker date="1543464848636" expanded="true" signature="149:4128" ph="{...}" />
@@ -568,7 +492,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="437" />
     <option name="y" value="33" />
     <option name="width" value="1454" />
@@ -733,12 +657,12 @@
       <workItem from="1543284017865" duration="3487000" />
       <workItem from="1543361522604" duration="9807000" />
       <workItem from="1543431938375" duration="8670000" />
-      <workItem from="1543453650878" duration="2861000" />
+      <workItem from="1543453650878" duration="3740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110315000" />
+    <option name="totallyTimeSpent" value="111194000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1225,8 +1149,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+        <state relative-caret-position="331">
+          <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
           <folding>
             <marker date="1543464848636" expanded="false" signature="6:126" ph="..." />
             <marker date="1543464848636" expanded="true" signature="149:4128" ph="{...}" />
