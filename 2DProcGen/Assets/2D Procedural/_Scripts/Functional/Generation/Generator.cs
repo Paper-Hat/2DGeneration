@@ -7,6 +7,10 @@ using Object = UnityEngine.Object;
 
 namespace jkGenerator
 {
+    /// <summary>
+    /// Procedurally generates dungeon-like connected rooms.
+    /// Justin Gonzalez 2018
+    /// </summary>
 /*TODO: Spawn Player On Edge, Determine Exit Room, Determine Generation based on level "Types", "Secret" Rooms, Directional Walks
  * TODO: Static batching for rendering combinations
  * Algorithmic Placement,
@@ -134,10 +138,6 @@ namespace jkGenerator
             Overlay.SpawnPlayer(_map, (_gc.StartPos.Item1, _gc.StartPos.Item2));
             
         }
-        #endregion
-
-        #region Spawn Things
-
         #endregion
         
         #region Generation Constraint(s) Definition and Types

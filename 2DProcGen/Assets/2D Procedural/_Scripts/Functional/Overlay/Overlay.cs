@@ -51,6 +51,12 @@ namespace jkGenerator
             Vector3 spawnCellPos = map[coordinates.Item1, coordinates.Item2].cellPos;
             Object.Instantiate(Resources.Load<GameObject>("Player"),spawnCellPos, Quaternion.identity);
         }
+        /// <summary>
+        /// Places objects onto the "overlay" foreground, as determined by patterns.
+        /// To Extend: Add Cell.SpawnType enum to Cell, create folder with appropriate name and prefabs inside,
+        /// and initialize set of objects above. Then, add a case for your spawnable object below.  
+        /// </summary>
+        /// <param name="node"></param>
         private static void PlaceEntities(Map.Node node)
         {
             Pattern p = node.room.pattern;
@@ -71,6 +77,10 @@ namespace jkGenerator
                         ovlObj = Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
                             Quaternion.identity);
                         break;
+                    case Cell.SpawnType.Gun:
+                        ovlObj = Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
+                            Quaternion.identity);
+                        break;
                     case Cell.SpawnType.None:
                         ovlObj = Object.Instantiate(Randomization.GetRandom(_walls
                                 .Where(x => x.GetComponent<Wall>().GetWallType() == cell.GetWallType()).ToList()),
@@ -82,5 +92,5 @@ namespace jkGenerator
                 ovlObj.transform.parent = ovlContainer.transform;
             }
         }
-    }
+    } 
 }

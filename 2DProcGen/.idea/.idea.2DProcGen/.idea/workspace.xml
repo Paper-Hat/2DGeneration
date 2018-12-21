@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b5f21d0-8f34-4942-9145-19a1d1eaccc1" name="Default Changelist" comment="" />
+    <list default="true" id="4b5f21d0-8f34-4942-9145-19a1d1eaccc1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2DProcGen/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,18 +32,20 @@
     <session id="510594958">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
-          <entry key="project.open.time.11" value="1" />
+          <entry key="project.closed" value="12" />
+          <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.13" value="3" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.18" value="2" />
           <entry key="project.open.time.19" value="2" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.21" value="2" />
           <entry key="project.open.time.24" value="1" />
+          <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -54,13 +62,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cs" value="20625" />
+          <entry key="cs" value="21401" />
           <entry key="json" value="102" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="C#" value="20625" />
+          <entry key="C#" value="21401" />
           <entry key="JSON" value="102" />
         </counts>
       </usages-collector>
@@ -68,22 +76,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
+            <state relative-caret-position="1072">
+              <caret line="71" column="35" selection-start-line="71" selection-start-column="35" selection-end-line="71" selection-end-column="35" />
               <folding>
-                <marker date="1543464848636" expanded="false" signature="6:126" ph="..." />
-                <marker date="1543464848636" expanded="true" signature="149:4128" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="236:4126" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="751:1741" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="1784:2243" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="1917:2233" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="2315:2525" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="2582:4120" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="2899:4110" ph="{...}" />
-                <marker date="1543464848636" expanded="true" signature="3076:3932" ph="{...}" />
+                <marker date="1543684179331" expanded="false" signature="6:126" ph="..." />
+                <marker date="1543684179331" expanded="true" signature="236:4744" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="751:1741" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="1784:2243" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="1917:2233" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="2315:2525" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="2534:2908" ph="/// Places objects onto the &quot;overlay&quot; foreground, as determined by patterns. ... " />
+                <marker date="1543684179331" expanded="true" signature="2965:4738" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="3282:4728" ph="{...}" />
+                <marker date="1543684179331" expanded="true" signature="3459:4550" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/PatternWindow.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+              <folding>
+                <marker date="1543887161168" expanded="true" signature="6:97" ph="..." />
+                <marker date="1543887161168" expanded="true" signature="140:336" ph="{...}" />
+                <marker date="1543887161168" expanded="true" signature="205:334" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -92,7 +114,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
+            <state relative-caret-position="912">
               <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
               <folding>
                 <marker date="1543464604846" expanded="true" signature="58:2856" ph="{...}" />
@@ -184,77 +206,76 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="306" column="45" selection-start-line="306" selection-start-column="45" selection-end-line="306" selection-end-column="45" />
+            <state relative-caret-position="320">
+              <caret line="140" column="18" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
               <folding>
-                <marker date="1543455791930" expanded="false" signature="6:153" ph="..." />
-                <marker date="1543455791930" expanded="true" signature="176:20786" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="179:415" ph="/* TODO: Spawn Player On Edge, Determine Exit Room, Determine Generation based on level &quot;Types&quot;, &quot;Secret&quot; Rooms,  ... */" />
-                <marker date="1543455791930" expanded="true" signature="468:20784" ph="{...}" />
-                <marker date="1543455791930" expanded="false" signature="483:1949" ph="Constraints" />
-                <marker date="1543455791930" expanded="true" signature="559:1929" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="599:705" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="757:905" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="1266:1484" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="1531:1919" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="1959:2831" ph="Generator_Variables" />
-                <marker date="1543455791930" expanded="true" signature="2841:5328" ph="Generation" />
-                <marker date="1543455791930" expanded="true" signature="2868:2986" ph="/// Loads all assets to be used for the generator from the file hierarchy ... " />
-                <marker date="1543455791930" expanded="true" signature="3020:4131" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="4141:4270" ph="/// TODO: Generates rooms based on enum style and number of iterations (constraints) ... " />
-                <marker date="1543455791930" expanded="true" signature="4308:5309" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="4676:5145" ph="{...}" />
-                <marker date="1543455791930" expanded="false" signature="5338:5378" ph="Spawn Things" />
-                <marker date="1543455791930" expanded="false" signature="5396:8445" ph="Generation Constraint(s) Definition and Types" />
-                <marker date="1543455791930" expanded="true" signature="5638:5739" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="5751:5959" ph="/// Random walks outward from the designated start point toward, completed after all cells within grid are comple ... " />
-                <marker date="1543455791930" expanded="true" signature="6027:7433" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="6786:6814" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="6828:7002" ph="/* Limited RoomCount for Random Generation means that the generator will generate until it reaches a fixed number ... */" />
-                <marker date="1543455791930" expanded="true" signature="7110:7295" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="7312:7423" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="7505:8335" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="8218:8246" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="8404:8425" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="8455:12373" ph="Room Placement Functions" />
-                <marker date="1543455791930" expanded="true" signature="8497:8664" ph="/// Place random compatible room at index (x, y) ... " />
-                <marker date="1543455791930" expanded="true" signature="8725:8937" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="8947:9258" ph="/// Place room at index (x, y) with selected ScriptableObject room, bool for forced placement disregarding rules. ... " />
-                <marker date="1543455791930" expanded="true" signature="9337:10176" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="9373:10062" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="9725:9949" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="9822:9883" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="10079:10166" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="10186:10295" ph="/// Place starting room to build out from at default index (0,0) ... " />
-                <marker date="1543455791930" expanded="true" signature="10336:10498" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="10508:10655" ph="/// Place starting room to build out from at designated index ... " />
-                <marker date="1543455791930" expanded="true" signature="10712:10978" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="10996:11144" ph="/// Determine dead end node FURTHEST from the starting point (preferrably on an outer edge of the map). ... " />
-                <marker date="1543455791930" expanded="true" signature="11184:12354" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="11521:12013" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="11606:11999" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="12383:19242" ph="Room_Manipulation" />
-                <marker date="1543455791930" expanded="true" signature="12418:12590" ph="/// Create GameObject/RoomDisplay with cell Information ... " />
-                <marker date="1543455791930" expanded="true" signature="12650:13559" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="13569:13729" ph="/// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacent ... " />
-                <marker date="1543455791930" expanded="true" signature="13777:15263" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="14149:14362" ph="/* Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off i ... */" />
-                <marker date="1543455791930" expanded="true" signature="14520:14706" ph="/* If it fails, find another existing cell on the map to generate from. ... */" />
-                <marker date="1543455791930" expanded="true" signature="14747:15178" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="15273:15430" ph="/// Determines possible rooms to place based on cells adjacent to Vector2 index. ... " />
-                <marker date="1543455791930" expanded="true" signature="15519:17443" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="16931:17088" ph="/* TODO: This may be bad engineering. Fix if possible later down the road. ... */" />
-                <marker date="1543455791930" expanded="true" signature="17453:17714" ph="/// Apply X/Y boundary constraints if set, using list of possible rooms &amp; index of cell in question ... " />
-                <marker date="1543455791930" expanded="true" signature="17812:19222" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="17903:18510" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="18592:19182" ph="{...}" />
-                <marker date="1543455791930" expanded="false" signature="19252:19472" ph="Setters/Getters" />
-                <marker date="1543455791930" expanded="true" signature="19311:19356" ph="{...}" />
-                <marker date="1543455791930" expanded="true" signature="19408:19452" ph="{...}" />
-                <marker date="1543455791930" expanded="false" signature="19482:20778" ph="Editor Functions" />
-                <marker date="1543455791930" expanded="true" signature="19533:19771" ph="/// Visual cues: Visualizes map based on filled map cell rows and columns: ... " />
-                <marker date="1543455791930" expanded="true" signature="19780:20326" ph="/* private void OnDrawGizmos() ... */" />
-                <marker date="1543455791930" expanded="true" signature="20370:20751" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="6:153" ph="..." />
+                <marker date="1543683730563" expanded="true" signature="183:305" ph="/// Procedurally generates dungeon-like connected rooms. ... " />
+                <marker date="1543683730563" expanded="true" signature="306:542" ph="/* TODO: Spawn Player On Edge, Determine Exit Room, Determine Generation based on level &quot;Types&quot;, &quot;Secret&quot; Rooms,  ... */" />
+                <marker date="1543683730563" expanded="true" signature="595:20861" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="610:2076" ph="Constraints" />
+                <marker date="1543683730563" expanded="true" signature="686:2056" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="726:832" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="884:1032" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="1393:1611" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="1658:2046" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="2086:2958" ph="Generator_Variables" />
+                <marker date="1543683730563" expanded="false" signature="2968:5455" ph="Generation" />
+                <marker date="1543683730563" expanded="true" signature="2995:3113" ph="/// Loads all assets to be used for the generator from the file hierarchy ... " />
+                <marker date="1543683730563" expanded="true" signature="3147:4258" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="4268:4397" ph="/// TODO: Generates rooms based on enum style and number of iterations (constraints) ... " />
+                <marker date="1543683730563" expanded="true" signature="4435:5436" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="4803:5272" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="5473:8522" ph="Generation Constraint(s) Definition and Types" />
+                <marker date="1543683730563" expanded="true" signature="5715:5816" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="5828:6036" ph="/// Random walks outward from the designated start point toward, completed after all cells within grid are comple ... " />
+                <marker date="1543683730563" expanded="true" signature="6104:7510" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="6863:6891" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="6905:7079" ph="/* Limited RoomCount for Random Generation means that the generator will generate until it reaches a fixed number ... */" />
+                <marker date="1543683730563" expanded="true" signature="7187:7372" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="7389:7500" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="7582:8412" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="8295:8323" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="8481:8502" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="8532:12450" ph="Room Placement Functions" />
+                <marker date="1543683730563" expanded="true" signature="8574:8741" ph="/// Place random compatible room at index (x, y) ... " />
+                <marker date="1543683730563" expanded="true" signature="8802:9014" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="9024:9335" ph="/// Place room at index (x, y) with selected ScriptableObject room, bool for forced placement disregarding rules. ... " />
+                <marker date="1543683730563" expanded="true" signature="9414:10253" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="9450:10139" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="9802:10026" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="9899:9960" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="10156:10243" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="10263:10372" ph="/// Place starting room to build out from at default index (0,0) ... " />
+                <marker date="1543683730563" expanded="true" signature="10413:10575" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="10585:10732" ph="/// Place starting room to build out from at designated index ... " />
+                <marker date="1543683730563" expanded="true" signature="10789:11055" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="11073:11221" ph="/// Determine dead end node FURTHEST from the starting point (preferrably on an outer edge of the map). ... " />
+                <marker date="1543683730563" expanded="true" signature="11261:12431" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="11598:12090" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="11683:12076" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="12460:19319" ph="Room_Manipulation" />
+                <marker date="1543683730563" expanded="true" signature="12495:12667" ph="/// Create GameObject/RoomDisplay with cell Information ... " />
+                <marker date="1543683730563" expanded="true" signature="12727:13636" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="13646:13806" ph="/// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacent ... " />
+                <marker date="1543683730563" expanded="true" signature="13854:15340" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="14226:14439" ph="/* Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off i ... */" />
+                <marker date="1543683730563" expanded="true" signature="14597:14783" ph="/* If it fails, find another existing cell on the map to generate from. ... */" />
+                <marker date="1543683730563" expanded="true" signature="14824:15255" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="15350:15507" ph="/// Determines possible rooms to place based on cells adjacent to Vector2 index. ... " />
+                <marker date="1543683730563" expanded="true" signature="15596:17520" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="17008:17165" ph="/* TODO: This may be bad engineering. Fix if possible later down the road. ... */" />
+                <marker date="1543683730563" expanded="true" signature="17530:17791" ph="/// Apply X/Y boundary constraints if set, using list of possible rooms &amp; index of cell in question ... " />
+                <marker date="1543683730563" expanded="true" signature="17889:19299" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="17980:18587" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="18669:19259" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="19329:19549" ph="Setters/Getters" />
+                <marker date="1543683730563" expanded="true" signature="19388:19433" ph="{...}" />
+                <marker date="1543683730563" expanded="true" signature="19485:19529" ph="{...}" />
+                <marker date="1543683730563" expanded="false" signature="19559:20855" ph="Editor Functions" />
+                <marker date="1543683730563" expanded="true" signature="19610:19848" ph="/// Visual cues: Visualizes map based on filled map cell rows and columns: ... " />
+                <marker date="1543683730563" expanded="true" signature="19857:20403" ph="/* private void OnDrawGizmos() ... */" />
+                <marker date="1543683730563" expanded="true" signature="20447:20828" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -437,6 +458,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/PatternBuilder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/PatternContainerEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayerMove.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/PatternWindow.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Map.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/PatternContainer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/GeneratorEditor.cs" root0="FORCE_HIGHLIGHTING" />
@@ -480,9 +502,10 @@
         <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Randomization.cs" />
         <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayerMove.cs" />
-        <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" />
         <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs" />
+        <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs" />
         <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs" />
+        <option value="$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/PatternWindow.cs" />
       </list>
     </option>
   </component>
@@ -493,10 +516,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="437" />
-    <option name="y" value="33" />
-    <option name="width" value="1454" />
-    <option name="height" value="993" />
+    <option name="x" value="40958" />
+    <option name="y" value="40958" />
+    <option name="width" value="4828" />
+    <option name="height" value="1378" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -504,6 +527,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="FileSystemExplorer" />
+      <pane id="SolutionExplorer">
+        <option name="show-all-files" value="false" />
+      </pane>
       <pane id="UnityExplorer">
         <subPane>
           <expand>
@@ -593,10 +620,6 @@
         </subPane>
         <option name="show-hidden-items" value="false" />
       </pane>
-      <pane id="SolutionExplorer">
-        <option name="show-all-files" value="false" />
-      </pane>
-      <pane id="FileSystemExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -657,12 +680,15 @@
       <workItem from="1543284017865" duration="3487000" />
       <workItem from="1543361522604" duration="9807000" />
       <workItem from="1543431938375" duration="8670000" />
-      <workItem from="1543453650878" duration="3740000" />
+      <workItem from="1543453650878" duration="4335000" />
+      <workItem from="1543683593444" duration="1048000" />
+      <workItem from="1543886820095" duration="36000" />
+      <workItem from="1543886893001" duration="961000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="111194000" />
+    <option name="totallyTimeSpent" value="113834000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -674,10 +700,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="350" y="27" width="1163" height="794" extended-state="0" />
-    <editor active="true" />
+    <frame x="32767" y="32767" width="3862" height="1102" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.051677246" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.015789473" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -816,6 +841,62 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayer.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayerMove.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../VGDAJulyJam/VGDAJulyJame/Assets/_Scripts/Player/PlayerMovement.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="29" column="47" lean-forward="true" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1072">
+          <caret line="71" column="35" selection-start-line="71" selection-start-column="35" selection-end-line="71" selection-end-column="35" />
+          <folding>
+            <marker date="1543684179331" expanded="false" signature="6:126" ph="..." />
+            <marker date="1543684179331" expanded="true" signature="236:4744" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="751:1741" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="1784:2243" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="1917:2233" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="2315:2525" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="2534:2908" ph="/// Places objects onto the &quot;overlay&quot; foreground, as determined by patterns. ... " />
+            <marker date="1543684179331" expanded="true" signature="2965:4738" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="3282:4728" ph="{...}" />
+            <marker date="1543684179331" expanded="true" signature="3459:4550" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="912">
+          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
+          <folding>
+            <marker date="1543464604846" expanded="true" signature="58:2856" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="143:415" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="620:1108" ph="Constructor(s)" />
+            <marker date="1543464604846" expanded="true" signature="710:821" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="849:1029" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="1048:1088" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="1113:1892" ph="Getters/Setters" />
+            <marker date="1543464604846" expanded="true" signature="1514:1643" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="1733:1808" ph="{...}" />
+            <marker date="1543464604846" expanded="false" signature="1897:2854" ph="overrides" />
+            <marker date="1543464604846" expanded="true" signature="1960:2202" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="2275:2634" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="2330:2628" ph="{...}" />
+            <marker date="1543464604846" expanded="true" signature="2673:2839" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Map.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1456">
@@ -881,6 +962,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="140" column="18" selection-start-line="140" selection-start-column="18" selection-end-line="140" selection-end-column="18" />
+          <folding>
+            <marker date="1543683730563" expanded="false" signature="6:153" ph="..." />
+            <marker date="1543683730563" expanded="true" signature="183:305" ph="/// Procedurally generates dungeon-like connected rooms. ... " />
+            <marker date="1543683730563" expanded="true" signature="306:542" ph="/* TODO: Spawn Player On Edge, Determine Exit Room, Determine Generation based on level &quot;Types&quot;, &quot;Secret&quot; Rooms,  ... */" />
+            <marker date="1543683730563" expanded="true" signature="595:20861" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="610:2076" ph="Constraints" />
+            <marker date="1543683730563" expanded="true" signature="686:2056" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="726:832" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="884:1032" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="1393:1611" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="1658:2046" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="2086:2958" ph="Generator_Variables" />
+            <marker date="1543683730563" expanded="false" signature="2968:5455" ph="Generation" />
+            <marker date="1543683730563" expanded="true" signature="2995:3113" ph="/// Loads all assets to be used for the generator from the file hierarchy ... " />
+            <marker date="1543683730563" expanded="true" signature="3147:4258" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="4268:4397" ph="/// TODO: Generates rooms based on enum style and number of iterations (constraints) ... " />
+            <marker date="1543683730563" expanded="true" signature="4435:5436" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="4803:5272" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="5473:8522" ph="Generation Constraint(s) Definition and Types" />
+            <marker date="1543683730563" expanded="true" signature="5715:5816" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="5828:6036" ph="/// Random walks outward from the designated start point toward, completed after all cells within grid are comple ... " />
+            <marker date="1543683730563" expanded="true" signature="6104:7510" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="6863:6891" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="6905:7079" ph="/* Limited RoomCount for Random Generation means that the generator will generate until it reaches a fixed number ... */" />
+            <marker date="1543683730563" expanded="true" signature="7187:7372" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="7389:7500" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="7582:8412" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="8295:8323" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="8481:8502" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="8532:12450" ph="Room Placement Functions" />
+            <marker date="1543683730563" expanded="true" signature="8574:8741" ph="/// Place random compatible room at index (x, y) ... " />
+            <marker date="1543683730563" expanded="true" signature="8802:9014" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="9024:9335" ph="/// Place room at index (x, y) with selected ScriptableObject room, bool for forced placement disregarding rules. ... " />
+            <marker date="1543683730563" expanded="true" signature="9414:10253" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="9450:10139" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="9802:10026" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="9899:9960" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="10156:10243" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="10263:10372" ph="/// Place starting room to build out from at default index (0,0) ... " />
+            <marker date="1543683730563" expanded="true" signature="10413:10575" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="10585:10732" ph="/// Place starting room to build out from at designated index ... " />
+            <marker date="1543683730563" expanded="true" signature="10789:11055" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="11073:11221" ph="/// Determine dead end node FURTHEST from the starting point (preferrably on an outer edge of the map). ... " />
+            <marker date="1543683730563" expanded="true" signature="11261:12431" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="11598:12090" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="11683:12076" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="12460:19319" ph="Room_Manipulation" />
+            <marker date="1543683730563" expanded="true" signature="12495:12667" ph="/// Create GameObject/RoomDisplay with cell Information ... " />
+            <marker date="1543683730563" expanded="true" signature="12727:13636" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="13646:13806" ph="/// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacent ... " />
+            <marker date="1543683730563" expanded="true" signature="13854:15340" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="14226:14439" ph="/* Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off i ... */" />
+            <marker date="1543683730563" expanded="true" signature="14597:14783" ph="/* If it fails, find another existing cell on the map to generate from. ... */" />
+            <marker date="1543683730563" expanded="true" signature="14824:15255" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="15350:15507" ph="/// Determines possible rooms to place based on cells adjacent to Vector2 index. ... " />
+            <marker date="1543683730563" expanded="true" signature="15596:17520" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="17008:17165" ph="/* TODO: This may be bad engineering. Fix if possible later down the road. ... */" />
+            <marker date="1543683730563" expanded="true" signature="17530:17791" ph="/// Apply X/Y boundary constraints if set, using list of possible rooms &amp; index of cell in question ... " />
+            <marker date="1543683730563" expanded="true" signature="17889:19299" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="17980:18587" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="18669:19259" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="19329:19549" ph="Setters/Getters" />
+            <marker date="1543683730563" expanded="true" signature="19388:19433" ph="{...}" />
+            <marker date="1543683730563" expanded="true" signature="19485:19529" ph="{...}" />
+            <marker date="1543683730563" expanded="false" signature="19559:20855" ph="Editor Functions" />
+            <marker date="1543683730563" expanded="true" signature="19610:19848" ph="/// Visual cues: Visualizes map based on filled map cell rows and columns: ... " />
+            <marker date="1543683730563" expanded="true" signature="19857:20403" ph="/* private void OnDrawGizmos() ... */" />
+            <marker date="1543683730563" expanded="true" signature="20447:20828" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Randomization.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
@@ -920,6 +1077,20 @@
             <marker date="1543364995505" expanded="true" signature="1159:1321" ph="/// Builds colliders based on ScriptableObject Room List of List of Vector2 points (List&lt;V2List&gt;) ... " />
             <marker date="1543364995505" expanded="true" signature="1360:1941" ph="{...}" />
             <marker date="1543364995505" expanded="true" signature="1496:1908" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Pattern.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+          <folding>
+            <marker date="1543177619951" expanded="false" signature="6:71" ph="..." />
+            <marker date="1543177619951" expanded="true" signature="133:814" ph="{...}" />
+            <marker date="1543177619951" expanded="true" signature="334:560" ph="{...}" />
+            <marker date="1543177619951" expanded="true" signature="598:812" ph="{...}" />
+            <marker date="1543177619951" expanded="true" signature="622:806" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -982,186 +1153,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Testing/TestPlayerMove.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Editors/PatternWindow.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+        <state relative-caret-position="192">
+          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
           <folding>
-            <marker date="1543443018435" expanded="false" signature="6:78" ph="..." />
-            <marker date="1543443018435" expanded="true" signature="123:1111" ph="{...}" />
-            <marker date="1543443018435" expanded="true" signature="275:335" ph="{...}" />
-            <marker date="1543443018435" expanded="true" signature="398:481" ph="{...}" />
-            <marker date="1543443018435" expanded="true" signature="514:722" ph="{...}" />
-            <marker date="1543443018435" expanded="true" signature="610:716" ph="{...}" />
-            <marker date="1543443018435" expanded="true" signature="768:1109" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../VGDAJulyJam/VGDAJulyJame/Assets/_Scripts/Player/PlayerMovement.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="29" column="47" lean-forward="true" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-          <folding>
-            <marker date="1532740760795" expanded="false" signature="6:78" ph="..." />
-            <marker date="1532740760795" expanded="true" signature="123:5798" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="854:908" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="927:1049" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="1071:1350" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="1442:2506" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="1836:1960" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="1998:2121" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="2159:2284" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="2322:2448" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="2512:2625" ph="/* physics-based controls ... */" />
-            <marker date="1532740760795" expanded="true" signature="2649:3670" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="2683:3664" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="2957:3336" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="3353:3654" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="3443:3591" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="3675:3828" ph="/* Because we get raw input, values are not smoothed nor processed. ... */" />
-            <marker date="1532740760795" expanded="true" signature="3874:4215" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4236:4348" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4373:4423" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4477:4628" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4534:4622" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4680:4823" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4737:4817" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="4923:5271" ph="{...}" />
-            <marker date="1532740760795" expanded="true" signature="5404:5796" ph="/* void MakeMovement() ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Generation/Generator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="306" column="45" selection-start-line="306" selection-start-column="45" selection-end-line="306" selection-end-column="45" />
-          <folding>
-            <marker date="1543455791930" expanded="false" signature="6:153" ph="..." />
-            <marker date="1543455791930" expanded="true" signature="176:20786" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="179:415" ph="/* TODO: Spawn Player On Edge, Determine Exit Room, Determine Generation based on level &quot;Types&quot;, &quot;Secret&quot; Rooms,  ... */" />
-            <marker date="1543455791930" expanded="true" signature="468:20784" ph="{...}" />
-            <marker date="1543455791930" expanded="false" signature="483:1949" ph="Constraints" />
-            <marker date="1543455791930" expanded="true" signature="559:1929" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="599:705" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="757:905" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="1266:1484" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="1531:1919" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="1959:2831" ph="Generator_Variables" />
-            <marker date="1543455791930" expanded="true" signature="2841:5328" ph="Generation" />
-            <marker date="1543455791930" expanded="true" signature="2868:2986" ph="/// Loads all assets to be used for the generator from the file hierarchy ... " />
-            <marker date="1543455791930" expanded="true" signature="3020:4131" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="4141:4270" ph="/// TODO: Generates rooms based on enum style and number of iterations (constraints) ... " />
-            <marker date="1543455791930" expanded="true" signature="4308:5309" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="4676:5145" ph="{...}" />
-            <marker date="1543455791930" expanded="false" signature="5338:5378" ph="Spawn Things" />
-            <marker date="1543455791930" expanded="false" signature="5396:8445" ph="Generation Constraint(s) Definition and Types" />
-            <marker date="1543455791930" expanded="true" signature="5638:5739" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="5751:5959" ph="/// Random walks outward from the designated start point toward, completed after all cells within grid are comple ... " />
-            <marker date="1543455791930" expanded="true" signature="6027:7433" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="6786:6814" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="6828:7002" ph="/* Limited RoomCount for Random Generation means that the generator will generate until it reaches a fixed number ... */" />
-            <marker date="1543455791930" expanded="true" signature="7110:7295" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="7312:7423" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="7505:8335" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="8218:8246" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="8404:8425" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="8455:12373" ph="Room Placement Functions" />
-            <marker date="1543455791930" expanded="true" signature="8497:8664" ph="/// Place random compatible room at index (x, y) ... " />
-            <marker date="1543455791930" expanded="true" signature="8725:8937" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="8947:9258" ph="/// Place room at index (x, y) with selected ScriptableObject room, bool for forced placement disregarding rules. ... " />
-            <marker date="1543455791930" expanded="true" signature="9337:10176" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="9373:10062" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="9725:9949" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="9822:9883" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="10079:10166" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="10186:10295" ph="/// Place starting room to build out from at default index (0,0) ... " />
-            <marker date="1543455791930" expanded="true" signature="10336:10498" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="10508:10655" ph="/// Place starting room to build out from at designated index ... " />
-            <marker date="1543455791930" expanded="true" signature="10712:10978" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="10996:11144" ph="/// Determine dead end node FURTHEST from the starting point (preferrably on an outer edge of the map). ... " />
-            <marker date="1543455791930" expanded="true" signature="11184:12354" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="11521:12013" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="11606:11999" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="12383:19242" ph="Room_Manipulation" />
-            <marker date="1543455791930" expanded="true" signature="12418:12590" ph="/// Create GameObject/RoomDisplay with cell Information ... " />
-            <marker date="1543455791930" expanded="true" signature="12650:13559" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="13569:13729" ph="/// Generation method marches outwards; picks random existing cells and builds outward based on existing adjacent ... " />
-            <marker date="1543455791930" expanded="true" signature="13777:15263" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="14149:14362" ph="/* Get a random cell adjacent to the existing cell that does not have anything placed into it, but is built off i ... */" />
-            <marker date="1543455791930" expanded="true" signature="14520:14706" ph="/* If it fails, find another existing cell on the map to generate from. ... */" />
-            <marker date="1543455791930" expanded="true" signature="14747:15178" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="15273:15430" ph="/// Determines possible rooms to place based on cells adjacent to Vector2 index. ... " />
-            <marker date="1543455791930" expanded="true" signature="15519:17443" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="16931:17088" ph="/* TODO: This may be bad engineering. Fix if possible later down the road. ... */" />
-            <marker date="1543455791930" expanded="true" signature="17453:17714" ph="/// Apply X/Y boundary constraints if set, using list of possible rooms &amp; index of cell in question ... " />
-            <marker date="1543455791930" expanded="true" signature="17812:19222" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="17903:18510" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="18592:19182" ph="{...}" />
-            <marker date="1543455791930" expanded="false" signature="19252:19472" ph="Setters/Getters" />
-            <marker date="1543455791930" expanded="true" signature="19311:19356" ph="{...}" />
-            <marker date="1543455791930" expanded="true" signature="19408:19452" ph="{...}" />
-            <marker date="1543455791930" expanded="false" signature="19482:20778" ph="Editor Functions" />
-            <marker date="1543455791930" expanded="true" signature="19533:19771" ph="/// Visual cues: Visualizes map based on filled map cell rows and columns: ... " />
-            <marker date="1543455791930" expanded="true" signature="19780:20326" ph="/* private void OnDrawGizmos() ... */" />
-            <marker date="1543455791930" expanded="true" signature="20370:20751" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Pattern.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-          <folding>
-            <marker date="1543177619951" expanded="false" signature="6:71" ph="..." />
-            <marker date="1543177619951" expanded="true" signature="133:814" ph="{...}" />
-            <marker date="1543177619951" expanded="true" signature="334:560" ph="{...}" />
-            <marker date="1543177619951" expanded="true" signature="598:812" ph="{...}" />
-            <marker date="1543177619951" expanded="true" signature="622:806" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="86" column="1" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
-          <folding>
-            <marker date="1543464604846" expanded="true" signature="58:2856" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="143:415" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="620:1108" ph="Constructor(s)" />
-            <marker date="1543464604846" expanded="true" signature="710:821" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="849:1029" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="1048:1088" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="1113:1892" ph="Getters/Setters" />
-            <marker date="1543464604846" expanded="true" signature="1514:1643" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="1733:1808" ph="{...}" />
-            <marker date="1543464604846" expanded="false" signature="1897:2854" ph="overrides" />
-            <marker date="1543464604846" expanded="true" signature="1960:2202" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="2275:2634" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="2330:2628" ph="{...}" />
-            <marker date="1543464604846" expanded="true" signature="2673:2839" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Overlay/Overlay.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
-          <folding>
-            <marker date="1543464848636" expanded="false" signature="6:126" ph="..." />
-            <marker date="1543464848636" expanded="true" signature="149:4128" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="236:4126" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="751:1741" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="1784:2243" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="1917:2233" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="2315:2525" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="2582:4120" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="2899:4110" ph="{...}" />
-            <marker date="1543464848636" expanded="true" signature="3076:3932" ph="{...}" />
+            <marker date="1543887161168" expanded="true" signature="6:97" ph="..." />
+            <marker date="1543887161168" expanded="true" signature="140:336" ph="{...}" />
+            <marker date="1543887161168" expanded="true" signature="205:334" ph="{...}" />
           </folding>
         </state>
       </provider>
