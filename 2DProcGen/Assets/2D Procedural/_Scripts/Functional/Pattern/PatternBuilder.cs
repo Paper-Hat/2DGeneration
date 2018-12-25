@@ -36,8 +36,6 @@ public class PatternBuilder : MonoBehaviour
 
     public void Init()
     {
-        List<Object> ptrnObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
-        allPatterns = ptrnObjs.Cast<Pattern>().ToList();
         placements = new List<Cell>();
         Debug.Log("Current patterns in list: " + allPatterns.Count);
     }
@@ -68,9 +66,10 @@ public class PatternBuilder : MonoBehaviour
                 canvasRect.sizeDelta = imgRect.sizeDelta;
         }
     }
+    //NEEDS REFACTOR
     public void CreateGrid()
     {
-        buttonGrid = new GameObject[columns, rows];
+        buttonGrid = new GameObject[rows, columns];
         gridRef = new GameObject("Grid Reference");
         gridRef.AddComponent<CanvasRenderer>();
         gridRef.transform.parent = canvas.transform;
@@ -79,7 +78,7 @@ public class PatternBuilder : MonoBehaviour
             Vector2 gridRect = glg.GetComponent<RectTransform>().sizeDelta = canvasRef.GetComponent<RectTransform>().sizeDelta;
             //Grid Square x: rect x/columns
             //Grid Square y: rect y/rows
-            glg.cellSize = new Vector2(gridRect.x / columns, gridRect.y / rows);
+            glg.cellSize = new Vector2(gridRect.x / rows, gridRect.y / columns);
             gridButton.GetComponent<RectTransform>().sizeDelta = glg.cellSize;
         }
         else{
@@ -120,10 +119,29 @@ public class PatternBuilder : MonoBehaviour
         }
         return failed;
     }
+
+    public bool SetGridObject((int, int) index, GameObject gridObject)
+    {
+        bool failed = false;
+        if (gridRef)
+        {
+            if(buttonGrid[index.Item1, index.Item2] != null)
+                DestroyImmediate(buttonGrid[index.Item1, index.Item2]);
+            buttonGrid[index.Item1, index.Item2] = Instantiate(gridObject, gridRef.transform);
+        }
+        else
+        {
+            failed = true;
+            reason = "Grid not created.";
+        }
+        return failed;
+
+    }
     
-    //TODO: Compare against all current stored patterns
     public bool CreatePattern()
     {
+        List<Object> ptrnObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
+        allPatterns = ptrnObjs.Cast<Pattern>().ToList();
         bool failed = false;
         if (filled){
             editing = Instantiate(ScriptableObject.CreateInstance<Pattern>());
@@ -131,10 +149,8 @@ public class PatternBuilder : MonoBehaviour
             {
                 GCVisualComponent c = g.GetComponent<GCVisualComponent>();
                 c.SetLocation(g.transform.position);
-                if (c.GetSpawnType() != Cell.SpawnType.None || c.GetWallType() != Cell.WallType.None)
-                {
+                if (c.GetSpawn() != null)
                     placements.Add(new Cell(c.CellRef));
-                }
             }
             editing.Placements = new List<Cell>(placements);
             editing.roomType = typing;
@@ -177,9 +193,7 @@ public class PatternBuilder : MonoBehaviour
         else{
             foreach (GameObject g in buttonGrid){
                 GCVisualComponent cell = g.GetComponent<GCVisualComponent>();
-                cell.SetSpawnType(Cell.SpawnType.None);
-                cell.SetWallType(Cell.WallType.None);
-                cell.SetSpawnChance(0f);
+                cell.SetSpawn(null);
             }
 
         }

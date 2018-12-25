@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Justin\.Rider2018.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Justin\.Rider2018.2\system\resharper-host\local\Transient\ReSharperHost\v182\SolutionCaches\_2DProcGen.126635981.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Justin\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Justin\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_2DProcGen.126635981.00" t="ExcludeRecursive" />
     <e p="C:\Users\Justin\Documents\GitHub\_2DPG\2DGeneration\2DProcGen" t="IncludeRecursive">
       <e p="2DProcGen.sln" t="IncludeFlat" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -18,9 +18,6 @@
               <e p="RoomBuilderEditor.cs" t="Include" />
             </e>
             <e p="Functional" t="Include">
-              <e p="Forced - Needs Refactor" t="Include">
-                <e p="Wall.cs" t="Include" />
-              </e>
               <e p="Generation" t="Include">
                 <e p="Generator.cs" t="Include" />
                 <e p="IGenerable.cs" t="Include" />
@@ -45,13 +42,18 @@
               </e>
             </e>
             <e p="General" t="Include">
+              <e p="JKGrid.cs" t="Include" />
               <e p="SerializedPropertyViewer.cs" t="Include" />
               <e p="SpriteSort.cs" t="Include" />
               <e p="UsefulFunctions.cs" t="Include" />
               <e p="V2List.cs" t="Include" />
             </e>
-            <e p="Testing" t="Include">
+          </e>
+          <e p="_Testing" t="Include">
+            <e p="_TestingScripts" t="Include">
               <e p="GenerationTesting.cs" t="Include" />
+              <e p="TestGrid.cs" t="Include" />
+              <e p="TestGridEditor.cs" t="Include" />
               <e p="TestPlayerMove.cs" t="Include" />
             </e>
           </e>

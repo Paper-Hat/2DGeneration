@@ -8,8 +8,7 @@ using UnityEditor;
 [CanEditMultipleObjects]
 public class CellEditor : Editor
 {
-    private Cell.SpawnType spawnType;
-    private Cell.WallType wallType;
+    private GameObject spawn;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -18,22 +17,14 @@ public class CellEditor : Editor
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Set Spawn", GUILayout.ExpandWidth(false)))
         {
-            cellEditor.SetSpawnType(spawnType);
-            Debug.Log(cellEditor.GetSpawnType());
+            cellEditor.SetSpawn(spawn);
+            Debug.Log(cellEditor.GetSpawn());
         }
-        spawnType = (Cell.SpawnType)EditorGUILayout.EnumPopup(spawnType, GUILayout.ExpandWidth(false));
-        GUILayout.EndHorizontal();
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Set Wall Spawn", GUILayout.ExpandWidth(false)))
-        {
-            cellEditor.SetWallType(wallType);
-        }
-        wallType = (Cell.WallType)EditorGUILayout.EnumPopup(wallType, GUILayout.ExpandWidth(false));
+        spawn = (GameObject)EditorGUILayout.ObjectField(spawn, typeof(GameObject), true, GUILayout.ExpandWidth(false));
         GUILayout.EndHorizontal();
         if (GUILayout.Button("Reset Spawn", GUILayout.ExpandWidth(false)))
         {
-            cellEditor.SetSpawnType(Cell.SpawnType.None);
-            cellEditor.SetWallType(Cell.WallType.None);
+            cellEditor.SetSpawn(null);
             cellEditor.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }

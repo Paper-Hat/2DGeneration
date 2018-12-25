@@ -33,9 +33,9 @@ MonoBehaviour:
     wallType: 11
     spawnChance: 0
     location: {x: -14, y: 12, z: 0}
-  - spawnType: 2
+  - spawnType: 3
     wallType: 0
-    spawnChance: 0
+    spawnChance: 100
     location: {x: -12, y: 12, z: 0}
   - spawnType: 1
     wallType: 0

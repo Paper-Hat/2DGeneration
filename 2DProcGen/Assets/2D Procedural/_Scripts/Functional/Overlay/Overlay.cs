@@ -66,27 +66,7 @@ namespace jkGenerator
             foreach (Cell cell in p.Placements)
             {
                 //Debug.Log("Active Cell Location: " + cell.GetLocation());
-                GameObject ovlObj = null;
-                switch (cell.GetSpawnType())
-                {
-                    case Cell.SpawnType.Enemy:
-                        ovlObj = Object.Instantiate(Randomization.GetRandom(_enemies), cell.GetLocation(),
-                            Quaternion.identity);
-                        break;
-                    case Cell.SpawnType.Obstacle:
-                        ovlObj = Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
-                            Quaternion.identity);
-                        break;
-                    case Cell.SpawnType.Gun:
-                        ovlObj = Object.Instantiate(Randomization.GetRandom(_obstacles), cell.GetLocation(),
-                            Quaternion.identity);
-                        break;
-                    case Cell.SpawnType.None:
-                        ovlObj = Object.Instantiate(Randomization.GetRandom(_walls
-                                .Where(x => x.GetComponent<Wall>().GetWallType() == cell.GetWallType()).ToList()),
-                            cell.GetLocation(), Quaternion.identity);
-                        break;
-                }
+                GameObject ovlObj = Object.Instantiate(cell.GetSpawn(), cell.GetLocation(), Quaternion.identity);
                 if (!ovlObj) continue;
                 ovlObj.transform.position += node.cellPos;
                 ovlObj.transform.parent = ovlContainer.transform;
