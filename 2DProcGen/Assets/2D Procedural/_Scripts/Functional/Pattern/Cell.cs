@@ -5,9 +5,16 @@ public class Cell
 
     [SerializeField] private GameObject spawn;
     [SerializeField] private float spawnChance = 100f;
-    [SerializeField] private Vector3 location;
+    [SerializeField] private Vector2 location;
     #region Constructor(s)
-    public Cell(float chance, Vector3 loc)
+
+    public Cell(GameObject go, float chance, Vector2 loc)
+    {
+        spawn = go;
+        spawnChance = chance;
+        location = loc;
+    }
+    public Cell(float chance, Vector2 loc)
     {
         spawnChance = chance;
         location = loc;
@@ -17,7 +24,6 @@ public class Cell
         spawnChance = other.GetSpawnChance();
         location = other.GetLocation();
     }
-
     public Cell()
     {
         spawnChance = 100f;
@@ -25,9 +31,9 @@ public class Cell
     
     #endregion
     #region Getters/Setters
-    public void SetLocation(Vector3 loc) { location = loc; }
+    public void SetLocation(Vector2 loc) { location = loc; }
     public float GetSpawnChance(){ return spawnChance; }
-    public Vector3 GetLocation(){ return location; }
+    public Vector2 GetLocation(){ return location; }
     //if set as spawn, resets wall type to none
     public void SetSpawn(GameObject go)
     {

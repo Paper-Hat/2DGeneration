@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
+using jkGenerator;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,17 +18,21 @@ public class PatternBuilder : MonoBehaviour
 
     //Builder-only vars
     //canvas = Canvas object, gridRef = panel object
-    [SerializeField] private int columns = 10, rows = 10;
-    [SerializeField] private float size = 10;
-    [SerializeField] private bool hasReferenceImage;
+    [SerializeField] private int subdivisions; //columns = 10, rows = 10;
+    //[SerializeField] private float size = 10;
+    [SerializeField] private float size;
+    //[SerializeField] private bool hasReferenceImage;
     [SerializeField] private Sprite imgSprite;
-    [SerializeField] private GameObject gridButton;
-    [SerializeField] private GameObject[,] buttonGrid;
+
+    public bool allowDisplay;
+    //[SerializeField] private GameObject gridButton;
+    //[SerializeField] private GameObject[,] buttonGrid;
     //List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
-    private GameObject gridRef, canvas, imgRef;
+    [SerializeField] private JKGrid grid;
+    private GameObject patternBuilderObj;//, gridRef, canvas, imgRef;
     private Canvas canvasRef;
-    private GridLayoutGroup glg;
-    private bool filled;
+    //private GridLayoutGroup glg;
+    //private bool filled;
     private string reason;
     private List<Pattern> allPatterns;
     #endregion
@@ -37,11 +42,14 @@ public class PatternBuilder : MonoBehaviour
     public void Init()
     {
         placements = new List<Cell>();
-        Debug.Log("Current patterns in list: " + allPatterns.Count);
+        allPatterns = Resources.LoadAll("_ScriptableObjects/Patterns").Cast<Pattern>().ToList();
+        Debug.Log("Current # of patterns in list: " + allPatterns.Count);
+        patternBuilderObj = new GameObject("Pattern Builder");
+        patternBuilderObj.transform.parent = gameObject.transform;
     }
     //Canvas and grid creators use manual object creation; this could be sped up (processor-wise) by creating scriptableobjects.
     //However, not relying on setup/prefab placement allows lesser burden of information on users.
-    public void CreateCanvas()
+    /*public void CreateCanvas()
     {
         canvas = new GameObject("Canvas");
         canvasRef = canvas.AddComponent<Canvas>();
@@ -65,69 +73,20 @@ public class PatternBuilder : MonoBehaviour
             else
                 canvasRect.sizeDelta = imgRect.sizeDelta;
         }
-    }
-    //NEEDS REFACTOR
+    }*/
     public void CreateGrid()
     {
-        buttonGrid = new GameObject[rows, columns];
-        gridRef = new GameObject("Grid Reference");
-        gridRef.AddComponent<CanvasRenderer>();
-        gridRef.transform.parent = canvas.transform;
-        glg = gridRef.AddComponent<GridLayoutGroup>();
-        if (hasReferenceImage){
-            Vector2 gridRect = glg.GetComponent<RectTransform>().sizeDelta = canvasRef.GetComponent<RectTransform>().sizeDelta;
-            //Grid Square x: rect x/columns
-            //Grid Square y: rect y/rows
-            glg.cellSize = new Vector2(gridRect.x / rows, gridRect.y / columns);
-            gridButton.GetComponent<RectTransform>().sizeDelta = glg.cellSize;
-        }
-        else{
-            glg.cellSize = new Vector2(size, size);
-            //Match the button size to the respective cell size
-            gridButton.transform.localScale = new Vector3(1f, 1f, gridButton.transform.localScale.z);
-        }
-        glg.startCorner = GridLayoutGroup.Corner.UpperLeft;
-        glg.startAxis = GridLayoutGroup.Axis.Horizontal;
-        glg.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        glg.constraintCount = columns;
-        glg.constraintCount = rows;
+        grid = imgSprite ? new JKGrid(imgSprite, subdivisions, patternBuilderObj.transform.position, patternBuilderObj) : new JKGrid(size, subdivisions, patternBuilderObj.transform.position, patternBuilderObj);
     }
-    public void ClearCanvasAndGrid()
-    {
-        DestroyImmediate(gridRef);
-        DestroyImmediate(canvas);
-        filled = false;
-    }
-    public bool FillGrid()
+    public bool SetGridObject((int, int) index, GameObject gridObject, float spawnChance)
     {
         bool failed = false;
-        if (!filled && gridRef){
-            for (int i = 0; i < columns; i++){
-                for (int j = 0; j < rows; j++){
-                    buttonGrid[i, j] = Instantiate(gridButton, gridRef.transform);
-                }
-            }
-            filled = true;
-        }
-        else if (filled){
-            failed = true;
-            reason = "Grid has already been filled. Clear it before attempting to fill it again.";
-        }
-        else{
-            failed = true;
-            reason = "Grid not created.";
-        }
-        return failed;
-    }
-
-    public bool SetGridObject((int, int) index, GameObject gridObject)
-    {
-        bool failed = false;
-        if (gridRef)
+        if (patternBuilderObj)
         {
-            if(buttonGrid[index.Item1, index.Item2] != null)
-                DestroyImmediate(buttonGrid[index.Item1, index.Item2]);
-            buttonGrid[index.Item1, index.Item2] = Instantiate(gridObject, gridRef.transform);
+            grid.Set(index.Item1, index.Item2, gridObject);
+            Cell temp = new Cell(gridObject, spawnChance, grid.GetIndexes()[index.Item1, index.Item2].Item2);
+            if (!placements.Any(x => Equals(x, temp)))
+                placements.Add(temp);
         }
         else
         {
@@ -143,15 +102,8 @@ public class PatternBuilder : MonoBehaviour
         List<Object> ptrnObjs = Resources.LoadAll("_ScriptableObjects/Patterns", typeof(Pattern)).ToList();
         allPatterns = ptrnObjs.Cast<Pattern>().ToList();
         bool failed = false;
-        if (filled){
+        if (patternBuilderObj){
             editing = Instantiate(ScriptableObject.CreateInstance<Pattern>());
-            foreach (var g in buttonGrid)
-            {
-                GCVisualComponent c = g.GetComponent<GCVisualComponent>();
-                c.SetLocation(g.transform.position);
-                if (c.GetSpawn() != null)
-                    placements.Add(new Cell(c.CellRef));
-            }
             editing.Placements = new List<Cell>(placements);
             editing.roomType = typing;
             if(allPatterns.Count > 0){
@@ -165,55 +117,64 @@ public class PatternBuilder : MonoBehaviour
         }
         else {
             failed = true;
-            reason = "Grid not filled.";
+            reason = "Pattern Builder Object nonexistent.";
         }
         return failed;
     }
     public bool EmptyGrid()
     {
         bool failed = false;
-        if (buttonGrid == null){
+        if (grid == null){
             failed = true;
             reason = "Grid not created.";
         }
         else{
-            foreach (GameObject g in buttonGrid)
-                DestroyImmediate(g);
-            filled = false;
-        }
-        return failed;
-    }
-    public bool ResetCells()
-    {
-        bool failed = false;
-        if (buttonGrid == null){
-            reason = "Grid not created.";
-            failed = true;
-        }
-        else{
-            foreach (GameObject g in buttonGrid){
-                GCVisualComponent cell = g.GetComponent<GCVisualComponent>();
-                cell.SetSpawn(null);
-            }
-
+            grid.RemoveAll();
+            //filled = false;
         }
         return failed;
     }
     public void ResetBuilder()
     {
-        DestroyImmediate(gridRef);
-        DestroyImmediate(canvas);
-        DestroyImmediate(editing);
-        filled = false;
+        DestroyImmediate(patternBuilderObj);
+        EmptyGrid();
+        //filled = false;
     }
 
-    public GameObject[,] GetButtonGrid()
+    public JKGrid GetGrid()
     {
-        return buttonGrid;
+        return grid;
     }
-    
+
+    public GameObject GetBuilder()
+    {
+        return patternBuilderObj;
+    }
     public string GetReason()       { return reason;}
-    public GameObject GetCanvas()   { return canvas;}
     #endregion
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        if (allowDisplay)
+        {
+            foreach (var element in grid.GetIndexes())
+                Gizmos.DrawSphere(element.Item2, .5f);
+            //Horizontal
+            Gizmos.DrawLine(
+                new Vector3(grid.GetWorldPos().x - .5f * grid.GetSize(), grid.GetWorldPos().y + .5f * grid.GetSize()),
+                new Vector3(grid.GetWorldPos().x + .5f * grid.GetSize(), grid.GetWorldPos().y + .5f * grid.GetSize()));
+            Gizmos.DrawLine(
+                new Vector3(grid.GetWorldPos().x - .5f * grid.GetSize(), grid.GetWorldPos().y - .5f * grid.GetSize()),
+                new Vector3(grid.GetWorldPos().x + .5f * grid.GetSize(), grid.GetWorldPos().y - .5f * grid.GetSize()));
+            //Vertical
+            Gizmos.DrawLine(
+                new Vector3(grid.GetWorldPos().x - .5f * grid.GetSize(), grid.GetWorldPos().y + .5f * grid.GetSize()),
+                new Vector3(grid.GetWorldPos().x - .5f * grid.GetSize(), grid.GetWorldPos().y - .5f * grid.GetSize()));
+            Gizmos.DrawLine(
+                new Vector3(grid.GetWorldPos().x + .5f * grid.GetSize(), grid.GetWorldPos().y + .5f * grid.GetSize()),
+                new Vector3(grid.GetWorldPos().x + .5f * grid.GetSize(), grid.GetWorldPos().y - .5f * grid.GetSize()));
+        }
+    }
 }
 #endif

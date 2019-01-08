@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using jkGenerator;
 using UnityEngine;
+using UnityEngine.UI;
+
 #if UNITY_EDITOR
 [ExecuteInEditMode]
 [System.Serializable]
@@ -9,17 +11,36 @@ public class TestGrid : MonoBehaviour
 {
     [SerializeField] private float gridSize;
     [SerializeField] private int subdivisions;
+    [SerializeField] private Image imageTester;
+    [SerializeField] private Sprite spriteTester;
     [SerializeField] private JKGrid jkg;
     
-    public void CreateGrid()
+    public void GridDefault()
     {
         var go = gameObject;
         jkg = new JKGrid(gridSize, subdivisions, go.transform.position, go);
     }
 
+    public void GridByImage()
+    {
+        var go = gameObject;
+        jkg = new JKGrid(imageTester, subdivisions, go.transform.position, go);
+    }
+
+    public void GridBySprite()
+    {
+        var go = gameObject;
+        jkg = new JKGrid(spriteTester, subdivisions, go.transform.position, go);
+    }
+
     public void DestroyGrid()
     {
         jkg = null;
+    }
+
+    public void SetSize()
+    {
+        gridSize = jkg.GetSize();
     }
     void OnDrawGizmos()
     {

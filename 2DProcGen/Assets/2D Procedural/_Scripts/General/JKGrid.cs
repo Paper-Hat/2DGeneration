@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Xml.Linq;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 namespace jkGenerator
@@ -20,6 +21,7 @@ namespace jkGenerator
         public JKGrid(float size, int subdivisions, Vector2 centerPos, GameObject attachedObj)
         {
             gridSize = size;
+            Debug.Log("Grid Size: " + gridSize);
             this.subdivisions = subdivisions;
             cellSize = gridSize / subdivisions;
             index = new (GameObject, Vector2)[subdivisions, subdivisions];
@@ -28,6 +30,30 @@ namespace jkGenerator
             Initialize();
         }
 
+        public JKGrid(Image img, int subdivisions, Vector2 centerPos, GameObject attachedObj)
+        {
+            gridSize = img.sprite.rect.width;
+            Debug.Log("Grid Size: " + gridSize);
+            this.subdivisions = subdivisions;
+            cellSize = gridSize / subdivisions;
+            index = new (GameObject, Vector2)[subdivisions, subdivisions];
+            worldSpacePos = centerPos;
+            parentObj = attachedObj;
+            Initialize();
+        }
+        
+        public JKGrid(Sprite sprite, int subdivisions, Vector2 centerPos, GameObject attachedObj)
+        {
+            gridSize = sprite.rect.width;
+            Debug.Log("Grid Size: " + gridSize);
+            this.subdivisions = subdivisions;
+            cellSize = gridSize / subdivisions;
+            index = new (GameObject, Vector2)[subdivisions, subdivisions];
+            worldSpacePos = centerPos;
+            parentObj = attachedObj;
+            Initialize();
+        }
+        
         private void Initialize()
         {
             //First "Cell" position
@@ -59,6 +85,8 @@ namespace jkGenerator
         {
             if(index[x, y].Item1 != null)
                 Object.DestroyImmediate(index[x, y].Item1);
+            if (g == null)
+                return;
             index[x, y].Item1 = Object.Instantiate(g, index[x, y].Item2, Quaternion.identity, parentObj.transform);
         }
 
@@ -68,6 +96,8 @@ namespace jkGenerator
                 for (int j = 0; j < index.GetLength(1); j++){
                     if (index[i, j].Item2 == location){
                         if (index[i, j].Item1 != null) Object.DestroyImmediate(index[i, j].Item1);
+                        if (g == null)
+                            return;
                         index[i, j].Item1 = Object.Instantiate(g, index[i, j].Item2, Quaternion.identity, parentObj.transform);
                         return;
                     }
@@ -95,8 +125,30 @@ namespace jkGenerator
             Debug.Log("Either location does not exist, or there was nothing to remove.");
         }
 
+        public void RemoveAll()
+        {
+            foreach (var element in index)
+            {
+                if(element.Item1 != null)
+                    Object.DestroyImmediate(element.Item1);
+                element.Item2.Set(0f, 0f);
+            }
+        }
         public Vector2 GetWorldPos(){ return worldSpacePos; }
+
+        public void SetSize(float s){ gridSize = s; }
         public float GetSize(){ return gridSize; }
+
+        public List<GameObject> GetObjects()
+        {
+            List<GameObject> gameObjects = new List<GameObject>();
+            foreach (var element in index)
+            {
+                if(element.Item1 != null)
+                    gameObjects.Add(element.Item1);
+            }
+            return gameObjects;
+        }
         public (GameObject, Vector2)[,] GetIndexes(){ return index; }
     }
 }
