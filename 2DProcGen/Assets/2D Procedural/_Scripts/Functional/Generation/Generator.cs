@@ -235,7 +235,6 @@ namespace jkGenerator
         /// <param name="forced"></param>
         private static void PlaceAtLocation(int x, int y, Room r, bool forced)
         {
-
             if (!forced)
             {
                 //Create a list of rooms available for placement at this index
@@ -255,6 +254,10 @@ namespace jkGenerator
             }
             else
             {
+                if (r == null){
+                    Debug.Log("No exit rooms available.");
+                    return;
+                }
                 CreateRoomObject(new Map.Node((x, y), r));
             }
         }
@@ -304,8 +307,8 @@ namespace jkGenerator
             Debug.Log(PlacedRooms[chosenIndex].Item2.name);
             Object.DestroyImmediate(PlacedRooms[chosenIndex].Item2);
             PlacedRooms.Remove(chosenIndex);
-            //TODO: Replace with "exit" rooms
-            PlaceAtLocation(chosenIndex.Item1, chosenIndex.Item2, Randomization.GetRandom(_exitRooms), false);
+            //Exit Placement
+            PlaceAtLocation(chosenIndex.Item1, chosenIndex.Item2, Randomization.GetRandom(_exitRooms), true);
         }
         #endregion
 

@@ -65,9 +65,11 @@ namespace jkGenerator
             if (p == null || p.Placements.Count <= 0) return;
             foreach (Cell cell in p.Placements)
             {
-                //Debug.Log("Active Cell Location: " + cell.GetLocation());
+                //Debug.Log("-Cell- \n" + cell.ToString());
                 GameObject ovlObj = Object.Instantiate(cell.GetSpawn(), cell.GetLocation(), Quaternion.identity);
                 if (!ovlObj) continue;
+                //TODO: Tag objects appropriately that we want to scale into the generation
+                ovlObj.transform.localScale = p.scale;
                 ovlObj.transform.position += node.cellPos;
                 ovlObj.transform.parent = ovlContainer.transform;
             }

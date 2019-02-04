@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
+    <e p="C:\Program Files (x86)\Android\android-sdk\platforms\android-25\data\res" t="IncludeRecursive" />
     <e p="C:\Users\Justin\.Rider2018.3\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\Justin\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_2DProcGen.126635981.00" t="ExcludeRecursive" />
     <e p="C:\Users\Justin\Documents\GitHub\_2DPG\2DGeneration\2DProcGen" t="IncludeRecursive">

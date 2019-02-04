@@ -16,23 +16,14 @@ public class PatternBuilder : MonoBehaviour
     [SerializeField] public Pattern.RoomType typing;
     [SerializeField] public Pattern editing;
 
-    //Builder-only vars
-    //canvas = Canvas object, gridRef = panel object
-    [SerializeField] private int subdivisions; //columns = 10, rows = 10;
-    //[SerializeField] private float size = 10;
-    [SerializeField] private float size;
-    //[SerializeField] private bool hasReferenceImage;
-    [SerializeField] private Sprite imgSprite;
 
-    public bool allowDisplay;
-    //[SerializeField] private GameObject gridButton;
-    //[SerializeField] private GameObject[,] buttonGrid;
-    //List<Object> roomsAsObjects = Resources.LoadAll("_ScriptableObjects/Rooms", typeof(Room)).ToList();
+    [SerializeField] private int subdivisions; //columns = 10, rows = 10;
+    [SerializeField] private float size;
+    [SerializeField] private Sprite imgSprite;
     [SerializeField] private JKGrid grid;
-    private GameObject patternBuilderObj;//, gridRef, canvas, imgRef;
+    public bool allowDisplay;
+    private GameObject patternBuilderObj, backdropObj;
     private Canvas canvasRef;
-    //private GridLayoutGroup glg;
-    //private bool filled;
     private string reason;
     private List<Pattern> allPatterns;
     #endregion
@@ -47,37 +38,29 @@ public class PatternBuilder : MonoBehaviour
         patternBuilderObj = new GameObject("Pattern Builder");
         patternBuilderObj.transform.parent = gameObject.transform;
     }
-    //Canvas and grid creators use manual object creation; this could be sped up (processor-wise) by creating scriptableobjects.
-    //However, not relying on setup/prefab placement allows lesser burden of information on users.
-    /*public void CreateCanvas()
+
+    //TODO: Fix backdrop creation (NECESSARY)
+    void CreateBackdrop()
     {
-        canvas = new GameObject("Canvas");
-        canvasRef = canvas.AddComponent<Canvas>();
-        canvas.AddComponent<CanvasScaler>();
-        canvas.AddComponent<GraphicRaycaster>();
-        canvasRef.renderMode = RenderMode.WorldSpace;
-        canvasRef.pixelPerfect = true;
-        if(hasReferenceImage){
-            imgRef = new GameObject("Reference Image");
-            imgRef.transform.parent = canvas.transform;
-            Image img = imgRef.AddComponent<Image>();
-            img.sprite = imgSprite;
-            img.SetNativeSize();
-            var canvasRect = canvasRef.GetComponent<RectTransform>();
-            var imgRect = img.GetComponent<RectTransform>();
-            //Image rectangle transform will always be shaped to a square
-            if(imgRect.sizeDelta.x > imgRect.sizeDelta.y)
-                canvasRect.sizeDelta = new Vector2(imgRect.sizeDelta.x, imgRect.sizeDelta.x);
-            else if(imgRect.sizeDelta.x < imgRect.sizeDelta.y)
-                canvasRect.sizeDelta = new Vector2(imgRect.sizeDelta.y, imgRect.sizeDelta.y);
-            else
-                canvasRect.sizeDelta = imgRect.sizeDelta;
+        if (!backdropObj)
+        {
+            backdropObj = new GameObject("RoomBackdrop");
+            SpriteRenderer rp = backdropObj.AddComponent<SpriteRenderer>();
+            rp.sprite = imgSprite;
+            backdropObj.transform.parent = gameObject.transform;
+            rp.size = new Vector2(grid.GetSize(), grid.GetSize());
+            rp.sortingOrder = -1;
+
         }
-    }*/
+    }
     public void CreateGrid()
     {
+        if (imgSprite != null)
+            CreateBackdrop();
         grid = imgSprite ? new JKGrid(imgSprite, subdivisions, patternBuilderObj.transform.position, patternBuilderObj) : new JKGrid(size, subdivisions, patternBuilderObj.transform.position, patternBuilderObj);
+
     }
+    
     public bool SetGridObject((int, int) index, GameObject gridObject, float spawnChance)
     {
         bool failed = false;
@@ -85,7 +68,7 @@ public class PatternBuilder : MonoBehaviour
         {
             grid.Set(index.Item1, index.Item2, gridObject);
             Cell temp = new Cell(gridObject, spawnChance, grid.GetIndexes()[index.Item1, index.Item2].Item2);
-            if (!placements.Any(x => Equals(x, temp)))
+            if (!placements.Any(x => Equals(x, temp)) && gridObject != null)
                 placements.Add(temp);
         }
         else
@@ -106,6 +89,7 @@ public class PatternBuilder : MonoBehaviour
             editing = Instantiate(ScriptableObject.CreateInstance<Pattern>());
             editing.Placements = new List<Cell>(placements);
             editing.roomType = typing;
+            editing.scale = new Vector3(grid.GetSize() / subdivisions, grid.GetSize() / subdivisions);
             if(allPatterns.Count > 0){
                 foreach (var p in allPatterns){
                     if (editing.Equals(p)){
@@ -130,22 +114,21 @@ public class PatternBuilder : MonoBehaviour
         }
         else{
             grid.RemoveAll();
-            //filled = false;
         }
         return failed;
     }
     public void ResetBuilder()
     {
+        DestroyImmediate(backdropObj);
         DestroyImmediate(patternBuilderObj);
-        EmptyGrid();
+        if(grid != null)
+            EmptyGrid();
         //filled = false;
     }
-
     public JKGrid GetGrid()
     {
         return grid;
     }
-
     public GameObject GetBuilder()
     {
         return patternBuilderObj;
@@ -159,7 +142,7 @@ public class PatternBuilder : MonoBehaviour
         if (allowDisplay)
         {
             foreach (var element in grid.GetIndexes())
-                Gizmos.DrawSphere(element.Item2, .5f);
+                Gizmos.DrawSphere(element.Item2, grid.GetCellSize()*.1f);
             //Horizontal
             Gizmos.DrawLine(
                 new Vector3(grid.GetWorldPos().x - .5f * grid.GetSize(), grid.GetWorldPos().y + .5f * grid.GetSize()),

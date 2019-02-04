@@ -44,7 +44,7 @@ namespace jkGenerator
         
         public JKGrid(Sprite sprite, int subdivisions, Vector2 centerPos, GameObject attachedObj)
         {
-            gridSize = sprite.rect.width;
+            gridSize = sprite.bounds.size.x;
             Debug.Log("Grid Size: " + gridSize);
             this.subdivisions = subdivisions;
             cellSize = gridSize / subdivisions;
@@ -88,6 +88,7 @@ namespace jkGenerator
             if (g == null)
                 return;
             index[x, y].Item1 = Object.Instantiate(g, index[x, y].Item2, Quaternion.identity, parentObj.transform);
+            index[x, y].Item1.transform.localScale = new Vector3(cellSize, cellSize, 0f);
         }
 
         public void Set(Vector2 location, GameObject g)
@@ -127,11 +128,12 @@ namespace jkGenerator
 
         public void RemoveAll()
         {
-            foreach (var element in index)
-            {
-                if(element.Item1 != null)
-                    Object.DestroyImmediate(element.Item1);
-                element.Item2.Set(0f, 0f);
+            if (index != null){
+                foreach (var element in index) {
+                    if (element.Item1 != null)
+                        Object.DestroyImmediate(element.Item1);
+                    element.Item2.Set(0f, 0f);
+                }
             }
         }
         public Vector2 GetWorldPos(){ return worldSpacePos; }
@@ -139,6 +141,7 @@ namespace jkGenerator
         public void SetSize(float s){ gridSize = s; }
         public float GetSize(){ return gridSize; }
 
+        public float GetCellSize(){ return cellSize; }
         public List<GameObject> GetObjects()
         {
             List<GameObject> gameObjects = new List<GameObject>();
@@ -150,6 +153,25 @@ namespace jkGenerator
             return gameObjects;
         }
         public (GameObject, Vector2)[,] GetIndexes(){ return index; }
+
+        string PrintGrid()
+        {
+            string g = "";
+            for (int i = 0; i < index.GetLength(0); i++){
+                for (int j = 0; j < index.GetLength(1); j++){
+                    g += "( " + i + " , " + j + " ): "+ index[i, j].Item1 + " at location " + index[i, j].Item2;
+                }
+            }
+            return g;
+        }
+
+        public override string ToString()
+        {
+            return "Grid Size: " + gridSize + "\n" +
+                   "Cell Size: " + cellSize + "\n" +
+                   PrintGrid();
+        }
+        
     }
 }
 #endif

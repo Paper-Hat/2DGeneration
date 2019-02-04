@@ -13,10 +13,10 @@ public class PatternBuilderEditor : Editor
 
     private bool _failCheck, grid, loaded;
     private string _patternName;
-    private string[] popupOptions;
-    private int[,] indexes;
+    private static string[] _popupOptions;
+    private static int[,] indexes;
     private List<GameObject> gameAssets;
-    
+    private JKGrid jg;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -32,7 +32,7 @@ public class PatternBuilderEditor : Editor
             LoadAssets();
         }
         GUILayout.EndHorizontal();
-        GUILayout.Label("Add the Canvas and Grid Layout to your \n Scene at worldspace (0,0,0) according to " +
+        GUILayout.Label("Add the Grid Layout to your \n Scene at worldspace (0,0,0) according to " +
                               "\n set Subdivisions and Size fields: ");
         if (GUILayout.Button("Create/Replace Builder Grid", GUILayout.ExpandWidth(false)))
         {
@@ -55,20 +55,13 @@ public class PatternBuilderEditor : Editor
                 Debug.Log("Grid already created.");
             Clean();
         }
-        /*GUILayout.Label("Fill grid with grid buttons according to \n layout:");
-        if (GUILayout.Button("Fill Created Grid", GUILayout.ExpandWidth(false)))
-        {
-            _failCheck = builder.FillGrid();
-            if(_failCheck)
-                EditorUtility.DisplayDialog("Failed", "Reason: " + builder.GetReason(), "Continue");
-            Clean();
-        }*/
         GUILayout.Label("Destroy all created grid buttons, including \n those which have already been designated \n as specific spawn points:");
         if (GUILayout.Button("Empty Created Grid", GUILayout.ExpandWidth(false)))
         {
             _failCheck = builder.EmptyGrid();
             if (_failCheck)
                 EditorUtility.DisplayDialog("Failed", "Reason: " + builder.GetReason(), "Continue");
+            ResetIndexes();
             Clean();
         }
         GUILayout.Label("Create a usable 'Pattern' out of preset \n spawn points and typing, which will be \n allowed placement in the generator:");
@@ -84,58 +77,67 @@ public class PatternBuilderEditor : Editor
             {
                 EditorUtility.DisplayDialog("Success", "Pattern successfully created.", "Continue");
                 CreateScriptablePatternAsset(builder.editing, _patternName);
-                //foreach(GameObject g in builder.GetButtonGrid())
-                //    g.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                ResetIndexes();
                 builder.EmptyGrid();
             }
             Clean();
         }
         GUILayout.EndHorizontal();
-        /*GUILayout.Label("Set all grid cells back to their original state.");
-        if (GUILayout.Button("Reset Cells", GUILayout.ExpandWidth(false)))
-        {
-            _failCheck = builder.GetGrid().RemoveAll();
-            if (_failCheck)
-                EditorUtility.DisplayDialog("Failed", "Reason: " + builder.GetReason(), "Continue");
-            Clean();
-        }*/
         GUILayout.Label("The following will destroy all room builder \n components and objects created by \n the above buttons:");
         if (GUILayout.Button("Full Reset", GUILayout.ExpandWidth(false)))
         {
             if(EditorUtility.DisplayDialog("Reset All Assets", "Are you sure?", "Yes", "Cancel"))
                 builder.ResetBuilder();
+            ResetIndexes();
             builder.allowDisplay = false;
             grid = false;
             loaded = false;
             Clean();
         }
-        //Debug.Log(grid);
         CreateUIGrid(builder);
     }
 
     void CreateUIGrid(PatternBuilder builder)
     {
-        if (!grid) return;
-        JKGrid jg = builder.GetGrid();
-        GUILayout.Label("Pattern", EditorStyles.boldLabel);
-        //indexes[0, 0] = EditorGUILayout.Popup(indexes[0, 0], popupOptions, GUILayout.ExpandWidth(false));
-        //Debug.Log(bg.GetLength(0) + ", " + bg.GetLength(1));
-        //Debug.Log("x: " + jg.GetIndexes().GetLength(0) + "\n y: " + jg.GetIndexes().GetLength(1));
-        //Debug.Log("x: " + indexes.GetLength(0) + "\n y: " + indexes.GetLength(1));
-        for (int i = 0; i < jg.GetIndexes().GetLength(0); i++) //rows
+        //Debug.Log("Creating UI Grid...");
+        jg = builder.GetGrid();
+        /*if (grid)
         {
-            EditorGUILayout.BeginHorizontal();
-            for (int j = 0; j < jg.GetIndexes().GetLength(1); j++) //columns
-            {
-                EditorGUILayout.BeginVertical();
-                //Debug.Log(popupOptions.Length);
-                indexes[i, j] = EditorGUILayout.Popup(indexes[i, j], popupOptions);
-                //Debug.Log(indexes[i, j]);
-                EditorGUILayout.EndVertical();
-            }
-            EditorGUILayout.EndHorizontal();
-        }
+            foreach(var item in popupOptions)
+                Debug.Log(item);
+            foreach (var item in indexes)
+                Debug.Log(item.ToString());
+        }*/
+
         
+        Repaint();
+        //Debug.Log(jg.ToString());
+        GUILayout.Label("Pattern", EditorStyles.boldLabel);
+        /*if(jg == null || popupOptions == null || indexes == null)
+        {
+            if(jg == null)
+                Debug.Log("Grid is null.");
+            if (popupOptions == null)
+                Debug.Log("Popup Options are null.");
+            if(indexes == null)
+                Debug.Log("Indexes are null.");
+        }*/
+        if (jg != null && _popupOptions != null && indexes != null)
+        {
+            for (int i = 0; i < jg.GetIndexes().GetLength(0); i++) //rows
+            {
+                EditorGUILayout.BeginHorizontal();
+                for (int j = 0; j < jg.GetIndexes().GetLength(1); j++) //columns
+                {
+                    EditorGUILayout.BeginVertical();
+                    indexes[i, j] = EditorGUILayout.Popup(indexes[i, j], _popupOptions);
+                    EditorGUILayout.EndVertical();
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
         if(GUILayout.Button("Set"))
             PatternByUI(builder);
         EditorGUILayout.Space();
@@ -150,10 +152,9 @@ public class PatternBuilderEditor : Editor
         gameAssets.AddRange(Resources.LoadAll(path + "_Objects").Cast<GameObject>().ToList());
         gameAssets.AddRange(Resources.LoadAll(path + "_Walls").Cast<GameObject>().ToList());
         gameAssets.AddRange(Resources.LoadAll(path + "_Guns").Cast<GameObject>().ToList());
-        
-        foreach(var asset in gameAssets)    pList.Add(asset.ToString());
- 
-        popupOptions = pList.ToArray();
+
+        foreach (var asset in gameAssets) pList.Add(asset.ToString());
+        _popupOptions = pList.ToArray();
         //foreach(var item in popupOptions) Debug.Log(item);
         loaded = true;
     }
@@ -166,10 +167,22 @@ public class PatternBuilderEditor : Editor
         {
             for (int j = 0; j < indexes.GetLength(1); j++)
             {
+                //SetGridObject with inverse indexes because of how UI is set up
                 if (indexes[i, j] != 0)
-                    builder.SetGridObject((i, j), gameAssets[indexes[i, j]], 100f);
+                    builder.SetGridObject((j, i), gameAssets[indexes[i, j]-1], 100f);
                 else
-                    builder.SetGridObject((i, j), null, 0f);
+                    builder.SetGridObject((j, i), null, 0f);
+            }
+        }
+    }
+
+    void ResetIndexes()
+    {
+        if (indexes != null){
+            for (int i = 0; i < indexes.GetLength(0); i++){
+                for (int j = 0; j < indexes.GetLength(1); j++){
+                    indexes[i, j] = 0;
+                }
             }
         }
     }

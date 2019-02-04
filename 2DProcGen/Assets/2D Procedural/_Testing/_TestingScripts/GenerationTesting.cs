@@ -27,6 +27,8 @@ public class GenerationTesting : MonoBehaviour, IGenerable
         Generator.SetGenConstraints(Style, Types, NRooms, XRangeConstraint, YRangeConstraint, StartIndex);
         Debug.Log(Generator.GetConstraints().ToString());
         Generator.Generate();
+        Debug.Log("Costco Price (subtract from total): " +
+                  (3.49 + 16.99 + 11.89 + 7.49 + 10.79 + 2.80 + 12.89 + 1.22 + (.5*4.49) + (.5*13.99) + (.5* 8.39) + (.5*17.61)));
     }
 
     public void SetTypes()
