@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+/// <summary>
+/// Cells exist within grid coordinates & determine object spawning at defined locations
+/// </summary>
 [System.Serializable]
 public class Cell
 {
-
     [SerializeField] private GameObject spawn;
     [SerializeField] private float spawnChance = 100f;
     [SerializeField] private Vector2 location;

@@ -43,7 +43,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/General/JKGrid.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1945">
-              <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+              <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
               <folding>
                 <marker date="1571531717802" expanded="false" signature="6:142" ph="..." />
                 <marker date="1571531717802" expanded="true" signature="182:8090" ph="{...}" />
@@ -95,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Testing/_TestingScripts/GenerationTesting.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="285">
-              <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+              <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
               <folding>
                 <marker date="1571531717792" expanded="true" signature="6:111" ph="..." />
                 <marker date="1571531717792" expanded="true" signature="170:1380" ph="{...}" />
@@ -149,7 +149,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
                 <marker date="1571529064491" expanded="true" signature="58:2099" ph="{...}" />
                 <marker date="1571529064491" expanded="false" signature="215:695" ph="Constructor(s)" />
@@ -173,7 +173,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Room.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="15" column="39" lean-forward="true" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+              <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
               <folding>
                 <marker date="1571534477751" expanded="true" signature="6:78" ph="..." />
                 <marker date="1571534477751" expanded="true" signature="79:173" ph="/// Scriptable object containing information for pattern matching ... " />
@@ -188,7 +188,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Testing/_TestingScripts/TestGrid.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="660">
-              <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
               <folding>
                 <marker date="1571530792916" expanded="false" signature="6:119" ph="..." />
                 <marker date="1571530792916" expanded="true" signature="217:2624" ph="{...}" />
@@ -416,12 +416,12 @@
       <workItem from="1548891029260" duration="26000" />
       <workItem from="1548891566376" duration="688000" />
       <workItem from="1549061914125" duration="4463000" />
-      <workItem from="1571530188642" duration="2389000" />
+      <workItem from="1571530188642" duration="2762000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211283000" />
+    <option name="totallyTimeSpent" value="211656000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -940,7 +940,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/General/JKGrid.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1945">
-          <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
           <folding>
             <marker date="1571531717802" expanded="false" signature="6:142" ph="..." />
             <marker date="1571531717802" expanded="true" signature="182:8090" ph="{...}" />
@@ -990,7 +990,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Testing/_TestingScripts/GenerationTesting.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
-          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
           <folding>
             <marker date="1571531717792" expanded="true" signature="6:111" ph="..." />
             <marker date="1571531717792" expanded="true" signature="170:1380" ph="{...}" />
@@ -1040,7 +1040,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Pattern/Cell.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
             <marker date="1571529064491" expanded="true" signature="58:2099" ph="{...}" />
             <marker date="1571529064491" expanded="false" signature="215:695" ph="Constructor(s)" />
@@ -1062,7 +1062,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Scripts/Functional/Room/Room.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
-          <caret line="15" column="39" lean-forward="true" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+          <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
           <folding>
             <marker date="1571534477751" expanded="true" signature="6:78" ph="..." />
             <marker date="1571534477751" expanded="true" signature="79:173" ph="/// Scriptable object containing information for pattern matching ... " />
@@ -1075,7 +1075,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/2D Procedural/_Testing/_TestingScripts/TestGrid.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
-          <caret line="48" lean-forward="true" selection-start-line="48" selection-end-line="48" />
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
           <folding>
             <marker date="1571530792916" expanded="false" signature="6:119" ph="..." />
             <marker date="1571530792916" expanded="true" signature="217:2624" ph="{...}" />
