@@ -15,18 +15,27 @@ public class TestGrid : MonoBehaviour
     [SerializeField] private Sprite spriteTester;
     [SerializeField] private JKGrid jkg;
     
+    /// <summary>
+    /// Create subdivided grid using world coordinates
+    /// </summary>
     public void GridDefault()
     {
         var go = gameObject;
         jkg = new JKGrid(gridSize, subdivisions, go.transform.position, go);
     }
 
+    /// <summary>
+    /// Create subdivided grid using editor-assigned image
+    /// </summary>
     public void GridByImage()
     {
         var go = gameObject;
         jkg = new JKGrid(imageTester, subdivisions, go.transform.position, go);
     }
 
+    /// <summary>
+    /// Create subdivided grid using editor-assigned sprite
+    /// </summary>
     public void GridBySprite()
     {
         var go = gameObject;
@@ -42,6 +51,10 @@ public class TestGrid : MonoBehaviour
     {
         gridSize = jkg.GetSize();
     }
+    
+    /// <summary>
+    /// Display grid layout in scene view
+    /// </summary>
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

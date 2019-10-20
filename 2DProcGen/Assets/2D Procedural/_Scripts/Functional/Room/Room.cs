@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Scriptable object containing information for pattern matching
+/// </summary>
 [System.Serializable]
 public class Room : ScriptableObject
 {

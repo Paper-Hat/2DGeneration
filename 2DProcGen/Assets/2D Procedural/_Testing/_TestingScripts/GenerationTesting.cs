@@ -15,6 +15,7 @@ public class GenerationTesting : MonoBehaviour, IGenerable
     [SerializeField] private (int, int) _start;
     [SerializeField] private int _roomCount;
     [SerializeField] private int _x1, _x2, _y1, _y2;
+    
     public void Awake()
     {
         Style = Generator.Constraints.Style.Random;
@@ -27,8 +28,6 @@ public class GenerationTesting : MonoBehaviour, IGenerable
         Generator.SetGenConstraints(Style, Types, NRooms, XRangeConstraint, YRangeConstraint, StartIndex);
         Debug.Log(Generator.GetConstraints().ToString());
         Generator.Generate();
-        Debug.Log("Costco Price (subtract from total): " +
-                  (3.49 + 16.99 + 11.89 + 7.49 + 10.79 + 2.80 + 12.89 + 1.22 + (.5*4.49) + (.5*13.99) + (.5* 8.39) + (.5*17.61)));
     }
 
     public void SetTypes()

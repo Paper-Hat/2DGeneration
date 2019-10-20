@@ -53,7 +53,9 @@ namespace jkGenerator
             parentObj = attachedObj;
             Initialize();
         }
-        
+        /// <summary>
+        /// Initialize Grid with empty Vector2 coordinates beginning at top left
+        /// </summary>
         private void Initialize()
         {
             //First "Cell" position
@@ -68,6 +70,11 @@ namespace jkGenerator
             }
 
         }
+        
+        /// <summary>
+        /// Create object at first available grid location, traversing from top left and iterating by row
+        /// </summary>
+        /// <param name="g"></param>
         public void Insert(GameObject g)
         {
             for(int i = 0;i < index.GetLength(0); i++){
@@ -80,7 +87,12 @@ namespace jkGenerator
             }
             Debug.Log("Could not insert! No empty space available.");
         }
-
+        /// <summary>
+        /// Set grid position by instantiating gameobject at integer x, y coordinates
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="g"></param>
         public void Set(int x, int y, GameObject g)
         {
             if(index[x, y].Item1 != null)
@@ -90,7 +102,12 @@ namespace jkGenerator
             index[x, y].Item1 = Object.Instantiate(g, index[x, y].Item2, Quaternion.identity, parentObj.transform);
             index[x, y].Item1.transform.localScale = new Vector3(cellSize, cellSize, 0f);
         }
-
+        
+        /// <summary>
+        /// Set grid position by instantiating gameobject at vector2 coordinates
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="g"></param>
         public void Set(Vector2 location, GameObject g)
         {
             for(int i = 0;i < index.GetLength(0); i++){
@@ -105,6 +122,11 @@ namespace jkGenerator
                 }
             }
         }
+        /// <summary>
+        /// Remove object set at position using given x, y coordinates
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void Remove(int x, int y)
         {
             if(index[x, y].Item1 != null)
@@ -112,7 +134,11 @@ namespace jkGenerator
             else
                 Debug.Log("Nothing to remove at location given.");
         }
-
+        /// <summary>
+        /// Remove object set at position using Vector2 location
+        /// TODO: use approx. position to prevent floating point comparison issue(s)
+        /// </summary>
+        /// <param name="location"></param>
         public void Remove(Vector2 location)
         {
             for(int i = 0;i < index.GetLength(0); i++){
@@ -125,7 +151,10 @@ namespace jkGenerator
             }
             Debug.Log("Either location does not exist, or there was nothing to remove.");
         }
-
+        
+        /// <summary>
+        /// Remove EVERYTHING from the grid
+        /// </summary>
         public void RemoveAll()
         {
             if (index != null){
@@ -136,12 +165,15 @@ namespace jkGenerator
                 }
             }
         }
+        #region Getter/Setters
+        
         public Vector2 GetWorldPos(){ return worldSpacePos; }
 
         public void SetSize(float s){ gridSize = s; }
         public float GetSize(){ return gridSize; }
 
         public float GetCellSize(){ return cellSize; }
+        
         public List<GameObject> GetObjects()
         {
             List<GameObject> gameObjects = new List<GameObject>();
@@ -153,7 +185,13 @@ namespace jkGenerator
             return gameObjects;
         }
         public (GameObject, Vector2)[,] GetIndexes(){ return index; }
-
+        
+        #endregion
+        
+        /// <summary>
+        /// Print GameObject names with Vector2 locations in grid
+        /// </summary>
+        /// <returns></returns>
         string PrintGrid()
         {
             string g = "";
